@@ -22,8 +22,10 @@ components:{
 <style lang="less" scoped>
 .all{
   display: flex;
+  margin-top: 60px;
   justify-content: center; /* 水平居中 */
-  align-items: center;     /* 垂直居中 */
+  align-items: center;
+  border-radius: 25px;
 }
 
 </style>
