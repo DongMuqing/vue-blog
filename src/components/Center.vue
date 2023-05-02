@@ -22,7 +22,7 @@ export default {
 .center{
     width: 590px;
     height: 100vh;
-    background-color:rgb(255, 255, 255);
+    background-color:var(--bgc--center);
     .search{
         height: 72px;
         a{
@@ -34,7 +34,7 @@ export default {
         input{
           margin: 20px 5px;
           border-radius:20px;
-          color:#111111;
+          color:var(--bgc--center);
           font-family:eafont;
           font-size:13px;
           line-height:19.5px;

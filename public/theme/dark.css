@@ -1,0 +1,7 @@
+:root{
+    --bgc:rgb(10, 12, 25);
+    --bgc--left:rgb(17, 19, 36);
+    --bgc--center:rgb(22, 24, 41);
+    --bgc--right:rgb(17, 19, 36);
+    --textColor: rgb(255,255,255);
+}

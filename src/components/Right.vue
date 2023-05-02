@@ -14,6 +14,6 @@ export default {
 .info{
     width: 295px;
     height: 100vh;
-    background-color:rgb(246, 247, 255);
+    background-color: var(--bgc--right);
 }
 </style>
