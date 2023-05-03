@@ -32,11 +32,14 @@
             </el-menu-item-group>
           </el-submenu>
         </el-menu>
-
-        <button @click="changetheme"><img :src='themeFlag?light:dark'></button>
     </div>
 
-    
+    <!-- <button @click="changetheme"><img :src='themeFlag?light:dark'></button> -->
+    <div class="theme" >
+        <button @click="changetheme('dark')">暗夜</button>
+        <button @click="changetheme('light')">亮白</button>
+        <button @click="changetheme('Freshgreen')">清新绿</button>
+    </div>
   </div>
 </template>
 
@@ -51,8 +54,8 @@ import bus  from "./EventBus"
         currentTheme: "default-theme",
         //主题图标flag
         themeFlag:true,
-        light:require('@/assets/img/sun.png'),//light
-        dark:require('@/assets/img/moon.png'),//dark
+        // light:require('@/assets/img/sun.png'),//light
+        // dark:require('@/assets/img/moon.png'),//dark
         //列表数据
         menuData:[
         {
@@ -114,19 +117,22 @@ import bus  from "./EventBus"
       // }
       },
       //切换主题
-      changetheme(){
-        if (this.currentTheme === "default-theme") {
-          this.currentTheme = "alternative-theme";
-          const themeEl = document.querySelector('.theme')
-          themeEl?.setAttribute('href','../theme/dark.css')
-          //主题图标flag
-          this.themeFlag=!this.themeFlag
-        } else {
-          this.currentTheme = "default-theme";
-          const themeEl = document.querySelector('.theme')
-          themeEl?.setAttribute('href','../theme/light.css')
-          this.themeFlag=!this.themeFlag
-        }
+      changetheme(th,e){
+        // if (this.currentTheme === "default-theme") {
+        //   this.currentTheme = "alternative-theme";
+        //   const themeEl = document.querySelector('.theme')
+        //   themeEl?.setAttribute('href','../theme/dark.css')
+        //   //主题图标flag
+        //   this.themeFlag=!this.themeFlag
+        // } else {
+        //   this.currentTheme = "default-theme";
+        //   const themeEl = document.querySelector('.theme')
+        //   themeEl?.setAttribute('href','../theme/light.css')
+        //   this.themeFlag=!this.themeFlag
+        // }
+        const themeEl = document.querySelector('.theme')
+        console.log(th);
+        themeEl?.setAttribute('href',`../theme/${th}.css`)
       },
     },
     //计算是否有子菜单
@@ -170,9 +176,11 @@ import bus  from "./EventBus"
         line-height: 24px;
         margin: 20px 0px;
         padding: 0px 40px 20px;
+        border-bottom: 2px solid;
         .el-menu{
            
             border: none;
+          
              .el-menu-item{
                 span{
                     color: var(--textColor);
@@ -211,6 +219,14 @@ import bus  from "./EventBus"
                 left;
             }
         }
+    }
+    .theme{
+      button{
+        width: 60px;
+        height: 30px;
+        margin: 10px 15px;
+        
+      }
     }
 }
 </style>>
