@@ -2,9 +2,6 @@
   <div class="all">
     <Left></Left>
     <Center>
-      <router-view>
-        
-      </router-view>
     </Center>
     <Right></Right>
   </div>

@@ -59,23 +59,23 @@ import bus  from "./EventBus"
         //列表数据
         menuData:[
         {
-          path: '/home',
+          path: '/',
           name: 'home',
           label: '首页',
           icon: 's-home',
           url: 'Home/Home'
         },
         {
-          path: '/mall',
-          name: 'mall',
-          label: '博客',
+          path: '/dynamic',
+          name: 'dynamic',
+          label: '动态',
           icon: 'video-play',
           url: 'MallManage/MallManage'
         },
         {
-          path: '/user',
-          name: 'user',
-          label: '专题',
+          path: '/article',
+          name: 'article',
+          label: '文章',
           icon: 'user',
           url: 'UserManage/UserManage'
         },
@@ -84,15 +84,15 @@ import bus  from "./EventBus"
         //   icon: 'location',
         //   children: [
             {
-              path: '/page1',
-              name: 'page1',
-              label: '邻居',
+              path: '/friendlink',
+              name: 'friendlink1',
+              label: '友链',
               icon: 'setting',
               url: 'Other/PageOne'
             },
             {
-              path: '/page2',
-              name: 'page2',
+              path: '/leavemessage',
+              name: 'leavemessage',
               label: '留言',
               icon: 'setting',
               url: 'Other/PageTwo'
@@ -113,23 +113,12 @@ import bus  from "./EventBus"
       clickMenu(chan){
          // 当页面的路由与跳转的路由不一致才允许跳转
         //  if (this.$route.path !== chan.path && !(this.$route.path === '/home' && (chan.path === '/'))) {
-            this.$router.push('/main'+chan.path)
+            this.$router.push('/home'+chan.path)
       // }
       },
       //切换主题
       changetheme(th,e){
-        // if (this.currentTheme === "default-theme") {
-        //   this.currentTheme = "alternative-theme";
-        //   const themeEl = document.querySelector('.theme')
-        //   themeEl?.setAttribute('href','../theme/dark.css')
-        //   //主题图标flag
-        //   this.themeFlag=!this.themeFlag
-        // } else {
-        //   this.currentTheme = "default-theme";
-        //   const themeEl = document.querySelector('.theme')
-        //   themeEl?.setAttribute('href','../theme/light.css')
-        //   this.themeFlag=!this.themeFlag
-        // }
+      //在index.html获取此值
         const themeEl = document.querySelector('.theme')
         console.log(th);
         themeEl?.setAttribute('href',`../theme/${th}.css`)
