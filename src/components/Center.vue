@@ -9,12 +9,18 @@
     <div class="individual">
        
     </div>
+    <router-view>
+         
+    </router-view>
   </div>
 </template>
 
 <script>
+import Dynamic from '@/views/Dynamic.vue'
 export default {
-
+components:{
+  Dynamic,
+},
 }
 </script>
 
