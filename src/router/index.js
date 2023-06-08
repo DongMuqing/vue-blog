@@ -1,8 +1,15 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+// import axios from "axios"
 
 
+
+import dynamic from '@/views/Dynamic.vue'
 import home from '@/views/Home.vue'
+import article from '@/views/Article.vue'
+import Friendlink from '@/views/Friendlink.vue'
+import leavemessage from '@/views/Leavemessage.vue'
+
 
 // Vue.prototype.$axios = axios
 //解决router重复push一样的hash地址
@@ -24,7 +31,17 @@ const router =new VueRouter({
   routes:[
     //重定向
     {path:'/',redirect:'/home'},
-    {path: '/home',component: home},
+    {path: '/home',component: home,
+    children:[
+      {path:'',component:dynamic},
+      {path:'dynamic',component:dynamic},
+      {path:'article',component:article},
+      {path:'friendlink',component:Friendlink},
+      {path:'leavemessage',component:leavemessage}
+    ]},
+
+
+
     // {path:'/main',component:main,
     // children:[
     //   {path:'',component:home},
