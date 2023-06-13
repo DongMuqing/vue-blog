@@ -4,10 +4,9 @@ import router from './router'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css' 
 
-import Left from '@/components/Left.vue'
-import Center from '@/components/Center.vue'
-Vue.config.productionTip = false
 
+// import API from './api'
+// Vue.prototype.$api = API
 
 
 Vue.use(ElementUI)

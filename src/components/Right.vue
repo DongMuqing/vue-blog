@@ -11,9 +11,9 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.info{
-    width: 295px;
-    height: 100vh;
-    background-color: var(--bgc--right);
+.info {
+  width: 295px;
+  height: 100vh;
+  background-color: var(--bgc--right);
 }
 </style>

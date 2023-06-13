@@ -20,25 +20,27 @@ VueRouter.prototype.push = function push(location) {
 Vue.use(VueRouter)
 
 const routes = [
- 
+
 ]
 
-const router =new VueRouter({
+const router = new VueRouter({
   //打包方式
   // mode:'hash',
-    //去掉#
+  //去掉#
   mode: 'history',
-  routes:[
+  routes: [
     //重定向
-    {path:'/',redirect:'/home'},
-    {path: '/home',component: home,
-    children:[
-      {path:'',component:dynamic},
-      {path:'dynamic',component:dynamic},
-      {path:'article',component:article},
-      {path:'friendlink',component:Friendlink},
-      {path:'leavemessage',component:leavemessage}
-    ]},
+    { path: '/', redirect: '/home' },
+    {
+      path: '/home', component: home,
+      children: [
+        { path: '', component: dynamic },
+        { path: 'dynamic', component: dynamic },
+        { path: 'article', component: article },
+        { path: 'friendlink', component: Friendlink },
+        { path: 'leavemessage', component: leavemessage }
+      ]
+    },
 
 
 
