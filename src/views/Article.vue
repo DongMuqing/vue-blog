@@ -3,7 +3,7 @@
     <div v-for="article in articles" :key="article.id" class="article">
       <div class="p_item_inner">
         <div class="list_user_meta">
-          <div class="avatar"><img src=""></div>
+          <div class="head"><img src="../assets/logo.png"></div>
           <div class="name">
             SUSU<time>{{ article.createTime }}</time>
           </div>
@@ -19,7 +19,7 @@
           <span class="ip_loca"><i class="ri-map-pin-2-line"></i>发布地点</span>
         </div>
 
-        
+
       </div>
     </div>
   </div>
