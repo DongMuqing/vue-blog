@@ -6,8 +6,10 @@
       <input type="text" placeholder="文章 | Search">
     </div>
 
-    <div class="individual">
-
+    <div class="individual" >
+      <div v-for="(backdrop, index) in backdrops" :key="backdrop.id" v-show="index === selectedBackdropIndex">
+        <li><img :src="backdrop.url" alt=""></li>
+      </div>
     </div>
     <router-view>
 
@@ -17,7 +19,34 @@
 
 <script>
 import Dynamic from '@/views/Dynamic.vue'
+import backdrops from '@/api/backdrop';
 export default {
+  data(){
+    return {
+      backdrops: [
+  {
+    id: '',
+    url: ''
+  }
+],
+selectedBackdropIndex: 0 // 初始值为 0，显示第一个背景图
+    }
+  },
+  methods: {
+    fetchBackdrops() {
+      backdrops.getBackdrops()
+        .then(response => {
+          // 处理接口返回的数据
+          this.backdrops = response.data.data;
+        })
+        .catch(error => {
+          // 处理错误
+        });
+    },
+  },
+  mounted() {
+    this. fetchBackdrops();
+  },
   components: {
     Dynamic,
   },
@@ -55,16 +84,17 @@ export default {
   }
 
   .individual {
-    height: 200px;
-    background-image: url(../assets/img/102730140_p0.png);
-    background-position:
-      50% 50%;
-    background-size:
-      cover;
-    color:
-      #404040;
-    line-height:
-      24px;
+    height: 270px;
+    li{
+      list-style: none;
+      img{
+        width: 100%;
+        height: 270px;
+        object-fit: cover; /* 图片适应容器的尺寸，并保持比例 */
+      }
+    }
+   
+    
   }
 }
 

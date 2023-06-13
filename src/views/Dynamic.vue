@@ -1,23 +1,23 @@
 <template>
   <div class="main">
-    <div v-for="article in articles" :key="article.id" class="article">
+    <div v-for="dynamic in dynamics" :key="dynamic.id" class="article">
 
       <div class="list_user_meta">
         <div class="headpic"><img src="../assets/logo.png"></div>
         <div class="name-time">
           <p> 冬木青</p>
-          <p> {{ article.createTime }}</p>
+          <p> {{ dynamic.createTime }}</p>
         </div>
       </div>
 
       <div class="blog_content">
         <div class="p_title">
-          <p>标题</p>
+          <p>{{dynamic.title}}</p>
         </div>
         <div class="t_content">
-          <p>{{ article.content }}</p>
+          <p>{{ dynamic.content }}</p>
         </div>
-        <span class="ip_loca">发布地点</span>
+        <span class="ip_loca"><img src="../assets/img/地址.png" alt="">{{dynamic.location}}</span>
       </div>
 
       <div class="entry-footer">
@@ -32,22 +32,22 @@
 </template>
 
 <script>
-import articles from '@/api/article';
 
+import dynamics from '@/api/dynamic';
 export default {
   data() {
     return {
-      articles: [
+      dynamics: [
       ],
     }
 
   },
   methods: {
-    fetchArticles() {
-      articles.getArticles()
+    fetchDynamcis() {
+      dynamics.getDynamics()
         .then(response => {
           // 处理接口返回的数据
-          this.articles = response.data.data;
+          this.dynamics = response.data.data;
         })
         .catch(error => {
           // 处理错误
@@ -55,7 +55,7 @@ export default {
     }
   },
   mounted() {
-    this.fetchArticles();
+    this.fetchDynamcis();
   },
 }
 </script>
@@ -126,7 +126,6 @@ export default {
 
     .left {
       width: 200px;
-
       img {
         margin: 10px 15px;
         padding-right: 10px;

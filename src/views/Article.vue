@@ -16,7 +16,7 @@
               {{ article.content }}
             </div>
           </div>
-          <span class="ip_loca"><i class="ri-map-pin-2-line"></i>发布地点</span>
+          <span class="ip_loca"><i class="ri-map-pin-2-line"></i></span>
         </div>
 
 
