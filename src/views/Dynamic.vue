@@ -12,12 +12,12 @@
 
       <div class="blog_content">
         <div class="p_title">
-          <p>{{dynamic.title}}</p>
+          <p>{{ dynamic.title }}</p>
         </div>
         <div class="t_content">
           <p>{{ dynamic.content }}</p>
         </div>
-        <span class="ip_loca"><img src="../assets/img/地址.png" alt="">{{dynamic.location}}</span>
+        <span class="ip_loca"><img src="../assets/img/地址.png" alt="">{{ dynamic.location }}</span>
       </div>
 
       <div class="entry-footer">
@@ -40,7 +40,6 @@ export default {
       dynamics: [
       ],
     }
-
   },
   methods: {
     fetchDynamcis() {
@@ -139,4 +138,5 @@ export default {
     }
   }
 
-}</style>
+}
+</style>

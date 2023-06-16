@@ -8,10 +8,13 @@
     "test": "vue-cli-service serve --mode test"
   },
   "dependencies": {
+    "@moefe/vue-aplayer": "^2.0.0-beta.5",
     "axios": "^1.4.0",
     "core-js": "^3.8.3",
     "element-ui": "^2.15.13",
-    "vue": "^2.6.14",
+    "hls.js": "^1.4.5",
+    "vue": "^2.5.2",
+    "vue-audio-better": "^3.0.1",
     "vue-router": "^3.5.1"
   },
   "devDependencies": {

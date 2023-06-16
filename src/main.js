@@ -4,11 +4,16 @@ import router from './router'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css' 
 
-
-// import API from './api'
-// Vue.prototype.$api = API
+import VueAudio from 'vue-audio-better'
 
 
+import APlayer from '@moefe/vue-aplayer';
+
+Vue.use(APlayer, {
+  defaultCover: 'https://github.com/u3u.png',
+  productionTip: true,
+});
+Vue.use(VueAudio)
 Vue.use(ElementUI)
 Vue.config.productionTip = false
 new Vue({
