@@ -61,6 +61,7 @@ export default {
 
 <style lang="less" scoped>
 .main {
+  margin-top: 10px;
   padding: 40px 0;
   border-bottom: 1px solid #ebf2ed;
   background-color: var(--bgc--center);
@@ -94,7 +95,11 @@ export default {
     }
 
     .blog_content {
+      @media screen and (max-width: 600px) {
+        margin:0 30px;
+      }
       margin-left: 80px;
+      margin-right: 80px;
       //文本进行换行
       white-space: pre-line;
 
@@ -122,7 +127,13 @@ export default {
     margin-top: 30px;
     background-color: var(--entry--footer);
     border-radius: 30px;
-
+    @media screen  and (max-width: 1200px) {
+      width: 40vw;
+    }
+    @media screen  and (max-width: 600px) {
+      margin:30px 30px 0px 40px;
+      width: 80vw;
+    }
     .left {
       width: 200px;
       img {

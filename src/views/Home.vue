@@ -6,24 +6,33 @@
       </Center>
       <Right></Right>
     </div>
-    <Bottom>
-      
-    </Bottom>
+    <div class="nav">
+      <van-tabbar v-model="active" active-color="#ee0a24" inactive-color="">
+        <van-tabbar-item icon="home-o" >首页</van-tabbar-item>
+        <van-tabbar-item icon="notes-o">文章</van-tabbar-item>
+        <van-tabbar-item icon="search">搜索</van-tabbar-item>
+        <van-tabbar-item icon="arrow-up">顶部</van-tabbar-item>
+      </van-tabbar>
+    </div>
+
   </div>
-  
 </template>
 
 <script>
 import Left from '@/components/Left.vue'
 import Center from '@/components/Center.vue'
 import Right from '@/components/Right.vue'
-import Bottom from '@/components/Bottom.vue'
+
 export default {
   components: {
     Left,
     Center,
-    Right,
-    Bottom
+    Right
+  },
+  data(){
+    return{
+      active: 'home',
+    }
   },
 }
 </script>
@@ -37,5 +46,17 @@ export default {
   align-items: center;
   border-radius: 25px;
   overflow: auto;
+}
+
+.nav {
+  position: fixed;
+  bottom: 0px;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  width: 100vw;
+  height: 80px;
+  @media screen  and (min-width: 1200px) {
+    display:none
+  }
 }
 </style>

@@ -115,8 +115,25 @@ export default {
   },
 }
 </script>
+
+<!-- .el-menu-vertical-demo:not(.el-menu--collapse) {
+  width: 200px;
+  min-height: 400px;
+}
+.el-menu{
+  height: 100vh;
+  border: none;
+  h3{
+      color: #fff;
+      text-align: center;
+      line-height: 48px;
+  }
+}   -->
 <style lang="less" scoped>
 .left {
+  @media screen  and (max-width: 1200px) {
+    display:none
+  }
   width: 295px;
   height: 100vh;
   background-color: var(--bgc--left);
@@ -191,11 +208,12 @@ export default {
 
   .theme {
     button {
-      width: 60px;
+      width: 65px;
       height: 30px;
       margin: 10px 15px;
 
     }
   }
-}</style>>
+}
+</style>>
 
