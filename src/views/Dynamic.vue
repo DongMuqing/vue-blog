@@ -1,6 +1,6 @@
 <template>
   <div class="main">
-    <div v-for="dynamic in dynamics" :key="dynamic.id" class="article">
+    <div v-for="dynamic in dynamic" :key="dynamic.id" class="article">
 
       <div class="list_user_meta">
         <div class="headpic"><img src="../assets/logo.png"></div>
@@ -17,8 +17,18 @@
         <div class="t_content">
           <p>{{ dynamic.content }}</p>
         </div>
+
+        <div class="demo-image__preview" >
+          <template v-for="src in dynamic.imgSrclist">
+          <el-image style="width: 100px; height: 100px" :src="src" :preview-src-list="dynamic.imgSrclist">
+          </el-image>
+        </template>
+        </div>
+
         <span class="ip_loca"><img src="../assets/img/地址.png" alt="">{{ dynamic.location }}</span>
       </div>
+
+
 
       <div class="entry-footer">
         <div class="left">
@@ -37,16 +47,25 @@ import dynamics from '@/api/dynamic';
 export default {
   data() {
     return {
-      dynamics: [
+      dynamic: [
       ],
+      url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
     }
   },
+
   methods: {
     fetchDynamcis() {
       dynamics.getDynamics()
         .then(response => {
           // 处理接口返回的数据
-          this.dynamics = response.data.data;
+      const data = response.data.data;
+      // 遍历动态数组，将每个动态对象的 `imgSrclist` 转换为数组
+      data.forEach(dynamic => {
+        dynamic.imgSrclist = dynamic.imgSrclist.split(",").map(item => item.trim().replace(/'/g, ''));
+      });
+
+      this.dynamic = data;
+
         })
         .catch(error => {
           // 处理错误
@@ -96,8 +115,9 @@ export default {
 
     .blog_content {
       @media screen and (max-width: 600px) {
-        margin:0 30px;
+        margin: 0 30px;
       }
+
       margin-left: 80px;
       margin-right: 80px;
       //文本进行换行
@@ -127,15 +147,19 @@ export default {
     margin-top: 30px;
     background-color: var(--entry--footer);
     border-radius: 30px;
-    @media screen  and (max-width: 1200px) {
+
+    @media screen and (max-width: 1200px) {
       width: 40vw;
     }
-    @media screen  and (max-width: 600px) {
-      margin:30px 30px 0px 40px;
+
+    @media screen and (max-width: 600px) {
+      margin: 30px 30px 0px 40px;
       width: 80vw;
     }
+
     .left {
       width: 200px;
+
       img {
         margin: 10px 15px;
         padding-right: 10px;
