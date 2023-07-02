@@ -29,7 +29,6 @@
       </div>
 
 
-
       <div class="entry-footer">
         <div class="left">
           <img src="../assets/img/点赞.png" alt="">
@@ -42,8 +41,8 @@
 </template>
 
 <script>
-
 import dynamics from '@/api/dynamic';
+import test from '@/views/test.vue'
 export default {
   data() {
     return {
@@ -74,6 +73,9 @@ export default {
   },
   mounted() {
     this.fetchDynamcis();
+  },
+  components: {
+    test
   },
 }
 </script>

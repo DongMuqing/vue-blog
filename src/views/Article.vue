@@ -27,8 +27,13 @@
 
 <script>
 import articles from '@/api/article';
-
+import test from '@/views/test.vue'
+import weather from '@/views/weathe.vue';
 export default {
+ components:{
+  test,
+  weather
+ },
   data() {
     return {
       articles: [
@@ -58,15 +63,10 @@ export default {
 .main {
   padding: 40px 0;
   border-bottom: 1px solid #ebf2ed;
-
-  .article {
-    margin-bottom: 40px;
-
-    .content {
-      //文本进行换行
-      white-space: pre-line;
-    }
+  audio{
+    width: 200px;
+    height: 100px;
+    background-color: #fff;
   }
-
 }
 </style>

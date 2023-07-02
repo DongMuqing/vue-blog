@@ -1,353 +1,245 @@
 <template>
-    <div class="shell">
-      <div class="cover">
-          <!-- <img src="./1.jpg" alt=""> -->
+  <div class="music">
+      <div class="music__main">
+          <div :class="['music__main__cover',isPlay ? 'active' : '']" @click="play">
+              <img src="../assets/img/打上花火.jpg" />
+          </div>
+          <div class="music__main__timeBar">
+              <div class="time">
+                  <span>{{ realMusicTime }}</span>
+                  <span>{{ totalMusicTime }}</span>
+              </div>
+              <div class="bar" ref="bar" @click="handClickBar">
+                  <div class="bar__slid" ref="slid" @click="handClickBar"></div>
+              </div>
+          </div>
       </div>
-      <div class="info">
-          <div class="title">music</div>
-          <div class="singer">音乐</div>
+      <div class="music__btn">
+          <i class="el-icon-refresh" @click="switchMusic"></i>
       </div>
-      <div class="volume-box">
-          <span class="volume-down"><i class="material-icons">remove</i></span>
-          <input type="range" class="volume-range" step="1" value="80" min="0" max="100"
-              oninput="music.volume = this.value/100">
-          <span class="volume-up"><i class="material-icons">add</i></span>
-      </div>
-      <div class="btn-box">
-          <i class="material-icons repeat" onclick="handleRepeat()">repeat</i>
-          <i class="material-icons favorite active" onclick="handleFavorite()">favorite</i>
-          <i class="material-icons volume" onclick="handleVolume()">volume_up</i>
-      </div>
-      <div class="music-box">
-          <input type="range" class="seekbar" step="1" value="0" min="0" max="100" oninput="handleSeekBar()">
-          <audio class="music-element">
-              <source src="http://m10.music.126.net/20230614212223/4abd880472f8c9b9d5591bf88fb6edd9/ymusic/5032/34d5/e0fe/b0523cc659d08a393d3662ee586c5b4f.mp3">
-          </audio>
-          <span class="current-time">0:0</span><span class="duration">0:0</span>
-          <span class="play" onclick="handlePlay()">
-              <i class="material-icons">play_arrow</i>
-          </span>
-      </div>
-  
+      <div class="music__mask"></div>
+      <audio ref="music" :src="audioSrc"></audio>
   </div>
 </template>
-
 <script>
 export default {
-mounted(){
-  var music = document.querySelector('.music-element')
-var playBtn = document.querySelector('.play')
-var seekbar = document.querySelector('.seekbar')
-var currentTime = document.querySelector('.current-time')
-var duration = document.querySelector('.duration')
-function handlePlay() {
-    // 如果音乐处于暂停状态
-    if (music.paused) {
-        // 播放音乐，更改按钮样式为暂停图标
-        music.play();
-        playBtn.className = 'pause'
-        playBtn.innerHTML = '<i class="material-icons">pause</i>'
-    } else {
-        // 暂停音乐，更改按钮样式为播放图标
-        music.pause();
-        playBtn.className = 'play'
-        playBtn.innerHTML = '<i class="material-icons">play_arrow</i>'
+    data() {
+        this.audioSrcs = [
+            'https://music.163.com/song/media/outer/url?id=1369798757.mp3', // 芒种
+            'http://m10.music.126.net/20230702144910/7cf290a5714084fc00b2d4cccefb0499/ymusic/5032/34d5/e0fe/b0523cc659d08a393d3662ee586c5b4f.mp3'
+        ];
+        return {
+            isPlay: false,
+            realMusicTime: "00:00",
+            totalMusicTime: "00:00",
+            audioSrc: this.audioSrcs[0]
+        };
+    },
+    created() { },
+    mounted() {
+        this.watchMusicTime();
+    },
+    methods: {
+        play() {
+            if (this.music.paused) {
+                this.music.play();
+                this.isPlay = true;
+            } else {
+                this.music.pause();
+                this.isPlay = false;
+            }
+        },
+        // 处理时间
+        handlMusicTime() {
+            //用秒数来显示当前播放进度
+            let timeDisplay = Math.floor(this.music.currentTime); //获取实时时间
+            //分钟
+            let minute = parseInt(timeDisplay / 60);
+            if (minute < 10) {
+                minute = "0" + minute;
+            }
+            //秒
+            let second = Math.round(timeDisplay % 60);
+            if (second < 10) {
+                second = "0" + second;
+            }
+            this.realMusicTime = minute + ":" + second;
+        },
+        // 处理进度条
+        handMusicBar() {
+            let slid = this.$refs.slid;
+            let duration = this.music.duration;
+            let x = ((this.music.currentTime / duration) * 100).toFixed(2) + "%";
+            slid.style.width = x;
+        },
+        // 处理点击进度条事件
+        handClickBar(e) {
+            const barTotalWidth = this.bar.offsetWidth; // bar 总宽度
+            const rect = e.target.getBoundingClientRect(); // 元素右边距离页面边距的距离 返回上下左右
+            let length = e.pageX - rect.left;
+            this.music.currentTime = length / barTotalWidth * this.music.duration; // 计算播放时间 位置百分比*总时间
+            this.$nextTick(() => {
+                this.music.play();
+                this.isPlay = true;
+            })
+        },
+        // 切换歌曲
+        switchMusic() {
+            this.isPlay = false;
+            this.audioSrc = this.audioSrcs[Math.floor(Math.random() * 5)];
+            this.music.load()
+            // 文件下载完毕，如果不用等到全部下载完毕，可以用canplay事件
+            this.music.addEventListener("canplaythrough", () => {
+                this.music.play();
+                this.isPlay = true;
+            });
+        },
+        //使用事件监听方式捕捉事件
+        watchMusicTime() {
+            this.music = this.$refs.music;
+            this.bar = this.$refs.bar;
+            this.music.addEventListener(
+                "timeupdate",
+                () => {
+                    this.handlMusicTime();
+                    this.$nextTick(() => {
+                        this.handMusicBar();
+                    })
+                },
+                false
+            );
+            // 播放完毕
+            this.music.addEventListener("ended", () => {
+                this.switchMusic(); // 自动播放
+            });
+            // 捕获音频文件已准备完毕
+            // 当媒体文件可以播放的时候会触发oncanplay事件,也可以用oncanplay
+            this.music.oncanplaythrough = () => {
+                let time = this.music.duration;
+                //分钟
+                let minutes = parseInt(time / 60);
+                if (minutes < 10) {
+                    minutes = "0" + minutes;
+                }
+                //秒
+                let seconds = Math.round(time % 60);
+                if (seconds < 10) {
+                    seconds = "0" + seconds;
+                }
+                this.totalMusicTime = minutes + ":" + seconds;
+            };
+        }
     }
-    // 当音乐播放完毕时
-    music.addEventListener('ended', function () {
-        // 更改按钮样式为播放图标，并将音乐当前时间重置为0
-        playBtn.className = 'play'
-        playBtn.innerHTML = '<i class="material-icons">play_arrow</i>'
-        music.currentTime = 0
-    });
-}
-// 当音乐元素的元数据加载完毕时
-music.onloadeddata = function () {
-    // 设置进度条最大值为音乐总时长
-    seekbar.max = music.duration// 将音乐总时长格式化为分钟和秒，并在HTML中显示出来
-    var ds = parseInt(music.duration % 60)
-    var dm = parseInt((music.duration / 60) % 60)
-    duration.innerHTML = dm + ':' + ds
-}
-// 当音乐当前播放时间更新时
-music.ontimeupdate = function () {
-    // 将进度条的值设为当前播放时间，以实现进度条随着音乐播放而动态更新
-    seekbar.value = music.currentTime
-}
-// 定义处理进度条拖动的函数
-handleSeekBar = function () {
-    // 将音乐当前播放时间设为进度条的值，以实现通过拖动进度条控制音乐播放进度
-    music.currentTime = seekbar.value
-}
-// 每当音乐的播放时间更新时
-music.addEventListener('timeupdate', function () {
-    // 将音乐当前播放时间格式化为分钟和秒，并在HTML中显示出来
-    var cs = parseInt(music.currentTime % 60)
-    var cm = parseInt((music.currentTime / 60) % 60)
-    currentTime.innerHTML = cm + ':' + cs
-}, false)
-// 爱心点击变色
-var favIcon = document.querySelector('.favorite')
-function handleFavorite() {
-    favIcon.classList.toggle('active');
-}
-// 循环播放
-var repIcon = document.querySelector('.repeat')
-function handleRepeat() {
-    if (music.loop == true) {
-        music.loop = false
-        repIcon.classList.toggle('active')
-    }
-    else {
-        music.loop = true
-        repIcon.classList.toggle('active')
-    }
-}
-// 获取 HTML 中的音量图标、音量控制器、音量滑动条、音量减小按钮和音量增加按钮
-var volIcon = document.querySelector('.volume');
-var volBox = document.querySelector('.volume-box');
-var volumeRange = document.querySelector('.volume-range');
-var volumeDown = document.querySelector('.volume-down');
-var volumeUp = document.querySelector('.volume-up');
-// 处理音量控制器的函数
-function handleVolume() {
-    // 切换音量图标和音量控制器的 class 属性
-    volIcon.classList.toggle('active');
-    volBox.classList.toggle('active');
-}
-// 为音量减小按钮和音量增加按钮分别添加 click 事件监听器，
-// 调用 handleVolumeDown 和 handleVolumeUp 函数
-volumeDown.addEventListener('click', handleVolumeDown);
-volumeUp.addEventListener('click', handleVolumeUp);
-// 处理音量减小的函数
-function handleVolumeDown() {
-    // 将音量滑动条的值减少 20
-    volumeRange.value = Number(volumeRange.value) - 20;
-    // 将音乐的音量设置为音量滑动条的值除以 100
-    music.volume = volumeRange.value / 100;
-}
-// 处理音量增加的函数
-function handleVolumeUp() {
-    // 将音量滑动条的值增加 20
-    volumeRange.value = Number(volumeRange.value) + 20;
-    // 将音乐的音量设置为音量滑动条的值除以 100
-    music.volume = volumeRange.value / 100;
-}
-}
-}
+};
 </script>
 
 <style lang="less" scoped>
-.shell {
-  z-index: 99;
-  width: 330px;
-  height: 580px;
-  border-radius: 15px;
-  /* background-color: #fff6e7; */
-  box-shadow: 0 10px 30px #00000085;
-  /* 设置上高光和左高光，使其看起来更加逼真 */
-  border-top: 1px solid rgba(255, 255, 255, .9);
-  border-left: 1px solid rgba(255, 255, 255, .9);
-  background: linear-gradient(to right bottom,
-          rgba(255, 255, 255, .6),
-          rgba(255, 255, 255, .3),
-          rgba(255, 255, 255, .2));
-  /* 重点：使元素背景模糊化 */
-  backdrop-filter: blur(16px);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+@keyframes musicRotate {
+    from {
+        transform: rotate(0);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }
-
-.cover {
-  width: 280px;
-  height: 270px;
-  overflow: hidden;
-  position: absolute;
-  top: 20px;
-  border-radius: 5px;
-  box-shadow: 0 5px 30px #7d70ecb7;
-}
-
-.cover img {
-  width: 100%;
-}
-
-.shell input[type=range] {
-  -webkit-appearance: none !important;
-  margin: 0px;
-  padding: 0px;
-  background: rgb(255, 255, 255);
-  height: 5px;
-  width: 150px;
-  outline: none;
-  cursor: pointer;
-  overflow: hidden;
-  border-radius: 5px;
-}
-
-.shell input[type=range]::-webkit-slider-thumb {
-  -webkit-appearance: none !important;
-  background: #ff3677;
-  height: 5px;
-  width: 5px;
-  border-radius: 50%;
-  box-shadow: -100vw 0 0 100vw rgb(160, 200, 250);
-}
-
-.shell input[type=range]::-moz-range-thumb {
-  background: #ff3677;
-  height: 8px;
-  width: 8px;
-  border-radius: 100%;
-}
-
-.shell input[type=range]::-ms-thumb {
-  -webkit-appearance: none !important;
-  background: #ff3677;
-  height: 8px;
-  width: 8px;
-  border-radius: 100%;
-}
-
-.info {
-  position: absolute;
-  top: 305px;
-  text-align: center;
-}
-
-.info .title {
-  font-size: 35px;
-  color: rgb(40, 45, 100);
-}
-
-.info .singer {
-  font-size: 20px;
-  color: #6e7cf5;
-}
-
-.btn-box {
-  position: absolute;
-  top: 400px;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-}
-
-.btn-box i {
-  font-size: 24px;
-  color: rgb(40, 45, 100);
-  margin: 0 30px;
-  cursor: pointer;
-}
-
-.btn-box i.active {
-  color: #ff3677;
-}
-
-.volume-box {
-  display: none;
-  position: absolute;
-  top: 370px;
-  z-index: 1;
-  padding: 0 20px;
-}
-
-.volume-box .volume-down {
-  position: absolute;
-  left: -15px;
-  cursor: pointer;
-  color: rgb(40, 45, 100);
-}
-
-.volume-box .volume-up {
-  position: absolute;
-  right: -15px;
-  top: 50%;
-  transform: translateY(-50%);
-  cursor: pointer;
-  color: rgb(40, 45, 100);
-}
-
-.volume-box .volume-up::selection {
-  background-color: unset;
-}
-
-.volume-box input[type=range] {
-  height: 5px;
-  width: 150px;
-  margin: 0 0 15px 0;
-}
-
-.volume-box.active {
-  display: block;
-}
-
-.music-box {
-  position: absolute;
-  top: 445px;
-}
-
-.music-box input[type=range] {
-  height: 5px;
-  width: 230px;
-  margin: 0 0 10px 0;
-}
-
-.music-box input[type=range]::-webkit-slider-thumb {
-  height: 5px;
-  width: 7px;
-}
-
-.music-box .current-time {
-  position: absolute;
-  left: -35px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 12px;
-  color: #252525;
-}
-
-.music-box .duration {
-  position: absolute;
-  right: -35px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 12px;
-  color: rgb(40, 45, 100);
-}
-
-.music-box .play,
-.music-box .pause {
-  position: absolute;
-  left: 50%;
-  top: 55px;
-  transform: translateX(-50%);
-  width: 50px;
-  height: 50px;
-  border-radius: 50px;
-  background-color: rgb(160, 200, 250);
-  cursor: pointer;
-  transition: all 0.4s;
-}
-
-.music-box .play i,
-.music-box .pause i {
-  font-size: 36px;
-  color: rgb(40, 45, 100);
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-48%, -50%);
-}
-
-.music-box .pause i {
-  font-size: 32px;
-  transform: translate(-50%, -50%);
-}
-video{
-  position: absolute;
-  width: 100%;
+.music {
+    width: 500px;
+    margin: 0 auto;
+    border-radius: 15px;
+    position: relative;
+    padding: 30px;
+    box-sizing: border-box;
+    overflow: hidden;
+    background-color:pink;
+    &__main {
+        display: flex;
+        &__cover {
+            width: 80px;
+            height: 80px;
+            overflow: hidden;
+            border-radius: 50%;
+            background-color: #dddddd;
+            cursor: pointer;
+            animation: musicRotate 10s linear infinite;
+            animation-play-state: paused; // 暂定动画
+            img {
+                width: 100%;
+                height: 100%;
+            }
+            &.active {
+                animation-play-state: running; // 运行动画
+            }
+        }
+        &__timeBar {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            padding-left: 20px;
+            box-sizing: border-box;
+            .time {
+                display: flex;
+                justify-content: space-between;
+                color: #fff;
+                span {
+                    font-size: 19px;
+                    line-height: 1;
+                }
+            }
+            .bar {
+                height: 8px;
+                background-color: #fbfbfb;
+                border-radius: 8px;
+                position: relative;
+                border-radius: 8px;
+                overflow: hidden;
+                cursor: pointer;
+                &__slid {
+                    position: absolute;
+                    left: 0;
+                    top: 0;
+                    background-color: #e24d80;
+                    height: 100%;
+                    width: 0;
+                    transition: width 0.3s;
+                }
+            }
+        }
+    }
+    &__btn {
+        position: absolute;
+        right: 30px;
+        top: 10px;
+        i {
+            font-size: 18px;
+            color: #fff;
+            cursor: pointer;
+        }
+    }
+    &__mask {
+        background-image: url('../assets/img/打上花火.jpg');
+        z-index: -2;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: 50%;
+        filter: blur(15px);
+        opacity: 0.5;
+        transition: all 0.8s;
+        position: absolute;
+        top: 0;
+        right: 0;
+        left: 0;
+        bottom: 0;
+        &::before {
+            position: absolute;
+            top: 0;
+            right: 0;
+            left: 0;
+            bottom: 0;
+            z-index: -1;
+            content: '';
+            background-color: rgba(0, 0, 0, 0.08);
+        }
+    }
 }
 </style>

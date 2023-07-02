@@ -5,13 +5,19 @@
         <p> 星期:{{weather.week}}</p>
         <p>白天温度:{{weather.daytemp}}°C</p>
     </div>
+  <weathers></weathers>
   </div>
 </template>
 
 <script>
 import address from '@/api/address';
 import weather from '../api/weather';
+import weathers from '@/views/weathe.vue';
+
 export default {
+  components:{
+    weathers
+  },
   data(){
     return {
       province:[],
