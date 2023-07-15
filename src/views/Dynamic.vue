@@ -42,7 +42,6 @@
 
 <script>
 import dynamics from '@/api/dynamic';
-import test from '@/views/test.vue'
 export default {
   data() {
     return {
@@ -75,7 +74,7 @@ export default {
     this.fetchDynamcis();
   },
   components: {
-    test
+    
   },
 }
 </script>
