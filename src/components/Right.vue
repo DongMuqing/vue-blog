@@ -1,16 +1,11 @@
 <template>
   <div class="info">
-    <div class="weather" v-for="(weather,index) in  weather" :key="index">
-        <p>日期:{{ weather.date}}</p>
-        <p> 星期:{{weather.week}}</p>
-        <p>白天温度:{{weather.daytemp}}°C</p>
-    </div>
+   
   <weathers></weathers>
   </div>
 </template>
 
 <script>
-import address from '@/api/address';
 import weather from '../api/weather';
 import weathers from '@/views/weathe.vue';
 
@@ -20,34 +15,26 @@ export default {
   },
   data(){
     return {
-      province:[],
+      province:"",
       weather:[]
     }
   },
   methods:{
-    //查询当前所在地 然后根据地址查询天气 需要异步进行
-    async  fetchAddress() {
-      try {
-      const response = await address.getAddress();
-      // 处理接口返回的数据
-      this.province = response.data.province;
-    } catch (error) {
-      // 处理错误
-    }
-    },
-    async fetchWeather() {
-      try{
-        await this.fetchAddress();
-        const response = await weather.getWeatherByCity(this.province);
-      // 处理接口返回的数据
-      this.weather = response.data.forecasts[0].casts;
-      }
-        catch(error ) {
+    fetchWeather() {
+      weather.getWeather()
+        .then(response => {
+          // 处理接口返回的数据
+      const data = response.data.data.forecasts[0].casts;
+      this.weather= data;
+      this.province=response.data.data.forecasts.city;
+        })
+        .catch(error => {
           // 处理错误
-    }},
+        });
+    }
   },
   mounted() {
-    // this.fetchWeather() ;
+    this.fetchWeather() 
   },
 }
 </script>
