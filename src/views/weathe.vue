@@ -9,55 +9,53 @@
         </div>
         <div class="two">
             <div class="card">
-                <div class="weather-info" v-for="(weather, index) in  weather" :key="index">
-                        <p>日期:{{ weather.date }}</p>
-                        <p> 星期:{{ weather.week }}</p>
-                        <p>白天温度:{{ weather.daytemp }}°C</p>
+                <h2>weathe in {{ city }}</h2>
+                <div class="weather" v-for="(weather, index) in  weather" :key="index">
+                    <p>日期:{{ weather.date }}</p>
+                    <p> 星期:{{ weather.week }}</p>
+                    <p>白天:{{weather.dayweather}}  温度:{{ weather.daytemp }}°C </p>
+                    <p>晚上:{{weather.nightweather}}  温度:{{ weather.nighttemp }}°C </p>
                 </div>
+                <h3>预报发布时间:<br>{{reporttime}}</h3>
             </div>
         </div>
     </div>
 </template>
 
 <script>
-import address from '@/api/address';
 import weather from '../api/weather';
 export default {
     mounted: {
 
     },
-    data(){
-    return {
-      province:[],
-      weather:[]
-    }
-  },
-  methods:{
-    //查询当前所在地 然后根据地址查询天气 需要异步进行
-    async  fetchAddress() {
-      try {
-      const response = await address.getAddress();
-      this.province = response.data.province;
-     
-    } catch (error) {
-      // 处理错误
-    }
+    data() {
+        return {
+            city: "",
+            weather: [],
+            // 预报发布时间
+            reporttime:""
+        }
     },
-    async fetchWeather() {
-      try{
-        await this.fetchAddress();
-        const response = await weather.getWeatherByCity(this.province);
-      // 处理接口返回的数据
-      this.weather = response.data.forecasts[0].casts;
-      console.log(this.weather);
-      }
-        catch(error ) {
-          // 处理错误
-    }},
-  },
-  mounted() {
-    this.fetchWeather() ;
-  },
+    methods: {
+        fetchWeather() {
+            weather.getWeather()
+                .then(response => {
+                    // 处理接口返回的数据
+                    const data = response.data.data.forecasts[0].casts;
+                    this.weather = data;
+                    const city = response.data.data.forecasts[0].city;
+                    this.city = city;
+                    const reporttime=response.data.data.forecasts[0]. reporttime
+                    this.reporttime= reporttime
+                })
+                .catch(error => {
+                    // 处理错误
+                });
+        }
+    },
+    mounted() {
+        this.fetchWeather()
+    },
 }
 </script>
 
@@ -72,8 +70,8 @@ export default {
 }
 
 .weather {
-    height: 380px;
-
+    height: 80px;
+    margin: 10px auto 15px auto;
     ::-webkit-scrollbar {
         display: none;
     }

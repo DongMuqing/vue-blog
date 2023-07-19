@@ -6,14 +6,14 @@
       </Center>
       <Right></Right>
     </div>
-    <div class="nav">
+    <!-- <div class="nav">
       <van-tabbar v-model="active" active-color="#ee0a24" inactive-color="">
         <van-tabbar-item icon="home-o" >首页</van-tabbar-item>
         <van-tabbar-item icon="notes-o">文章</van-tabbar-item>
         <van-tabbar-item icon="search">搜索</van-tabbar-item>
         <van-tabbar-item icon="arrow-up">顶部</van-tabbar-item>
       </van-tabbar>
-    </div>
+    </div> -->
 
   </div>
 </template>

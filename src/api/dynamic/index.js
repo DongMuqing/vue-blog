@@ -1,4 +1,4 @@
-import axios from '@/utils/request' // axios 实例引入（第五节封装的）
+import axios from '@/utils/request' 
 import qs from 'qs' 
 
 const dynamics = {

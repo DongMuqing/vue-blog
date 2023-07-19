@@ -2,14 +2,25 @@
   <div class="center">
 
     <div class="search">
-      <a href=".#"><img src="../assets/img/更多.png" alt=""></a>
+      <a><img src="../assets/img/更多.png" alt="" @click="navshow"></a>
       <!-- <el-button style="margin-right: 20px" @click="sendMsg" icon="el-icon-menu" size="mini"></el-button> -->
       <input type="text" placeholder="文章 | Search">
     </div>
 
+
     <div class="individual">
+      <div class="nav" v-if="navflag">
+        <div v-for="item in  menuData" :key="item.name" @click="push(item.path)">
+          <template>
+            <i :class="`el-icon-${item.icon}`"></i>
+            <p>{{ item.label }}</p>
+          </template>
+        </div>
+      </div>
+
       <el-carousel indicator-position="outside">
-        <el-carousel-item v-for="(backdrop, index) in backdrops" :key="backdrop.id" v-show="index === selectedBackdropIndex">
+        <el-carousel-item v-for="(backdrop, index) in backdrops" :key="backdrop.id"
+          v-show="index === selectedBackdropIndex">
           <li><img :src="backdrop.url" alt=""></li>
         </el-carousel-item>
       </el-carousel>
@@ -42,9 +53,13 @@
 import bus from "./EventBus"
 import Dynamic from '@/views/Dynamic.vue'
 import backdrops from '@/api/backdrop';
+import menus from "@/api/menu";
 export default {
   data() {
     return {
+      //列表数据
+      menuData: [],
+      navflag: false,
       backdrops: [
         {
           id: '',
@@ -71,9 +86,27 @@ export default {
       bus.$emit('share', this.isCollapse)
       this.isCollapse = !this.isCollapse
     },
+    navshow() {
+      this.navflag = !this.navflag
+    },
+    fetchMenus() {
+      menus.getMenus()
+        .then(response => {
+          // 处理接口返回的数据
+          this.menuData = response.data.data;
+        })
+        .catch(error => {
+          // 处理错误
+        });
+    },
+    // 点击切换的实现
+    push(chan){
+      this.$router.push('/home' + chan)
+    }
   },
   mounted() {
     this.fetchBackdrops();
+    this.fetchMenus();
   },
   components: {
     Dynamic,
@@ -119,11 +152,42 @@ export default {
     }
   }
 
+  .nav {
+    position: absolute;
+    width: 100%;
+    height: 53px;
+    background-color: var(--bgc--center);
+    z-index: 9999;
+    border-top: 2px solid black;
+
+    div {
+      width: 100px;
+      float: left;
+      margin-left: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      i {
+        float: left;
+        color: var(--pColor);
+      }
+
+      p {
+        color: var(--pColor);
+      }
+    }
+  }
+
   .individual {
-    height: 270px;
-    .el-carousel{
+    position: relative;
+    top: 0;
+    height: 300px;
+
+    .el-carousel {
       overflow-x: visible;
     }
+
     li {
       list-style: none;
 
@@ -148,6 +212,7 @@ export default {
     align-items: center;
     justify-content: center;
     height: 60px;
+
     a {
       text-decoration: none;
       display: inline-block;
