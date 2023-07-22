@@ -13,17 +13,18 @@
                 <div class="weather" v-for="(weather, index) in  weather" :key="index">
                     <p>日期:{{ weather.date }}</p>
                     <p> 星期:{{ weather.week }}</p>
-                    <p>白天:{{weather.dayweather}}  温度:{{ weather.daytemp }}°C </p>
-                    <p>晚上:{{weather.nightweather}}  温度:{{ weather.nighttemp }}°C </p>
+                    <p>白天:{{ weather.dayweather }} 温度:{{ weather.daytemp }}°C </p>
+                    <p>晚上:{{ weather.nightweather }} 温度:{{ weather.nighttemp }}°C </p>
                 </div>
-                <h3>预报发布时间:<br>{{reporttime}}</h3>
+                <h3>预报发布时间:<br>{{ reporttime }}</h3>
             </div>
         </div>
     </div>
 </template>
 
 <script>
-import weather from '../api/weather';
+import weather from '@/api/weather';
+import address from '@/api/address';
 export default {
     mounted: {
 
@@ -33,30 +34,64 @@ export default {
             city: "",
             weather: [],
             // 预报发布时间
-            reporttime:""
+            reporttime: ""
         }
     },
     methods: {
-        fetchWeather() {
-            weather.getWeather()
-                .then(response => {
-                    // 处理接口返回的数据
-                    const data = response.data.data.forecasts[0].casts;
-                    this.weather = data;
-                    const city = response.data.data.forecasts[0].city;
-                    this.city = city;
-                    const reporttime=response.data.data.forecasts[0]. reporttime
-                    this.reporttime= reporttime
-                })
-                .catch(error => {
-                    // 处理错误
-                });
-        }
+        async fetchWeather(city) {
+            try {
+                // 先异步执行fetchAddress方法
+                await this.fetchAddress();
+                const requestData = {
+                    city: this.city // 不要使用JSON.stringify(city)
+                };
+                console.log(requestData);
+                weather.getWeather(requestData)
+                    .then(response => {
+                        // 处理接口返回的数据
+                        const data = response.data.data.forecasts[0].casts;
+                        console.log(data);
+                        this.weather = data;
+                        const reporttime = response.data.data.forecasts[0].reporttime;
+                        this.reporttime = reporttime;
+                    })
+                    .catch(error => {
+                        // 处理错误
+                    });
+            } catch (error) {
+                // 处理错误
+            }
+        },
+        fetchAddress() {
+            return new Promise((resolve, reject) => {
+                address.getAddress()
+                    .then(response => {
+                        // 处理接口返回的数据
+                        const data = response.data.data.city;
+                        this.city = data;
+                        console.log(this.city);
+                        resolve(); // 异步操作完成，调用resolve
+                    })
+                    .catch(error => {
+                        // 处理错误
+                        reject(error); // 异步操作失败，调用reject
+                    });
+            });
+        },
     },
     mounted() {
-        this.fetchWeather()
-    },
-}
+        //方法1
+        // this.fetchAddress()
+        //     .then(() => {
+        //         this.fetchWeather();
+        //     })
+        //     .catch(error => {
+        //         // 处理错误
+        //     });
+        //方法2
+        this.fetchWeather(this.city);
+    }
+    }
 </script>
 
 <style lang="less" scoped>
@@ -72,6 +107,7 @@ export default {
 .weather {
     height: 80px;
     margin: 10px auto 15px auto;
+
     ::-webkit-scrollbar {
         display: none;
     }

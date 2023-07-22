@@ -131,9 +131,10 @@ export default {
 }   -->
 <style lang="less" scoped>
 .left {
-  @media screen  and (max-width: 1200px) {
-    display:none
+  @media screen and (max-width: 1200px) {
+    display: none
   }
+
   width: 295px;
   height: 100vh;
   background-color: var(--bgc--left);
