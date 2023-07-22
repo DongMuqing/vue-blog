@@ -45,12 +45,10 @@ export default {
                 const requestData = {
                     city: this.city // 不要使用JSON.stringify(city)
                 };
-                console.log(requestData);
                 weather.getWeather(requestData)
                     .then(response => {
                         // 处理接口返回的数据
                         const data = response.data.data.forecasts[0].casts;
-                        console.log(data);
                         this.weather = data;
                         const reporttime = response.data.data.forecasts[0].reporttime;
                         this.reporttime = reporttime;
@@ -67,9 +65,8 @@ export default {
                 address.getAddress()
                     .then(response => {
                         // 处理接口返回的数据
-                        const data = response.data.data.city;
+                        const data = response.data.data.ip;
                         this.city = data;
-                        console.log(this.city);
                         resolve(); // 异步操作完成，调用resolve
                     })
                     .catch(error => {
