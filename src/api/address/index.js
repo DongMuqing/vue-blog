@@ -6,6 +6,10 @@ const address = {
       url: '/ip',
       method: 'get'
     }),
+    getVisitorInfo:()=>axios({
+      url:'/ip/visitorInfo',
+      method:'post'
+    })
 }
 
 export default address

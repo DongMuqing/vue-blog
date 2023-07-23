@@ -65,7 +65,8 @@ export default {
                 address.getAddress()
                     .then(response => {
                         // 处理接口返回的数据
-                        const data = response.data.data.ip;
+                        const data = response.data.data.city;
+                        console.log(data);
                         this.city = data;
                         resolve(); // 异步操作完成，调用resolve
                     })
@@ -75,6 +76,15 @@ export default {
                     });
             });
         },
+        fetchVisitorInfo() {
+            address.getVisitorInfo()
+                .then(response => {
+                 
+                })
+                .catch(error => {
+                    // 处理错误
+                });
+        }
     },
     mounted() {
         //方法1
@@ -86,9 +96,10 @@ export default {
         //         // 处理错误
         //     });
         //方法2
-        this.fetchWeather(this.city);
+        this.fetchWeather(this.city),
+        this.fetchVisitorInfo()
     }
-    }
+}
 </script>
 
 <style lang="less" scoped>
