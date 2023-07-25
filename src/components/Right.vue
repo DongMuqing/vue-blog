@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import weathers from '@/views/weathe.vue';
+import weathers from '@/views/ForegroundPage/weathe.vue';
 export default {
   components: {
     weathers

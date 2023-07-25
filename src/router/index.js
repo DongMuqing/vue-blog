@@ -4,12 +4,12 @@ import VueRouter from 'vue-router'
 
 
 
-import dynamic from '@/views/Dynamic.vue'
-import home from '@/views/Home.vue'
-import article from '@/views/Article.vue'
-import Friendlink from '@/views/Friendlink.vue'
-import leavemessage from '@/views/Leavemessage.vue'
-import login from '@/views/Login.vue'
+import dynamic from '@/views/ForegroundPage/Dynamic.vue'
+import home from '@/views/ForegroundPage/Home.vue'
+import article from '@/views/ForegroundPage/Article.vue'
+import Friendlink from '@/views/ForegroundPage/Friendlink.vue'
+import leavemessage from '@/views/ForegroundPage/Leavemessage.vue'
+import login from '@/views/BackgroundPage/Login.vue'
 // Vue.prototype.$axios = axios
 //解决router重复push一样的hash地址
 const originalPush = VueRouter.prototype.push

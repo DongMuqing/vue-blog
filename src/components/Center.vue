@@ -51,7 +51,7 @@
 
 <script>
 import bus from "./EventBus"
-import Dynamic from '@/views/Dynamic.vue'
+import Dynamic from '@/views/ForegroundPage/Dynamic.vue'
 import backdrops from '@/api/backdrop';
 import menus from "@/api/menu";
 export default {
