@@ -18,9 +18,9 @@
           <p>{{ dynamic.content }}</p>
         </div>
 
-        <div class="demo-image__preview" >
-          <template v-for="src in dynamic.imgSrclist">
-          <el-image style="width: 100px; height: 100px" :src="src" :preview-src-list="dynamic.imgSrclist">
+        <div class="demo-image__preview" > 
+          <template v-for="src in dynamic.imgSrclist" class="test">
+          <el-image  :src="src" :preview-src-list="dynamic.imgSrclist">
           </el-image>
         </template>
         </div>
@@ -137,6 +137,15 @@ export default {
         color: #0d0d0d;
         margin-bottom: 5px;
         white-space: pre-wrap;
+      }
+      .demo-image__preview{
+        width: 100%;
+        .el-image{
+          width: 108px;
+          height: 108px;
+          margin-right: 10px;
+          border-radius: 15% 15%;
+        }
       }
     }
   }

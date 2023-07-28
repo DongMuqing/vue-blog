@@ -4,8 +4,12 @@ import qs from 'qs'
 const menus = {
     // 1. 获取所有
     getMenus: () => axios({
-      url: '/menu',
-      method: 'get'
+      url: '/menu/pc',
+      method: 'post'
+    }),
+    getMobileMenus: () => axios({
+      url: '/menu/mobile',
+      method: 'post'
     }),
 }
 

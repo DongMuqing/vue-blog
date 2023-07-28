@@ -2,28 +2,29 @@
   <div class="center">
 
     <div class="search">
-      <a><img src="../assets/img/更多.png" alt="" @click="navshow"></a>
+      <a><img src="../assets/img/更多.png" alt="" @click="sendMsg"></a>
       <!-- <el-button style="margin-right: 20px" @click="sendMsg" icon="el-icon-menu" size="mini"></el-button> -->
       <input type="text" placeholder="文章 | Search">
     </div>
 
 
     <div class="individual">
-      <div class="nav" v-if="navflag">
+      <!-- <div class="nav" v-if="navflag">
         <div v-for="item in  menuData" :key="item.name" @click="push(item.path)">
           <template>
             <i :class="`el-icon-${item.icon}`"></i>
             <p>{{ item.label }}</p>
+        
           </template>
         </div>
-      </div>
+      </div> -->
 
-      <el-carousel indicator-position="outside">
+      <!-- <el-carousel indicator-position="outside">
         <el-carousel-item v-for="(backdrop, index) in backdrops" :key="backdrop.id"
           v-show="index === selectedBackdropIndex">
           <li><img :src="backdrop.url" alt=""></li>
         </el-carousel-item>
-      </el-carousel>
+      </el-carousel> -->
 
       <!-- <div v-for="(backdrop, index) in backdrops" :key="backdrop.id" v-show="index === selectedBackdropIndex">
         <li><img :src="backdrop.url" alt=""></li>
@@ -60,6 +61,8 @@ export default {
       //列表数据
       menuData: [],
       navflag: false,
+      //left显示隐藏变量
+      isCollapse: null,
       backdrops: [
         {
           id: '',
@@ -83,14 +86,13 @@ export default {
     },
     sendMsg() {
       //将值取反发送给asid
+      this.navflag = !this.navflag
+      //将值取反发送给asid
       bus.$emit('share', this.isCollapse)
       this.isCollapse = !this.isCollapse
     },
-    navshow() {
-      this.navflag = !this.navflag
-    },
     fetchMenus() {
-      menus.getMenus()
+      menus.getMobileMenus()
         .then(response => {
           // 处理接口返回的数据
           this.menuData = response.data.data;
@@ -100,13 +102,33 @@ export default {
         });
     },
     // 点击切换的实现
-    push(chan){
+    push(chan) {
       this.$router.push('/home' + chan)
-    }
+    },
+    checkDeviceSize() {
+      // 获取设备宽度
+      const deviceWidth = window.innerWidth || document.documentElement.clientWidth;
+      console.log(deviceWidth);
+      // 判断设备宽度是否大于某个阈值（这里假设大于 768px 为大设备）
+      if(deviceWidth < 768){
+          this.isCollapses=false
+      }else{
+        this.isCollapses=true
+      }
+    },
+  },
+  created(){
+     // 监听窗口大小变化，当窗口大小发生变化时调用 checkDeviceSize 方法
+     window.addEventListener('resize', this.checkDeviceSize);
+  },
+  beforeDestroy() {
+    // 在组件销毁前移除窗口大小变化的监听
+    window.removeEventListener('resize', this.checkDeviceSize);
   },
   mounted() {
-    this.fetchBackdrops();
-    this.fetchMenus();
+    this.fetchBackdrops(),
+    this.fetchMenus(),
+    this.checkDeviceSize()
   },
   components: {
     Dynamic,
@@ -120,7 +142,6 @@ export default {
   height: 100vh;
   background-color: var(--bgc--center);
   overflow-y: auto;
-
   @media screen and (max-width: 800px) {
     width: 80vw;
   }
@@ -152,37 +173,44 @@ export default {
     }
   }
 
-  .nav {
-    position: absolute;
-    width: 100%;
-    height: 53px;
-    background-color: var(--bgc--center);
-    z-index: 9999;
-    border-top: 2px solid black;
 
-    div {
-      width: 100px;
-      float: left;
-      margin-left: 10px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-
-      i {
-        float: left;
-        color: var(--pColor);
-      }
-
-      p {
-        color: var(--pColor);
-      }
-    }
-  }
 
   .individual {
     position: relative;
     top: 0;
     height: 300px;
+
+    .nav {
+      position: absolute;
+      width: 100%;
+      height: 53px;
+      background-color: var(--bgc--center);
+      z-index: 9999;
+      border-top: 2px solid black;
+
+      div {
+        width: 100px;
+        float: left;
+        margin-left: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        @media screen and (max-width: 600px) {
+          width: 60px;
+          margin-left: 5px;
+        }
+
+        i {
+          float: left;
+          color: var(--pColor);
+        }
+
+        p {
+          color: var(--pColor);
+        }
+      }
+    }
 
     .el-carousel {
       overflow-x: visible;

@@ -46,6 +46,9 @@ export default {
   align-items: center;
   border-radius: 25px;
   overflow: auto;
+  @media screen and (max-width: 600px) {
+    margin-top: 0px;
+  }
 }
 
 .nav {
