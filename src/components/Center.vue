@@ -60,9 +60,8 @@ export default {
     return {
       //列表数据
       menuData: [],
-      navflag: false,
       //left显示隐藏变量
-      isCollapse: null,
+      isCollapse: false,
       backdrops: [
         {
           id: '',
@@ -70,7 +69,7 @@ export default {
         }
       ],
       selectedBackdropIndex: 0, // 初始值为 0，显示第一个背景图
-      isCollapse: true,//侧边栏状态
+      // isCollapse: true,//侧边栏状态
     }
   },
   methods: {
@@ -86,9 +85,9 @@ export default {
     },
     sendMsg() {
       //将值取反发送给asid
-      this.navflag = !this.navflag
       //将值取反发送给asid
-      bus.$emit('share', this.isCollapse)
+      bus.$emit('share', !this.isCollapse)
+      console.log("当前值为："+this.isCollapse);
       this.isCollapse = !this.isCollapse
     },
     fetchMenus() {
@@ -108,12 +107,11 @@ export default {
     checkDeviceSize() {
       // 获取设备宽度
       const deviceWidth = window.innerWidth || document.documentElement.clientWidth;
-      console.log(deviceWidth);
       // 判断设备宽度是否大于某个阈值（这里假设大于 768px 为大设备）
       if(deviceWidth < 768){
-          this.isCollapses=false
+          this.isCollapse=false
       }else{
-        this.isCollapses=true
+        this.isCollapse=true
       }
     },
   },

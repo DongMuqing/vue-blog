@@ -54,7 +54,7 @@ export default {
   data() {
     return {
       // 接收的数据
-      isCollapses:null,
+      isCollapses:true,
       //默认主题
       currentTheme: "default-theme",
       //主题图标flag
@@ -100,7 +100,6 @@ export default {
     checkDeviceSize() {
       // 获取设备宽度
       const deviceWidth = window.innerWidth || document.documentElement.clientWidth;
-      console.log(deviceWidth);
       // 判断设备宽度是否大于某个阈值（这里假设大于 768px 为大设备）
       if(deviceWidth < 768){
           this.isCollapses=false
@@ -126,7 +125,7 @@ export default {
   created() {
     // 将从Header接收到的数据存入本组件
     bus.$on('share', val => {
-      // console.log("接收的数据val为："+val);
+      console.log("接收的数据val为："+val);
       this.isCollapses = val
     }),
     // 监听窗口大小变化，当窗口大小发生变化时调用 checkDeviceSize 方法
