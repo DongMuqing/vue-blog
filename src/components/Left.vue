@@ -1,8 +1,8 @@
 <template>
   <div class="left" v-show="isCollapses">
-    <div class="logo">
+    <!-- <div class="logo">
       <img src="../assets/logo.png" alt="">
-    </div>
+    </div> -->
     <div class="nav">
       <el-menu :default-active="'1-4-1'.toString()" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose"
         background-color=var(--bgc--left) text-color="#fff" active-text-color="#ffd04b">
@@ -33,17 +33,14 @@
       <button @click="changetheme('light')">亮白</button>
       <button @click="changetheme('Freshgreen')">清新绿</button>
     </div>
- 
+
     <div class="info">
-    
-        <a href=""><img src="../assets/img/qq.png" alt=""></a>
-        <a href=""><img src="../assets/img/wechat.png" alt=""></a>
-    
-        <a href=""><img src="../assets/img/github.png" alt=""></a>
-        <a href=""><img src="../assets/img/wechat.png" alt=""></a>
-     
+      <a href="https://oss.qingmumu.xyz/Blog/QQandWeChat/qrcode_1690562973980.jpg"><img src="../assets/img/qq.png" alt=""></a>
+      <a href="https://oss.qingmumu.xyz/Blog/QQandWeChat/mmqrcode1690562985319.png"><img src="../assets/img/wechat.png" alt=""></a>
+      <a href="https://github.com/DongMuqing"><img src="../assets/img/github.png" alt=""></a>
+      <a href="https://music.163.com/#/user/home?id=275938098"><img src="../assets/img/网易云音乐.png" alt=""></a>
     </div>
-    
+
   </div>
 </template>
 
@@ -54,7 +51,7 @@ export default {
   data() {
     return {
       // 接收的数据
-      isCollapses:true,
+      isCollapses: true,
       //默认主题
       currentTheme: "default-theme",
       //主题图标flag
@@ -101,14 +98,14 @@ export default {
       // 获取设备宽度
       const deviceWidth = window.innerWidth || document.documentElement.clientWidth;
       // 判断设备宽度是否大于某个阈值（这里假设大于 768px 为大设备）
-      if(deviceWidth < 768){
-          this.isCollapses=false
-      }else{
-        this.isCollapses=true
+      if (deviceWidth < 768) {
+        this.isCollapses = false
+      } else {
+        this.isCollapses = true
       }
     },
   },
- 
+
   //计算是否有子菜单
   computed: {
     noChildren() {
@@ -125,11 +122,10 @@ export default {
   created() {
     // 将从Header接收到的数据存入本组件
     bus.$on('share', val => {
-      console.log("接收的数据val为："+val);
       this.isCollapses = val
     }),
-    // 监听窗口大小变化，当窗口大小发生变化时调用 checkDeviceSize 方法
-    window.addEventListener('resize', this.checkDeviceSize);
+      // 监听窗口大小变化，当窗口大小发生变化时调用 checkDeviceSize 方法
+      window.addEventListener('resize', this.checkDeviceSize);
   },
   beforeDestroy() {
     // 在组件销毁前移除窗口大小变化的监听
@@ -137,7 +133,7 @@ export default {
   },
   mounted() {
     this.fetchMenus(),
-    this.checkDeviceSize()
+      this.checkDeviceSize()
   },
 }
 </script>
@@ -150,11 +146,12 @@ export default {
   background-color: var(--bgc--left);
 
   .logo {
-    
+
     height: 78px;
     padding-left: 70px;
+
     img {
-      
+
       width: 70px;
       height: 70px;
       border-radius: 2px;
@@ -170,7 +167,7 @@ export default {
     line-height: 24px;
     margin: 20px 0px;
     padding: 0px 40px 20px;
-    border-bottom: 2px solid;
+   
 
     .el-menu {
 
@@ -183,24 +180,26 @@ export default {
           font-family: 微软雅黑;
         }
       }
+
       ul {
         line-height: 24px;
         margin: 20px 0px;
         padding: 0px 40px 20px;
 
       }
+
       li {
         list-style: none;
-        align-items:center;
-        border-radius:12px;
-        box-shadow:#000000 0px 0px 0px 0px;
-        display:flex;
-        font-family:eafont;
-        justify-content:flex-start;
-        line-height:24px;
-        margin:0px 0px 5px;
-        padding:12px 15px;
-        text-align:left;
+        align-items: center;
+        border-radius: 12px;
+        box-shadow: #000000 0px 0px 0px 0px;
+        display: flex;
+        font-family: eafont;
+        justify-content: flex-start;
+        line-height: 24px;
+        margin: 0px 0px 5px;
+        padding: 12px 15px;
+        text-align: left;
       }
     }
   }
@@ -209,7 +208,8 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
-    border-bottom: 2px solid;
+  
+
     button {
       width: 65px;
       height: 30px;
@@ -217,25 +217,22 @@ export default {
 
     }
   }
-  .info {
-    display: flex;
-    flex-wrap: wrap;
-  }
-  
-  .row {
-    display: flex;
-    flex-basis: 50%;
-  }
-  
-  .row a {
-    flex-basis: 50%;
-  }
-  
-  .row img {
-    width: 100%; /* 让图片填满父容器的宽度 */
-  }
-  
-}
 
-</style>>
+  .info {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 10px;
+    /* 可选：设置元素之间的间距 */
+    justify-content: center;
+    /* 在主轴上居中 */
+    align-content: center;
+    /* 在交叉轴上居中 */
+    a{
+      img{
+        padding: 5px 20px 5px 20px;
+      }
+    }
+  }
+}</style>>
 

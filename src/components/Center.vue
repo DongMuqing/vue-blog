@@ -19,16 +19,13 @@
         </div>
       </div> -->
 
-      <!-- <el-carousel indicator-position="outside">
+      <el-carousel indicator-position="outside">
         <el-carousel-item v-for="(backdrop, index) in backdrops" :key="backdrop.id"
           v-show="index === selectedBackdropIndex">
           <li><img :src="backdrop.url" alt=""></li>
         </el-carousel-item>
-      </el-carousel> -->
-
-      <!-- <div v-for="(backdrop, index) in backdrops" :key="backdrop.id" v-show="index === selectedBackdropIndex">
-        <li><img :src="backdrop.url" alt=""></li>
-      </div> -->
+      </el-carousel>
+      
     </div>
     <router-view>
 
@@ -87,7 +84,6 @@ export default {
       //将值取反发送给asid
       //将值取反发送给asid
       bus.$emit('share', !this.isCollapse)
-      console.log("当前值为："+this.isCollapse);
       this.isCollapse = !this.isCollapse
     },
     fetchMenus() {
