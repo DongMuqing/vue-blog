@@ -29,18 +29,37 @@
     </div>
 
     <div class="theme">
+      <h2>主题切换</h2>
       <button @click="changetheme('dark')">暗夜</button>
       <button @click="changetheme('light')">亮白</button>
       <button @click="changetheme('Freshgreen')">清新绿</button>
     </div>
 
-    <div class="info">
-      <a href="https://oss.qingmumu.xyz/Blog/QQandWeChat/qrcode_1690562973980.jpg"><img src="../assets/img/qq.png" alt=""></a>
-      <a href="https://oss.qingmumu.xyz/Blog/QQandWeChat/mmqrcode1690562985319.png"><img src="../assets/img/wechat.png" alt=""></a>
-      <a href="https://github.com/DongMuqing"><img src="../assets/img/github.png" alt=""></a>
-      <a href="https://music.163.com/#/user/home?id=275938098"><img src="../assets/img/网易云音乐.png" alt=""></a>
+    <div class="site">
+      <h2>站点信息</h2>
+      <li>
+        <span>动态数</span>
+        <small>321</small>
+      </li>
+      <li>
+        <span>浏览数</span>
+        <small>321</small>
+      </li>
     </div>
 
+    <div class="connection">
+      <h2>联系我</h2>
+      <a href="https://oss.qingmumu.xyz/Blog/QQandWeChat/qrcode_1690562973980.jpg"><img src="../assets/img/qq.png"
+          alt=""></a>
+      <a href="https://oss.qingmumu.xyz/Blog/QQandWeChat/mmqrcode1690562985319.png"><img src="../assets/img/wechat.png"
+          alt=""></a>
+      <a href="https://github.com/DongMuqing"><img src="../assets/img/github.png" alt=""></a>
+      <a href="https://space.bilibili.com/82114367"><img src="../assets/img/bilibili.png" alt=""></a>
+    </div>
+
+    <!-- <div class="about">
+      <h2>About Me</h2>
+    </div> -->
   </div>
 </template>
 
@@ -141,10 +160,13 @@ export default {
 
 <style lang="less" scoped>
 .left {
-  width: 295px;
+  width: 20vw;
   height: 100vh;
   background-color: var(--bgc--left);
-
+  @media screen and (max-width: 600px) {
+    width: 300vw;
+  }
+  
   .logo {
 
     height: 78px;
@@ -167,7 +189,7 @@ export default {
     line-height: 24px;
     margin: 20px 0px;
     padding: 0px 40px 20px;
-   
+
 
     .el-menu {
 
@@ -205,10 +227,20 @@ export default {
   }
 
   .theme {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  
+    margin-left: 30px;
+
+    h2 {
+      color:
+        #9098a7;
+      font-size:
+        14px;
+      font-weight:
+        600;
+      line-height:
+        21px;
+      margin:
+        0px 0px 15px;
+    }
 
     button {
       width: 65px;
@@ -218,21 +250,82 @@ export default {
     }
   }
 
-  .info {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(2, 1fr);
-    gap: 10px;
-    /* 可选：设置元素之间的间距 */
-    justify-content: center;
-    /* 在主轴上居中 */
-    align-content: center;
-    /* 在交叉轴上居中 */
-    a{
-      img{
-        padding: 5px 20px 5px 20px;
+  .site {
+    margin: 50px 0px 130px 30px;
+
+
+    h2 {
+      color: #9098a7;
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 21px;
+      margin: 0px 0px 15px;
+    }
+
+    li {
+      float: left;
+      width: 100px;
+      height: 55px;
+      align-items: flex-start;
+      background-image: linear-gradient(90deg, #f6faf8, #816bff00);
+      border-radius: 5px;
+      box-shadow: #cadfd0 0px 8px 9px 0px;
+      color: #404040;
+      display: flex;
+      flex-direction: column;
+      font-family: eafont;
+      line-height: 24px;
+      margin: 0px 2px 10px;
+      padding: 8px 12px 5px;
+      text-align: left;
+
+      span {
+        color: #879f8e;
+        font-size: 14px;
+        line-height: 21px;
+        text-align: left;
+      }
+
+      small {
+        color: #5b8a72;
+        font-family: eafont;
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 21px;
+        text-align: left;
       }
     }
   }
-}</style>>
+
+  .connection {
+    margin-top: 100px;
+    margin-left: 30px;
+
+    h2 {
+      color: #9098a7;
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 21px;
+      margin: 0px 0px 15px;
+    }
+
+    a {
+      img {
+        padding: 5px 30px 12px 0px;
+      }
+    }
+  }
+
+  .about {
+    margin: 50px 0px 0px 30px ;
+    h2 {
+      color: #9098a7;
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 21px;
+      margin: 0px 0px 15px;
+    }
+  }
+}
+</style>>
 

@@ -86,16 +86,16 @@ export default {
       bus.$emit('share', !this.isCollapse)
       this.isCollapse = !this.isCollapse
     },
-    fetchMenus() {
-      menus.getMobileMenus()
-        .then(response => {
-          // 处理接口返回的数据
-          this.menuData = response.data.data;
-        })
-        .catch(error => {
-          // 处理错误
-        });
-    },
+    // fetchMenus() {
+    //   menus.getMobileMenus()
+    //     .then(response => {
+    //       // 处理接口返回的数据
+    //       this.menuData = response.data.data;
+    //     })
+    //     .catch(error => {
+    //       // 处理错误
+    //     });
+    // },
     // 点击切换的实现
     push(chan) {
       this.$router.push('/home' + chan)
@@ -121,7 +121,7 @@ export default {
   },
   mounted() {
     this.fetchBackdrops(),
-    this.fetchMenus(),
+    // this.fetchMenus(),
     this.checkDeviceSize()
   },
   components: {
@@ -132,7 +132,7 @@ export default {
 
 <style lang="less" scoped>
 .center {
-  width: 590px;
+  width: 40vw;
   height: 100vh;
   background-color: var(--bgc--center);
   overflow-y: auto;
