@@ -1,13 +1,123 @@
 <template>
-  <div>
-    Friendlink
+  <div class="main">
+    <div class="icon">
+      <h2>友人帐</h2>
+      <p @click="SubmitFriendlink">去提交友链</p>
+    </div>
+    
+    <div class="item" v-for="(friendlinks,index) in friendlink" :key="index">
+      <div class="link_img">
+        <a :href="friendlinks.url" target="_blank"><img :src="friendlinks.logo" alt=""></a>
+      </div>
+
+      <div class="name">
+
+        <a :href="friendlinks.url" target="_blank">
+          {{friendlinks.name}}
+        </a>
+        <p>{{friendlinks.intro}}</p>
+      </div>
+    </div>
+
+   
   </div>
 </template>
 
 <script>
+import friendlink from '@/api/friendlink'
 export default {
-
+  data() {
+    return {
+      friendlink:[]
+    }
+  },
+  methods:{
+    fetchFriendLinks() {
+      friendlink.getFriendlinks()
+        .then(response => {
+          // 处理接口返回的数据
+      const data = response.data.data;
+      this.friendlink = data;
+        })
+        .catch(error => {
+          // 处理错误
+        });
+    },
+    SubmitFriendlink(){
+      this.$router.push('/subfriend')
+    }
+  },
+  mounted(){
+    this.fetchFriendLinks()
+  }
 }
 </script>
 
-<style></style>
+<style lang="less" scoped>
+.main {
+ 
+  color: #404040;
+  line-height: 24px;
+  margin: 50px 0px 15px;
+  padding: 0px 40px;
+  height: 100vh;
+  .icon {
+    display: flex;
+    margin-bottom: 8px;
+    align-items: center;
+    flex-direction: row;
+    color: #284d2e;
+    font-size: 14px;
+    p{
+      margin-left: 370px;
+      font-size: 16px;
+    }
+  }
+
+  .item {
+    float: left;
+    width: 43%;
+    height: 60px;
+    background-color: var(--bgc--left);
+    border-radius: 5px;
+    box-shadow: var(--bgc) 0px 1.30732px 2.1244px 0px;
+    color: #404040;
+    display: flex;
+    line-height: 24px;
+    padding: 5px 8px;
+    margin: 0px 10px 10px;
+
+    .link_img {
+
+      img {
+        width: 60px;
+        height: 60px;
+      }
+    }
+
+    .name {
+      margin-left: 10px;
+
+      width: 160px;
+      height: 29px;
+
+      a {
+        text-decoration: none;
+        color: #404040;
+        font-size: 16px;
+        height: 20px;
+        text-align: center;
+      }
+
+      a:hover {
+        color: #069d53;
+      }
+
+      p {
+        font-size: 12px;
+        margin-top: 10px;
+      }
+    }
+
+  }
+}</style>

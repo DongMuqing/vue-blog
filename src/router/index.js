@@ -11,6 +11,7 @@ import Friendlink from '@/views/ForegroundPage/Friendlink.vue'
 import leavemessage from '@/views/ForegroundPage/Leavemessage.vue'
 import login from '@/views/BackgroundPage/Login.vue'
 import weather from '@/views/ForegroundPage/weathe.vue'
+import friendlinks from '@/views/ForegroundPage/SubmitFriendlink.vue'
 // Vue.prototype.$axios = axios
 //解决router重复push一样的hash地址
 const originalPush = VueRouter.prototype.push
@@ -32,6 +33,7 @@ const router = new VueRouter({
     //重定向
     { path: '', redirect: '/home' },
     {path: '/login',component: login},
+    {path: '/subfriend',component: friendlinks},
     {
       path: '/home', component: home,
       children: [

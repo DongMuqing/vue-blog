@@ -19,15 +19,15 @@
         </div>
       </div> -->
 
-      <el-carousel indicator-position="outside">
+      <!-- <el-carousel indicator-position="outside">
         <el-carousel-item v-for="(backdrop, index) in backdrops" :key="backdrop.id"
           v-show="index === selectedBackdropIndex">
           <li><img :src="backdrop.url" alt=""></li>
         </el-carousel-item>
-      </el-carousel>
-      
+      </el-carousel> -->
+      <lunbo></lunbo>
     </div>
-    <router-view>
+    <router-view class="information">
 
     </router-view>
 
@@ -52,6 +52,7 @@ import bus from "./EventBus"
 import Dynamic from '@/views/ForegroundPage/Dynamic.vue'
 import backdrops from '@/api/backdrop';
 import menus from "@/api/menu";
+import lunbo from "@/views/ForegroundPage/lunbo.vue"
 export default {
   data() {
     return {
@@ -126,6 +127,7 @@ export default {
   },
   components: {
     Dynamic,
+    lunbo
   },
 }
 </script>
@@ -136,9 +138,7 @@ export default {
   height: 100vh;
   background-color: var(--bgc--center);
   overflow-y: auto;
-  @media screen and (max-width: 800px) {
-    width: 80vw;
-  }
+ 
 
   @media screen and (max-width: 600px) {
     width: 100vw;
@@ -172,7 +172,7 @@ export default {
   .individual {
     position: relative;
     top: 0;
-    height: 300px;
+    height: 200px;
 
     .nav {
       position: absolute;
@@ -206,9 +206,7 @@ export default {
       }
     }
 
-    .el-carousel {
-      overflow-x: visible;
-    }
+   
 
     li {
       list-style: none;
@@ -220,31 +218,31 @@ export default {
         /* 图片适应容器的尺寸，并保持比例 */
       }
     }
-
-
   }
-}
+  .information{
+    
+  }
+  .record-author-info {
 
-.record-author-info {
-
-  height: 200px;
-
-  div {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 60px;
-
-    a {
-      text-decoration: none;
-      display: inline-block;
-      height: 50px;
-      text-align: center;
-      line-height: 50px;
-      color: black;
+    height: 200px;
+  
+    div {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 60px;
+  
+      a {
+        text-decoration: none;
+        display: inline-block;
+        height: 50px;
+        text-align: center;
+        line-height: 50px;
+        color: black;
+      }
     }
+  
   }
-
 }
 
 /*overflow-y: auto;

@@ -83,19 +83,22 @@ export default {
 .main {
   margin-top: 10px;
   padding: 40px 0;
-  border-bottom: 1px solid #ebf2ed;
   background-color: var(--bgc--center);
 
   .article {
     margin-bottom: 40px;
-
+    padding-bottom: 40px;
+    border-bottom: 2px solid #ebf2ed;
     .list_user_meta {
       display: flex;
       flex-direction: row;
       flex-wrap: nowrap;
       justify-content: flex-start;
       position: relative;
-
+      margin-left:80px ;
+      @media screen and (max-width: 600px){
+        margin-left:30px ;
+      }
       .headpic {
         img {
           width: 80px;
