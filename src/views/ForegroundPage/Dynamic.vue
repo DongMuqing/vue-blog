@@ -118,15 +118,13 @@ export default {
     }
 
     .blog_content {
-      @media screen and (max-width: 600px) {
-        margin: 0 30px;
-      }
-
       margin-left: 80px;
       margin-right: 80px;
       //文本进行换行
       white-space: pre-line;
-
+      @media screen and (max-width: 600px) {
+        margin: 0 30px;
+      }
       span {
         color: var(--pColor);
       }

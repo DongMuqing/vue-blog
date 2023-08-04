@@ -1,12 +1,17 @@
-import axios from '@/utils/request' // axios 实例引入（第五节封装的）
-import qs from 'qs' 
+import axios from '@/utils/request'
 
-const menus = {
+const users = {
     // 1. 获取所有
-    getMenus: () => axios({
-      url: '/menu',
-      method: 'get'
+    login: (loginInfo) => axios({
+      url: '/user',
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json;charset=UTF-8' ,
+        // 添加Content-Type请求头
+      },
+      data: JSON.stringify(loginInfo) ,
+      
     }),
 }
 
-export default menus
+export default users

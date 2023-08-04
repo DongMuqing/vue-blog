@@ -2,7 +2,7 @@
   <div class="center">
 
     <div class="search">
-      <a><img src="../assets/img/更多.png" alt="" @click="sendMsg"></a>
+      <a><img src="../../assets/img/更多.png" alt="" @click="sendMsg"></a>
       <!-- <el-button style="margin-right: 20px" @click="sendMsg" icon="el-icon-menu" size="mini"></el-button> -->
       <input type="text" placeholder="文章 | Search">
     </div>
@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import bus from "./EventBus"
+import bus from "../EventBus"
 import Dynamic from '@/views/ForegroundPage/Dynamic.vue'
 import backdrops from '@/api/backdrop';
 import menus from "@/api/menu";
@@ -220,7 +220,7 @@ export default {
     }
   }
   .information{
-    
+
   }
   .record-author-info {
 

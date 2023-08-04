@@ -19,9 +19,9 @@
 </template>
 
 <script>
-import Left from '@/components/Left.vue'
-import Center from '@/components/Center.vue'
-import Right from '@/components/Right.vue'
+import Left from '@/components/before/Left.vue'
+import Center from '@/components/before/Center.vue'
+import Right from '@/components/before/Right.vue'
 
 export default {
   components: {

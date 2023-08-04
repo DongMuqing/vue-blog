@@ -49,12 +49,12 @@
 
     <div class="connection">
       <h2>联系我</h2>
-      <a href="https://oss.qingmumu.xyz/Blog/QQandWeChat/qrcode_1690562973980.jpg"><img src="../assets/img/qq.png"
+      <a href="https://oss.qingmumu.xyz/Blog/QQandWeChat/qrcode_1690562973980.jpg"><img src="../../assets/img/qq.png"
           alt=""></a>
-      <a href="https://oss.qingmumu.xyz/Blog/QQandWeChat/mmqrcode1690562985319.png"><img src="../assets/img/wechat.png"
+      <a href="https://oss.qingmumu.xyz/Blog/QQandWeChat/mmqrcode1690562985319.png"><img src="../../assets/img/wechat.png"
           alt=""></a>
-      <a href="https://github.com/DongMuqing"><img src="../assets/img/github.png" alt=""></a>
-      <a href="https://space.bilibili.com/82114367"><img src="../assets/img/bilibili.png" alt=""></a>
+      <a href="https://github.com/DongMuqing"><img src="../../assets/img/github.png" alt=""></a>
+      <a href="https://space.bilibili.com/82114367"><img src="../../assets/img/bilibili.png" alt=""></a>
     </div>
 
     <!-- <div class="about">
@@ -64,7 +64,7 @@
 </template>
 
 <script>
-import bus from "./EventBus"
+import bus from "../EventBus"
 import menus from "@/api/menu";
 export default {
   data() {
