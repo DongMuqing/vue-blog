@@ -1,11 +1,15 @@
 <template>
   <div class="main">
     <div class="icon">
-      <h2>友人帐</h2>
-      <p @click="SubmitFriendlink">去提交友链</p>
+      <div class="left">
+        <h2>友人帐</h2>
+      </div>
+      <div class="right">
+        <p @click="SubmitFriendlink">->提交友链</p>
+      </div>
     </div>
-    
-    <div class="item" v-for="(friendlinks,index) in friendlink" :key="index">
+
+    <div class="item" v-for="(friendlinks, index) in friendlink" :key="index">
       <div class="link_img">
         <a :href="friendlinks.url" target="_blank"><img :src="friendlinks.logo" alt=""></a>
       </div>
@@ -13,13 +17,13 @@
       <div class="name">
 
         <a :href="friendlinks.url" target="_blank">
-          {{friendlinks.name}}
+          {{ friendlinks.name }}
         </a>
-        <p>{{friendlinks.intro}}</p>
+        <p>{{ friendlinks.intro }}</p>
       </div>
     </div>
 
-   
+
   </div>
 </template>
 
@@ -28,26 +32,26 @@ import friendlink from '@/api/friendlink'
 export default {
   data() {
     return {
-      friendlink:[]
+      friendlink: []
     }
   },
-  methods:{
+  methods: {
     fetchFriendLinks() {
       friendlink.getFriendlinks()
         .then(response => {
           // 处理接口返回的数据
-      const data = response.data.data;
-      this.friendlink = data;
+          const data = response.data.data;
+          this.friendlink = data;
         })
         .catch(error => {
           // 处理错误
         });
     },
-    SubmitFriendlink(){
+    SubmitFriendlink() {
       this.$router.push('/subfriend')
     }
   },
-  mounted(){
+  mounted() {
     this.fetchFriendLinks()
   }
 }
@@ -55,22 +59,26 @@ export default {
 
 <style lang="less" scoped>
 .main {
- 
+
   color: #404040;
   line-height: 24px;
   margin: 50px 0px 15px;
   padding: 0px 40px;
-  height: 100vh;
+  flex-grow: 1;
+  /* 让box1在剩余空间内自动增长 */
+  min-height: 0;
+  /* 解决box1高度不能自动增长的问题 */
+  overflow: hidden;
+
   .icon {
+
     display: flex;
-    margin-bottom: 8px;
+    justify-content: space-between;
     align-items: center;
-    flex-direction: row;
-    color: #284d2e;
-    font-size: 14px;
-    p{
-      margin-left: 370px;
-      font-size: 16px;
+    padding: 20px;
+    height: 30px;
+    .left {
+      flex: 1;
     }
   }
 
@@ -86,6 +94,10 @@ export default {
     line-height: 24px;
     padding: 5px 8px;
     margin: 0px 10px 10px;
+
+    @media screen and (max-width: 600px) {
+      width: 70vw;
+    }
 
     .link_img {
 
