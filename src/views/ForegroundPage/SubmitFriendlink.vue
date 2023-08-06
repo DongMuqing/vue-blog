@@ -1,12 +1,13 @@
 <template>
   <div>
-    <!-- <el-upload class="upload-demo" ref="upload" action :on-preview="handlePreview" :on-remove="handleRemove"
-      :file-list="fileList" :auto-upload="false">
-      <el-button slot="trigger" size="small" type="primary">选取网站头像</el-button>
-      <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
-      <div slot="tip" class="el-upload__tip">注意！只能上传一个头像</div>
-    </el-upload> -->
-    <input type="file" name="logo"  @change="handleFileChange">
+    <div class="subimg">
+      <p>请选择网站logo</p>
+      <!-- accept限制上传的文件类型 -->
+      <input type="file" name="logo" @change="handleFileChange" accept="image/*">
+    </div>
+    <div v-if="previewImage" class="showimg">
+      <img :src="previewImage" alt="Preview" style="max-width: 200px; max-height: 200px;">
+    </div>
     <el-form ref="form" :model="formData" label-width="100px" @submit.native.prevent>
       <el-form-item label="网站地址" prop="url">
         <el-input v-model="formData.url" placeholder="请输入网站地址"></el-input>
@@ -26,6 +27,7 @@
 
 <script>
 import submitFriendlink from '@/api/friendlink/index'
+import { compressImg } from '@/utils/compress'
 export default {
   data() {
     return {
@@ -36,7 +38,9 @@ export default {
 
       },
       imageUrl: '',
-      fileList: []
+      fileList: [],
+      //预览图片
+      previewImage: null,
     }
   },
   methods: {
@@ -45,24 +49,24 @@ export default {
       formData.append('url', this.formData.url)
       formData.append('name', this.formData.name)
       formData.append('intro', this.formData.intro)
-      formData.append('logo', this.fileList);
+      formData.append('logo', this.fileList)
       submitFriendlink.submitFriendlinks(formData)
         .then(res => {
-        if(res.data.code==20011){
-        
-          this.$message({
-            message: res.data.msg,
-            type: 'success'
-          });
-          this.$refs.form.resetFields();
-          this.fileList=[]
-        }
-          
+          if (res.data.code == 20011) {
+            this.$message({
+              message: res.data.msg,
+              type: 'success'
+            });
+            this.$refs.form.resetFields();
+            this.fileList = []
+            this.previewImage = null
+          }
         })
         .catch(error => {
-          // 处理错误
+          this.fileList = []
+          this.previewImage = null
+          this.$message.error(res.data.msg)
         });
-    
     },
     submitUpload() {
       this.$refs.upload.submit();
@@ -73,12 +77,20 @@ export default {
     handlePreview(file) {
       console.log(file);
     },
-    handleFileChange(event) {
-      // 当用户选择文件时，这个方法会被调用
-      // 你可以在这里处理文件选择的逻辑
-      const selectedFile = event.target.files[0];
-      this.fileList=selectedFile
+    async handleFileChange(event) {
+      const files = event.target.files;
+      this.previewImage = URL.createObjectURL(files[0]);
+      const compressedFiles = await Promise.all(
+        Array.from(files).map((file) => this.compressImage(file, 0.85))
+      );
+      this.fileList = compressedFiles[0].file
     },
+
+    async compressImage(file, quality) {
+      // 在Vue组件中使用
+      return compressImg(file, quality);
+    },
+
   },
   mounted() {
   }
@@ -86,8 +98,16 @@ export default {
 </script>
 
 <style lang="less" scoped>
-input{
-  margin: 50px;
+.subimg {
+  margin: 50px 0px 10px 30px;
+
+  p {
+    font-size: 20px;
+  }
+}
+
+.showimg {
+  margin-left: 30px;
 }
 
 .avatar-uploader .el-upload {
