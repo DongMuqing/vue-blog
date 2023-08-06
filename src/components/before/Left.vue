@@ -160,7 +160,7 @@ export default {
 
 <style lang="less" scoped>
 .left {
-  width: 20vw;
+  width: 295px;
   height: 100vh;
   background-color: var(--bgc--left);
   @media screen and (max-width: 600px) {

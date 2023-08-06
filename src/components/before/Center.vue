@@ -134,7 +134,7 @@ export default {
 
 <style lang="less" scoped>
 .center {
-  width: 40vw;
+  width: 595px;
   height: 100vh;
   background-color: var(--bgc--center);
   overflow-y: auto;

@@ -27,7 +27,7 @@ export default {
 
 <style lang="less" scoped>
 .info {
-  width: 20vw;
+  width: 295px;
   height: 100vh;
   background-color: var(--bgc--right);
   @media screen and (max-width: 1440px) {
