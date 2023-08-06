@@ -7,10 +7,13 @@ const menus = {
       url: '/menu',
       method: 'get'
     }),
-    // getMobileMenus: () => axios({
-    //   url: '/menu/mobile',
-    //   method: 'post'
-    // }),
+    getMenu: () => axios({
+      url: '/menu/after',
+      method: 'get',
+      headers:{
+        'satoken':localStorage.getItem("satoken")
+      }
+    }),
 }
 
 export default menus

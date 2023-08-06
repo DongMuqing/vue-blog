@@ -15,10 +15,10 @@ import friendlinks from '@/views/ForegroundPage/SubmitFriendlink.vue'
 
 import homes from '@/views/BackgroundPage/Home.vue'
 import main from '@/views/BackgroundPage/Main.vue'
-import mall from '@/views/BackgroundPage/Mall.vue'
+import dynamics from '@/views/BackgroundPage/dynamic.vue'
 import user from '@/views/BackgroundPage/User.vue'
-import pageone from '../views/BackgroundPage/PageOne.vue'
-import pagetwo from '@/views/BackgroundPage/PageTwo.vue'
+import VisitorInfo from '../views/BackgroundPage/VisitorInfo.vue'
+import attracts from '@/views/BackgroundPage/Attract.vue'
 
 import tokens from '../api/token/index'
 // Vue.prototype.$axios = axios
@@ -46,10 +46,11 @@ const router = new VueRouter({
     children:[
       {path:'',component:homes},
       {path:'home',component:homes},
-      {path:'mall',component:mall},
+      {path:'dynamic',component:dynamics},
+      {path:'attract',component:attracts},
       {path:'user',component:user},
-      {path:'page1',component:pageone},
-      {path:'page2',component:pagetwo}
+      {path:'VisitorInfo',component:VisitorInfo},
+     
     ]
     },
     {
@@ -70,7 +71,7 @@ const router = new VueRouter({
 router.beforeEach(function (to, from, next) {
   //所有子页面都需要在这
   // const satoken = localStorage.getItem("satoken")
-  const pathArr = ['/main', '/main/home', '/main/mall', '/main/user', '/main/pageone', '/main/pagetwo']
+  const pathArr = ['/main', '/main/home', '/main/dynamic', '/main/user', '/main/attract', '/main/VisitorInfo']
   if (pathArr.indexOf(to.path) != -1) {
     tokens.getToken()
       .then(response => {

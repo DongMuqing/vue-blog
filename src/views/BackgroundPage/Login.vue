@@ -67,7 +67,6 @@ export default {
                 username: this.user.username,
                 password: this.user.password
             };
-            console.log(JSON.stringify(loginInfo));
             users.login(loginInfo)
                 .then(res => {
                     if (res.data.code == 20041) {
