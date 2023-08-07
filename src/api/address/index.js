@@ -9,6 +9,13 @@ const address = {
     getVisitorInfo:()=>axios({
       url:'/ip/visitorInfo',
       method:'post'
+    }),
+    VisitorInfo:()=>axios({
+      url:'/ip/getVisitorInfo',
+      method:'post',
+      headers:{
+        'satoken':localStorage.getItem("satoken") 
+      }
     })
 }
 

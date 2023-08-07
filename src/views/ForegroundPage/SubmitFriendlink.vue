@@ -10,7 +10,7 @@
     </div>
     <el-form ref="form" :model="formData" label-width="100px" @submit.native.prevent>
       <el-form-item label="网站地址" prop="url">
-        <el-input v-model="formData.url" placeholder="请输入网站地址"></el-input>
+        <el-input v-model="formData.url" placeholder="Eg.https://qingmumu.xyz"></el-input>
       </el-form-item>
       <el-form-item label="网站名字" prop="name">
         <el-input v-model="formData.name" placeholder="请输入网站名字"></el-input>
