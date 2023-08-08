@@ -60,13 +60,10 @@ export default {
     methods: {
         reset() {
             this.user.username = '',
-                this.user.password = ''
+            this.user.password = ''
         },
         login() {
-            const loginInfo = {
-                username: this.user.username,
-                password: this.user.password
-            };
+            const loginInfo = this.user
             users.login(loginInfo)
                 .then(res => {
                     if (res.data.code == 20041) {

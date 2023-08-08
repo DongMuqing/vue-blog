@@ -1,8 +1,8 @@
 <template>
-  <div>
+  <div class="main">
     <el-table :data="VisitorInfo" style="width: 100%">
-      <el-table-column prop="id" label="id" >
-      </el-table-column>
+      <!-- <el-table-column prop="id" label="id" >
+      </el-table-column> -->
 
       <el-table-column prop="accessTime" label="时间" >
       </el-table-column>
@@ -52,4 +52,9 @@ export default {
 }
 </script>
 
-<style></style>
+<style lang="less" scoped>
+.main{
+  height: 80vh;
+  overflow-y: auto;
+}
+</style>

@@ -19,8 +19,8 @@
         </div>
 
         <div class="demo-image__preview" > 
-          <template v-for="src in dynamic.imgSrclist" class="test">
-          <el-image  :src="src" :preview-src-list="dynamic.imgSrclist">
+          <template v-for="(src,index) in dynamic.imgSrclist" class="test" >
+          <el-image  :src="src" :preview-src-list="dynamic.imgSrclist" :key="index">
           </el-image>
         </template>
         </div>
@@ -65,7 +65,7 @@ export default {
       this.dynamic = data;
 
         })
-        .catch(error => {
+        .catch(() => {
           // 处理错误
         });
     }

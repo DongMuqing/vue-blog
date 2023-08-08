@@ -2,6 +2,7 @@
   <div>
     <!-- 路由占位 -->
     <router-view></router-view>
+    
   </div>
 </template>
 
