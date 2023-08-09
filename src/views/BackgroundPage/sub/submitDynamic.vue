@@ -1,5 +1,10 @@
 <template>
     <div class="submitDynamic" >
+        <div slot="top-right" class="close">
+            <button @click="$emit('close')">
+              ❌
+            </button>
+          </div>
         <el-form ref="form" :model="dynamics" label-width="80px">
   
           <el-form-item label="活动时间">
@@ -28,6 +33,7 @@
             <el-input type="textarea" v-model="dynamics.imgSrclist"></el-input>
           </el-form-item>
         </el-form>
+        <div class="publish"> <el-button @click="showSub()">提交</el-button></div>
       </div>
 </template>
 
@@ -53,11 +59,13 @@ data(){
 .submitDynamic{
     width: 500px;
     height: 300px;
-    z-index: 999;
-    background-color: pink;
     position: absolute;
     left: 50%;
-    top: 50%;
+    top: 33%;
     transform: translate(-50%,-50%);
+    .close{
+        margin-left: 32vw;
+        margin-bottom: 30px;
+    }
   }
 </style>

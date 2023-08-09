@@ -87,10 +87,14 @@ export default {
           // 处理错误
         });
     },
+    //模态框的加载
     showSub() {
       this.$modal.show(submitDynamic, {
-        text: 'This text is passed as a property'
+        text: '发布'
       }, {
+        width: 750,
+        height: 500
+      },{
         draggable: true,
         clickToClose: false
       })
