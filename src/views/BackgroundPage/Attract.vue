@@ -13,6 +13,10 @@ export default {
   data() {
     return {
       contentEditor: '',
+      //文章实体
+      article:{
+        content:''
+      }
     }
   },
   methods: {
@@ -68,6 +72,7 @@ export default {
     },
     submitForm() {
       const value = this.contentEditor.getValue()
+      this.article.content=value
       if (value.length === 1 || value == null || value === '') {
         this.$message({
           message: '不可以为空！',
@@ -75,7 +80,7 @@ export default {
         });
       } else {
         //提交
-        articles.addArticles(value)
+        articles.addArticles(this.article)
           .then(response => {
             this.$message({
               message: response.data.msg,

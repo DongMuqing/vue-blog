@@ -1,41 +1,34 @@
 <template>
   <div class="main">
-    <div v-for="article in articles" :key="article.id" class="article">
-      <div class="p_item_inner">
-        <div class="list_user_meta">
-          <div class="head"><img src="../../assets/logo.png"></div>
-          <div class="name">
-            SUSU<time>{{ article.createTime }}</time>
-          </div>
+    <div v-for="(article, index) in articles" :key="index" class="article" >
+      <div class="Articleintroduction"  @click="handleWork(article)">
+        <div class="left">
+          <img :src="article.cover" alt="">
         </div>
-
-        <div class="blog_content">
-          <div class="entry-content">
-            <div class="p_title">标题</div>
-            <div class="t_content">
-              {{ article.content }}
-            </div>
-          </div>
-          <span class="ip_loca"><i class="ri-map-pin-2-line"></i></span>
+        <div class="right">
+          <h2>{{ article.title }}</h2>
+          <span>@qing-{{ article.createTime }}</span>
+          <p>{{truncatedArticle(index)}}</p>
         </div>
-
-
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import 'vditor/dist/index.css'
 import articles from '@/api/article';
 import weather from '@/views/ForegroundPage/weathe.vue';
 export default {
- components:{
-  weather
- },
+
+  components: {
+    weather
+  },
   data() {
     return {
       articles: [
       ],
+      maxLength: 60 // 最大显示长度
     }
 
   },
@@ -49,11 +42,32 @@ export default {
         .catch(error => {
           // 处理错误
         });
-    }
+    },
+    handleWork(row) {
+      this.$router.push({
+        name: 'article',
+        query: {
+          id: row.id,
+          content: row.content
+        }
+      })
+    },
   },
   mounted() {
     this.fetchArticles();
   },
+  computed: {
+    truncatedArticle() {
+      return (index) => {
+        const article = this.articles[index];
+        if (article.content.length > this.maxLength) {
+          return article.content.slice(0, this.maxLength) + "...";
+        } else {
+          return article.content;
+        }
+      };
+    }
+  }
 }
 </script>
 
@@ -61,10 +75,47 @@ export default {
 .main {
   padding: 40px 0;
   border-bottom: 1px solid #ebf2ed;
-  audio{
-    width: 200px;
-    height: 100px;
-    background-color: #fff;
+
+  .article {
+    padding: 40px 40px;
+    line-height: 24px;
+    border-bottom: 2px solid #ebf2ed;
+    .Articleintroduction {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+
+      .left {
+        img {
+          width: 140px;
+          height: 180px;
+          border-radius: 12px;
+          box-shadow: #d0dada 0px 3px 14px 1px;
+          color: #1e87f0;
+          line-height: 24px;
+        }
+      }
+
+      .right {
+        margin-left: 20px;
+        margin-right: 20px;
+        h2 {
+          color:#333333;
+          font-size:18px;
+          line-height:23.4px;
+          margin-bottom: 5px;
+        }
+        span {
+          color:#89a396;
+          font-size:13px;
+          line-height:19.5px;
+        }
+        p {
+          color: #606268;
+          line-height:24px;
+        }
+      }
+    }
   }
 }
 </style>

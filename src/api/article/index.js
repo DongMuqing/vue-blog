@@ -10,9 +10,10 @@ const articles = {
     url: '/article/add',
     method: 'post',
     headers: {
+      'Content-Type': 'application/json;charset=UTF-8' ,
       'satoken': localStorage.getItem("satoken")
     },
-    data: article
+    data: JSON.stringify(article)
   }),
 }
 
