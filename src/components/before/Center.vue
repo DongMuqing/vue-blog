@@ -9,23 +9,10 @@
 
 
     <div class="individual">
-      <!-- <div class="nav" v-if="navflag">
-        <div v-for="item in  menuData" :key="item.name" @click="push(item.path)">
-          <template>
-            <i :class="`el-icon-${item.icon}`"></i>
-            <p>{{ item.label }}</p>
-        
-          </template>
-        </div>
-      </div> -->
-
-      <!-- <el-carousel indicator-position="outside">
-        <el-carousel-item v-for="(backdrop, index) in backdrops" :key="backdrop.id"
-          v-show="index === selectedBackdropIndex">
-          <li><img :src="backdrop.url" alt=""></li>
-        </el-carousel-item>
-      </el-carousel> -->
-      <lunbo></lunbo>
+      
+        <img src="https://oss.qingmumu.xyz/Blog/Backdrop/e47d3e664df3b2a0e975e15d6b845e38104346114.jpg" alt="">
+     
+      <!-- <lunbo></lunbo> -->
     </div>
     <router-view class="information">
 
@@ -83,20 +70,9 @@ export default {
     },
     sendMsg() {
       //将值取反发送给asid
-      //将值取反发送给asid
       bus.$emit('share', !this.isCollapse)
       this.isCollapse = !this.isCollapse
     },
-    // fetchMenus() {
-    //   menus.getMobileMenus()
-    //     .then(response => {
-    //       // 处理接口返回的数据
-    //       this.menuData = response.data.data;
-    //     })
-    //     .catch(error => {
-    //       // 处理错误
-    //     });
-    // },
     // 点击切换的实现
     push(chan) {
       this.$router.push('/home' + chan)
@@ -173,7 +149,13 @@ export default {
     position: relative;
     top: 0;
     height: 200px;
-
+    img{
+      width: 100%;
+      height: 300px;
+      @media screen and (max-width: 600px) {
+        height: 250px;
+      }
+    }
     .nav {
       position: absolute;
       width: 100%;
@@ -220,7 +202,10 @@ export default {
     }
   }
   .information{
-
+    margin-top: 120px;
+    @media screen and (max-width: 600px) {
+      margin-top: 70px;
+    }
   }
   .record-author-info {
 

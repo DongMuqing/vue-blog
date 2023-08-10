@@ -3,7 +3,7 @@
     <div v-for="dynamic in dynamic" :key="dynamic.id" class="article">
 
       <div class="list_user_meta">
-        <div class="headpic"><img src="../../assets/logo.png"></div>
+        <div class="headpic"><img src="https://oss.qingmumu.xyz/Blog/friendlink/28d6da82fd2b40689561a0beb4e8daff.png"></div>
         <div class="name-time">
           <p> 冬木青</p>
           <p> {{ dynamic.createTime }}</p>
@@ -31,10 +31,14 @@
 
       <div class="entry-footer">
         <div class="left">
-          <img src="../../assets/img/点赞.png" alt="">
-          <img src="../../assets/img/分享.png" alt="">
+          <img src="../../assets/img/点赞.png" alt="" >
+          <!-- <img src="../../assets/img/分享.png" alt=""> -->
         </div>
-        <div class="right">评论</div>
+        <div class="right" @click="show">评论</div>
+        <!-- 显示评论 -->
+        <div v-if="showflag">
+
+        </div>
       </div>
     </div>
   </div>
@@ -47,7 +51,7 @@ export default {
     return {
       dynamic: [
       ],
-      url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
+      showflag:true
     }
   },
 

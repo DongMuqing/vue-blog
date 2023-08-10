@@ -12,6 +12,8 @@ import leavemessage from '@/views/ForegroundPage/Leavemessage.vue'
 import login from '@/views/BackgroundPage/Login.vue'
 import weather from '@/views/ForegroundPage/weathe.vue'
 import friendlinks from '@/views/ForegroundPage/SubmitFriendlink.vue'
+import articlecontent from '@/views/ForegroundPage/ArticleContent.vue'
+import notfound from '@/views/ForegroundPage/404.vue'
 
 import homes from '@/views/BackgroundPage/Home.vue'
 import main from '@/views/BackgroundPage/Main.vue'
@@ -42,16 +44,16 @@ const router = new VueRouter({
     //重定向
     { path: '', redirect: '/home' },
     { path: '/login', component: login },
-    {path:'/main',component:main,
-    children:[
-      {path:'',component:homes},
-      {path:'home',component:homes},
-      {path:'dynamic',component:dynamics},
-      {path:'attract',component:attracts},
-      {path:'user',component:user},
-      {path:'VisitorInfo',component:VisitorInfo},
-     
-    ]
+    {
+      path: '/main', component: main,
+      children: [
+        { path: '', component: homes },
+        { path: 'home', component: homes },
+        { path: 'dynamic', component: dynamics },
+        { path: 'attract', component: attracts },
+        { path: 'user', component: user },
+        { path: 'visitorInfo', component: VisitorInfo },
+      ]
     },
     {
       path: '/home', component: home,
@@ -59,12 +61,19 @@ const router = new VueRouter({
         { path: '', component: dynamic },
         { path: 'dynamic', component: dynamic },
         { path: 'article', component: article },
+        //文章详情页
+        // vue-router.esm.js:16 [vue-router] missing param for named route "article": Expected "id" to be defined
+        //动态路由需要在末尾加？
+        { path: 'article/:id?', name: 'article', component: articlecontent, props: true },
         { path: 'friendlink', component: Friendlink },
         { path: 'leavemessage', component: leavemessage },
         { path: 'weather', component: weather },
         { path: '/subfriend', component: friendlinks },
+       
       ]
     },
+    //做404跳转
+    {path:'*',component:notfound}
   ]
 })
 // 全局前置守卫
