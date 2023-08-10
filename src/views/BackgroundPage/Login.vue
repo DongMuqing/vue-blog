@@ -147,7 +147,7 @@ export default {
     position: relative;
     top: 0px;
     left: 0px;
-    background-image: url('@/assets/background/1.jpg');
+    background-image: url('https://oss.qingmumu.xyz/Picture/1.jpg');
     width: 100%; //大小设置为100%
     height: 100%; //大小设置为100%
     position: fixed;
