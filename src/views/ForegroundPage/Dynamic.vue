@@ -41,7 +41,7 @@
 
       <div v-show="dynamic.showflag" class="comment">
         <div class="sub">
-          <el-input  :autosize="{ minRows: 4, maxRows: 8}" type="textarea" placeholder="请输入评论" v-model="dynamic.textarea">
+          <el-input :autosize="{ minRows: 4, maxRows: 8 }" type="textarea" placeholder="请输入评论" v-model="dynamic.textarea">
           </el-input>
           <el-button @click="submitComments(dynamic.id, dynamic.textarea)">发送</el-button>
         </div>
@@ -58,6 +58,7 @@
 import dynamics from '@/api/dynamic';
 import { getNowTime } from '@/utils/getNowTime'
 import comment from '@/api/comment/index'
+import { formatTime } from '@/utils/formatTime';
 export default {
   data() {
     return {
@@ -81,6 +82,11 @@ export default {
           dynamicKeys.forEach(key => {
             const dynamic = data[key];
             dynamic.imgSrclist = dynamic.imgSrclist.split(",").map(item => item.trim().replace(/'/g, ''));
+            //格式化时间 区别昨天今天 今年和往年
+            dynamic.createTime = formatTime(dynamic.createTime)
+            for (const comment of dynamic.comments) {
+              comment.createTime = formatTime(comment.createTime)
+            }
             // 添加 showflag 和 textarea 到每个动态对象
             //对应每个评论框的显示与隐藏 以及对应每个动态的评论提交
             //默认隐藏
@@ -106,6 +112,17 @@ export default {
             message: res.data.msg,
             type: 'success'
           });
+          //新增评论
+          // 找到匹配的动态对象，并将评论添加到对应的评论数组中
+          for (const dynamic of this.dynamics) {
+            if (dynamic.id === res.data.data[1].postId) {
+              for (const time of res.data.data) {
+                time.createTime = formatTime(time.createTime)
+            }
+              dynamic.comments=res.data.data
+              break; // 找到匹配的动态后，中断循环
+            }
+          }
           //当前评论框置空
           dynamic.textarea = '';
           //提交信息置空
@@ -116,6 +133,7 @@ export default {
             content: '',
             createTime: ''
           };
+
         })
         .catch(() => {
 

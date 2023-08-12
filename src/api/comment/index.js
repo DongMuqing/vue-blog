@@ -7,6 +7,7 @@ const comments = {
       method: 'post',
       headers:{
         'Content-Type': 'application/json;charset=UTF-8' ,
+        'satoken':localStorage.getItem("satoken")
       },
       data:JSON.stringify(commentInfo)
     })
