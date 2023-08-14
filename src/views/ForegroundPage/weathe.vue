@@ -38,47 +38,23 @@ export default {
         }
     },
     methods: {
-        async fetchWeather(city) {
-            try {
-                // 先异步执行fetchAddress方法
-                await this.fetchAddress();
-                const requestData = {
-                    city: this.city // 不要使用JSON.stringify(city)
-                };
-                weather.getWeather(requestData)
-                    .then(response => {
-                        // 处理接口返回的数据
-                        const data = response.data.data.forecasts[0].casts;
-                        this.weather = data;
-                        const reporttime = response.data.data.forecasts[0].reporttime;
-                        this.reporttime = reporttime;
-                    })
-                    .catch(error => {
-                        // 处理错误
-                    });
-            } catch (error) {
-                // 处理错误
-            }
-        },
-        fetchAddress() {
-            return new Promise((resolve, reject) => {
-                address.getAddress()
-                    .then(response => {
-                        // 处理接口返回的数据
-                        const data = response.data.data.city;
-                        this.city = data;
-                        resolve(); // 异步操作完成，调用resolve
-                    })
-                    .catch(error => {
-                        // 处理错误
-                        reject(error); // 异步操作失败，调用reject
-                    });
-            });
+        fetchWeather() {
+            weather.getWeather()
+                .then(response => {
+                    // 处理接口返回的数据
+                    const data = response.data.data.forecasts[0].casts;
+                    this.weather = data;
+                    const reporttime = response.data.data.forecasts[0].reporttime;
+                    this.reporttime = reporttime;
+                })
+                .catch(error => {
+                    // 处理错误
+                });
         },
         fetchVisitorInfo() {
             address.getVisitorInfo()
                 .then(response => {
-                 
+
                 })
                 .catch(error => {
                     // 处理错误
@@ -95,8 +71,8 @@ export default {
         //         // 处理错误
         //     });
         //方法2
-        this.fetchWeather(this.city),
-        this.fetchVisitorInfo()
+        this.fetchWeather(),
+            this.fetchVisitorInfo()
     }
 }
 </script>
@@ -108,7 +84,6 @@ export default {
     justify-content: center;
     align-items: center;
     box-sizing: border-box;
-    font-family: "Poppins", sans-serif;
 }
 
 .weather {
