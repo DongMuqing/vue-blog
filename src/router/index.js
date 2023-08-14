@@ -16,6 +16,7 @@ const weather =() => import( '@/views/ForegroundPage/weathe.vue')
 const friendlinks =() => import( '@/views/ForegroundPage/SubmitFriendlink.vue')
 const articlecontent =() => import( '@/views/ForegroundPage/ArticleContent.vue')
 const notfound =() => import( '@/views/ForegroundPage/404.vue')
+const loading =()=> import('@/views/ForegroundPage/Loading.vue')
 
 const homes =() => import( '@/views/BackgroundPage/Home.vue')
 const main =() => import( '@/views/BackgroundPage/Main.vue')
@@ -46,6 +47,7 @@ const router = new VueRouter({
     //重定向
     { path: '', redirect: '/home' },
     { path: '/login', component: login },
+    { path: '/loading', component: loading },
     {
       path: '/main', component: main,
       children: [
