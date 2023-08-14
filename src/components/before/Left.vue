@@ -30,9 +30,9 @@
 
     <div class="theme">
       <h2>主题切换</h2>
-      <button @click="changetheme('dark')">暗夜</button>
-      <button @click="changetheme('light')">亮白</button>
-      <button @click="changetheme('Freshgreen')">清新绿</button>
+      <el-button @click="changetheme('dark')">暗夜</el-button>
+      <el-button @click="changetheme('light')">亮白</el-button>
+      <el-button @click="changetheme('Freshgreen')">清新绿</el-button>
     </div>
 
     <div class="site">
@@ -173,7 +173,6 @@ export default {
     padding-left: 70px;
 
     img {
-
       width: 70px;
       height: 70px;
       border-radius: 2px;
@@ -189,8 +188,6 @@ export default {
     line-height: 24px;
     margin: 20px 0px;
     padding: 0px 40px 20px;
-
-
     .el-menu {
 
       border: none;
@@ -199,7 +196,6 @@ export default {
         span {
           color: var(--textColor);
           margin-left: 10px;
-          font-family: 微软雅黑;
         }
       }
 
@@ -216,7 +212,6 @@ export default {
         border-radius: 12px;
         box-shadow: #000000 0px 0px 0px 0px;
         display: flex;
-        font-family: eafont;
         justify-content: flex-start;
         line-height: 24px;
         margin: 0px 0px 5px;
@@ -242,11 +237,13 @@ export default {
         0px 0px 15px;
     }
 
-    button {
-      width: 65px;
-      height: 30px;
+    .el-button {
+      display: inline-block; /* 将按钮变为块级元素以设置宽度 */
+      text-align: center;   /* 文本居中 */
       margin: 10px 15px;
-
+      font-family: '钢笔楷书';
+      background-color:var(--bgc);
+      color: var(--span);
     }
   }
 
@@ -273,21 +270,19 @@ export default {
       color: #404040;
       display: flex;
       flex-direction: column;
-      font-family: eafont;
       line-height: 24px;
       margin: 0px 2px 10px;
       padding: 8px 12px 5px;
       text-align: left;
 
       span {
-        color: #879f8e;
-        font-size: 14px;
+        color:var(--site) ;
         line-height: 21px;
         text-align: left;
       }
 
       small {
-        color: #5b8a72;
+        color:var(--small) ;
         font-family: eafont;
         font-size: 14px;
         font-weight: 600;

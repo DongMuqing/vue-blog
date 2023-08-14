@@ -21,7 +21,7 @@
 
         <div class="demo-image__preview">
           <template v-for="(src, index) in dynamic.imgSrclist" class="test">
-            <el-image :src="src" :preview-src-list="dynamic.imgSrclist" :key="index" lazy >
+            <el-image :src="src" :preview-src-list="dynamic.imgSrclist" :key="index" lazy>
             </el-image>
           </template>
         </div>
@@ -31,26 +31,36 @@
 
 
       <div class="entry-footer">
-        <div class="left">
-          <img src="../../assets/img/点赞.png" alt="">
-          <!-- <img src="../../assets/img/分享.png" alt=""> -->
+        <div class="left" @click="giveLike(dynamic.id)">
+          <img :src='dynamic.giveLikeFlag ? like : Unliked'  >{{ dynamic.upvoteNum }}
         </div>
-        <div class="right" @click="show(dynamic.id)">评论</div>
+        <div class="right" @click="show(dynamic.id)">评论{{ dynamic.comments.length }}</div>
         <!-- 显示评论 -->
       </div>
 
       <Transition name="bounce">
-      <div v-if="dynamic.showflag" class="comment">
-        <div class="sub">
-          <el-input :autosize="{ minRows: 4, maxRows: 8 }" type="textarea" placeholder="请输入评论" v-model="dynamic.textarea">
-          </el-input>
-          <el-button @click="submitComments(dynamic.id, dynamic.textarea)">发送</el-button>
+        <div v-if="dynamic.showflag" class="comment">
+          <div>comments | {{ dynamic.comments.length }}条</div>
+
+          <div class="sub">
+            <el-input :autosize="{ minRows: 4, maxRows: 8 }" type="textarea" placeholder="请输入评论"
+              v-model.trim="dynamic.textarea">
+            </el-input>
+            <el-button @click="submitComments(dynamic.id, dynamic.textarea)">发送</el-button>
+          </div>
+
+          <div v-for="comment in dynamic.comments " :key="comment.commentId" class="comments">
+            <div class="info">
+              <el-image :src="comment.avatar" lazy></el-image>
+
+            </div>
+            <div class="concrete">
+              <p>{{ comment.username }} {{ comment.createTime }} {{ comment.address }}</p>
+              <p>{{ comment.content }}</p>
+            </div>
+
+          </div>
         </div>
-        <div v-for="comment in dynamic.comments " :key="comment.commentId">
-          <p>{{ comment.username }}---{{ comment.createTime }}---{{ comment.address }}</p>
-          <p>{{ comment.content }}</p>
-        </div>
-      </div>
       </Transition>
     </div>
   </div>
@@ -61,6 +71,7 @@ import dynamics from '@/api/dynamic';
 import { getNowTime } from '@/utils/getNowTime'
 import comment from '@/api/comment/index'
 import { formatTime } from '@/utils/formatTime';
+import backdrops from '@/api/backdrop';
 export default {
   data() {
     return {
@@ -71,10 +82,26 @@ export default {
         postId: '',
         content: '',
         createTime: ''
-      }
+      },
+      backdrops: [
+      ],
+      avatar: '',
+      like:require('@/assets/img/like.png'),
+      Unliked:require('@/assets/img/Unlike.png'),
+      giveLikeFlag:false
     }
   },
   methods: {
+    fetchBackdrops() {
+      backdrops.getBackdrops()
+        .then(response => {
+          // 处理接口返回的数据
+          this.backdrops = response.data.data;
+        })
+        .catch(error => {
+          // 处理错误
+        });
+    },
     fetchDynamcis() {
       dynamics.getDynamics()
         .then(response => {
@@ -93,6 +120,7 @@ export default {
             //对应每个评论框的显示与隐藏 以及对应每个动态的评论提交
             //默认隐藏
             dynamic.showflag = false;
+            dynamic.giveLikeFlag=false
             //默认为空
             dynamic.textarea = '';
             this.dynamics.push(dynamic);
@@ -103,43 +131,51 @@ export default {
         });
     },
     submitComments(id, content) {
-      const dynamic = this.dynamics.find(d => d.id === id);
-      //提交数据
-      this.submitComment.postId = id,
-        this.submitComment.content = content,
-        this.submitComment.createTime = getNowTime()
-      comment.submitComments(this.submitComment)
-        .then(res => {
-          this.$message({
-            message: res.data.msg,
-            type: 'success'
-          });
-          //新增评论
-          // 找到匹配的动态对象，并将评论添加到对应的评论数组中
-          for (const dynamic of this.dynamics) {
-            if (dynamic.id === res.data.data[1].postId) {
-              for (const time of res.data.data) {
-                time.createTime = formatTime(time.createTime)
+      if (content.length > 0) {
+        const dynamic = this.dynamics.find(d => d.id === id);
+        //提交数据
+        this.submitComment.postId = id,
+          this.submitComment.content = content,
+          this.submitComment.createTime = getNowTime()
+        comment.submitComments(this.submitComment)
+          .then(res => {
+            this.$message({
+              message: res.data.msg,
+              type: 'success'
+            });
+            //新增评论
+            // 找到匹配的动态对象，并将评论添加到对应的评论数组中
+            for (const dynamic of this.dynamics) {
+              if (dynamic.id === id) {
+                for (const time of res.data.data) {
+                  time.createTime = formatTime(time.createTime)
+                }
+                dynamic.comments = res.data.data
+                break; // 找到匹配的动态后，中断循环
               }
-              dynamic.comments = res.data.data
-              break; // 找到匹配的动态后，中断循环
             }
-          }
-          //当前评论框置空
-          dynamic.textarea = '';
-          //提交信息置空
-          // this.submitComment = ''
-          // 创建一个新的提交评论对象，以防止属性冲突 不能单纯直接置空属性
-          const newSubmitComment = {
-            postId: id,
-            content: '',
-            createTime: ''
-          };
+            //当前评论框置空
+            dynamic.textarea = '';
+            //提交信息置空
+            // this.submitComment = ''
+            // 创建一个新的提交评论对象，以防止属性冲突 不能单纯直接置空属性
+            const newSubmitComment = {
+              postId: id,
+              content: '',
+              createTime: ''
+            };
 
-        })
-        .catch(() => {
+          })
+          .catch(() => {
 
+          });
+      } else {
+        this.$message({
+          message: '不可以提交为空哦！',
+          type: 'warning'
         });
+      }
+
     },
     show(id) {
       this.dynamics.forEach(dynamic => {
@@ -153,10 +189,30 @@ export default {
       //获取当前评论的动态id和当前时间
       this.submitComment.postId = key
       this.submitComment.createTime = getNowTime()
+    },
+    selectAvatar(index) {
+      this.avatar = this.backdrops[index].url
+    },
+    giveLike(id) {
+      this.dynamics.forEach(dynamic => {
+        if (dynamic.id === id) {
+          //与评论的显示同理 都是当前动态被点赞
+          //true 已经点赞了
+           if(dynamic.giveLikeFlag){
+            dynamic.upvoteNum--
+            dynamic.giveLikeFlag=!dynamic.giveLikeFlag
+           }else{
+            //未点赞
+            dynamic.upvoteNum++
+            dynamic.giveLikeFlag=!dynamic.giveLikeFlag
+           }
+        }
+      });
     }
   },
   mounted() {
     this.fetchDynamcis();
+    this.fetchBackdrops()
   },
   components: {
 
@@ -265,7 +321,6 @@ export default {
       width: 200px;
 
       img {
-        margin: 10px 15px;
         padding-right: 10px;
       }
     }
@@ -285,6 +340,43 @@ export default {
     background-color: var(--entry--footer);
 
     .sub {
+      margin-top: 20px;
+      border-radius: 5px;
+
+
+      .userpics {
+        margin-bottom: 20px;
+
+        .select {
+          img {
+            padding-left: 5px;
+            width: 60px;
+            height: 60px;
+            float: right;
+          }
+
+          img:hover {
+            transform: scale(1.4);
+          }
+        }
+
+        .avatar-list {
+          display: flex;
+          flex-wrap: wrap;
+
+          img {
+            padding-left: 5px;
+            width: 60px;
+            height: 60px;
+          }
+
+          img:hover {
+            transform: scale(1.4);
+          }
+        }
+
+
+      }
 
       .el-input {
         width: 300px;
@@ -296,24 +388,58 @@ export default {
       }
     }
 
+    .comments {
+      padding-top: 10px;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+
+      .info {
+        width: 62px;
+
+        .el-image {
+          width: 62px;
+          height: 62px;
+        }
+      }
+
+      .concrete {
+        margin-right: 10px;
+
+        p {
+          margin: 10px;
+          font-size: 16px;
+          line-height: 18px;
+          text-align: left;
+          word-wrap: break-word;
+          word-break: break-all;
+        }
+      }
+    }
+
     p {
       text-align: left;
     }
   }
 }
+
 .bounce-enter-active {
   animation: bounce-in 0.5s;
 }
+
 .bounce-leave-active {
   animation: bounce-in 0.5s reverse;
 }
+
 @keyframes bounce-in {
   0% {
     transform: scale(0);
   }
+
   50% {
     transform: scale(1.25);
   }
+
   100% {
     transform: scale(1);
   }
