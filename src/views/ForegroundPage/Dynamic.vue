@@ -3,7 +3,7 @@
     <div v-for="dynamic in dynamics" :key="dynamic.id" class="dynamic">
 
       <div class="list_user_meta">
-        <div class="headpic"><img src="https://oss.qingmumu.xyz/Blog/friendlink/28d6da82fd2b40689561a0beb4e8daff.png">
+        <div class="headpic"><img :src="dynamic.avatar">
         </div>
         <div class="name-time">
           <p> 冬木青</p>
@@ -21,7 +21,7 @@
 
         <div class="demo-image__preview">
           <template v-for="(src, index) in dynamic.imgSrclist" class="test">
-            <el-image :src="src" :preview-src-list="dynamic.imgSrclist" :key="index">
+            <el-image :src="src" :preview-src-list="dynamic.imgSrclist" :key="index" lazy >
             </el-image>
           </template>
         </div>
@@ -39,7 +39,8 @@
         <!-- 显示评论 -->
       </div>
 
-      <div v-show="dynamic.showflag" class="comment">
+      <Transition name="bounce">
+      <div v-if="dynamic.showflag" class="comment">
         <div class="sub">
           <el-input :autosize="{ minRows: 4, maxRows: 8 }" type="textarea" placeholder="请输入评论" v-model="dynamic.textarea">
           </el-input>
@@ -50,6 +51,7 @@
           <p>{{ comment.content }}</p>
         </div>
       </div>
+      </Transition>
     </div>
   </div>
 </template>
@@ -118,8 +120,8 @@ export default {
             if (dynamic.id === res.data.data[1].postId) {
               for (const time of res.data.data) {
                 time.createTime = formatTime(time.createTime)
-            }
-              dynamic.comments=res.data.data
+              }
+              dynamic.comments = res.data.data
               break; // 找到匹配的动态后，中断循环
             }
           }
@@ -180,6 +182,7 @@ export default {
       justify-content: flex-start;
       position: relative;
       margin-left: 80px;
+      font-size: 18px;
 
       @media screen and (max-width: 600px) {
         margin-left: 30px;
@@ -189,6 +192,7 @@ export default {
         img {
           width: 80px;
           height: 80px;
+          border-radius: 10px;
         }
       }
 
@@ -197,7 +201,7 @@ export default {
         height: 40px;
 
         p {
-          margin: 0 0 10px 0;
+          margin: 0 0 0 0;
           color: var(--pColor);
         }
       }
@@ -295,6 +299,23 @@ export default {
     p {
       text-align: left;
     }
+  }
+}
+.bounce-enter-active {
+  animation: bounce-in 0.5s;
+}
+.bounce-leave-active {
+  animation: bounce-in 0.5s reverse;
+}
+@keyframes bounce-in {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.25);
+  }
+  100% {
+    transform: scale(1);
   }
 }
 </style>

@@ -3,7 +3,7 @@
     <div v-for="(article, index) in articles" :key="index" class="article" >
       <div class="Articleintroduction"  @click="handleWork(article)">
         <div class="left">
-          <img :src="article.cover" alt="">
+          <el-image :src="article.cover" alt="" lazy></el-image>
         </div>
         <div class="right">
           <h2>{{ article.title }}</h2>
@@ -86,9 +86,9 @@ export default {
       flex-wrap: nowrap;
 
       .left {
-        img {
+        .el-image {
           width: 140px;
-          height: 180px;
+          height: 200px;
           border-radius: 12px;
           box-shadow: #d0dada 0px 3px 14px 1px;
           color: #1e87f0;
