@@ -3,24 +3,26 @@ import VueRouter from 'vue-router'
 // import axios from "axios"
 
 
+// 当打包构建应用时，JavaScript 包会变得非常大，影响页面加载。如果我们能把不同路由对应的组件分割成不同的代码块，
+// 然后当路由被访问的时候才加载对应组件，这样就更加高效了。
+// 结合 Vue 的异步组件 (opens new window)和 Webpack 的代码分割功能 (opens new window)，轻松实现路由组件的懒加载。
+const dynamic =() => import('@/views/ForegroundPage/Dynamic.vue')
+const home =() => import( '@/views/ForegroundPage/Home.vue')
+const article =() => import( '@/views/ForegroundPage/Article.vue')
+const Friendlink =() => import( '@/views/ForegroundPage/Friendlink.vue')
+const leavemessage =() => import( '@/views/ForegroundPage/Leavemessage.vue')
+const login =() => import( '@/views/BackgroundPage/Login.vue')
+const weather =() => import( '@/views/ForegroundPage/weathe.vue')
+const friendlinks =() => import( '@/views/ForegroundPage/SubmitFriendlink.vue')
+const articlecontent =() => import( '@/views/ForegroundPage/ArticleContent.vue')
+const notfound =() => import( '@/views/ForegroundPage/404.vue')
 
-import dynamic from '@/views/ForegroundPage/Dynamic.vue'
-import home from '@/views/ForegroundPage/Home.vue'
-import article from '@/views/ForegroundPage/Article.vue'
-import Friendlink from '@/views/ForegroundPage/Friendlink.vue'
-import leavemessage from '@/views/ForegroundPage/Leavemessage.vue'
-import login from '@/views/BackgroundPage/Login.vue'
-import weather from '@/views/ForegroundPage/weathe.vue'
-import friendlinks from '@/views/ForegroundPage/SubmitFriendlink.vue'
-import articlecontent from '@/views/ForegroundPage/ArticleContent.vue'
-import notfound from '@/views/ForegroundPage/404.vue'
-
-import homes from '@/views/BackgroundPage/Home.vue'
-import main from '@/views/BackgroundPage/Main.vue'
-import dynamics from '@/views/BackgroundPage/dynamic.vue'
-import user from '@/views/BackgroundPage/User.vue'
-import VisitorInfo from '../views/BackgroundPage/VisitorInfo.vue'
-import attracts from '@/views/BackgroundPage/Attract.vue'
+const homes =() => import( '@/views/BackgroundPage/Home.vue')
+const main =() => import( '@/views/BackgroundPage/Main.vue')
+const dynamics =() => import( '@/views/BackgroundPage/dynamic.vue')
+const user =() => import( '@/views/BackgroundPage/User.vue')
+const VisitorInfo =() => import( '../views/BackgroundPage/VisitorInfo.vue')
+const attracts =() => import( '@/views/BackgroundPage/Attract.vue')
 
 import tokens from '../api/token/index'
 // Vue.prototype.$axios = axios
