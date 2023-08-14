@@ -32,7 +32,7 @@
 
       <div class="entry-footer">
         <div class="left" @click="giveLike(dynamic.id)">
-          <img :src='dynamic.giveLikeFlag ? like : Unliked'  >{{ dynamic.upvoteNum }}
+          <img :src='dynamic.giveLikeFlag ? like : Unliked'>{{ dynamic.upvoteNum }}
         </div>
         <div class="right" @click="show(dynamic.id)">评论{{ dynamic.comments.length }}</div>
         <!-- 显示评论 -->
@@ -86,9 +86,13 @@ export default {
       backdrops: [
       ],
       avatar: '',
-      like:require('@/assets/img/like.png'),
-      Unliked:require('@/assets/img/Unlike.png'),
-      giveLikeFlag:false
+      like: require('@/assets/img/like.png'),
+      Unliked: require('@/assets/img/Unlike.png'),
+      giveLikeFlag: false,
+      upvote: {
+        id: '',
+        upvoteNum: ''
+      }
     }
   },
   methods: {
@@ -120,7 +124,7 @@ export default {
             //对应每个评论框的显示与隐藏 以及对应每个动态的评论提交
             //默认隐藏
             dynamic.showflag = false;
-            dynamic.giveLikeFlag=false
+            dynamic.giveLikeFlag = false
             //默认为空
             dynamic.textarea = '';
             this.dynamics.push(dynamic);
@@ -198,14 +202,31 @@ export default {
         if (dynamic.id === id) {
           //与评论的显示同理 都是当前动态被点赞
           //true 已经点赞了
-           if(dynamic.giveLikeFlag){
+          if (dynamic.giveLikeFlag) {
             dynamic.upvoteNum--
-            dynamic.giveLikeFlag=!dynamic.giveLikeFlag
-           }else{
+            dynamic.giveLikeFlag = !dynamic.giveLikeFlag
+            this.upvote.id = id
+            this.upvote.upvoteNum = dynamic.upvoteNum
+            dynamics.Upvote(this.upvote)
+              .then(res => {
+
+              })
+              .catch(error => {
+                // 处理错误
+              });
+          } else {
             //未点赞
             dynamic.upvoteNum++
-            dynamic.giveLikeFlag=!dynamic.giveLikeFlag
-           }
+            dynamic.giveLikeFlag = !dynamic.giveLikeFlag
+            this.upvote.id = id
+            this.upvote.upvoteNum = dynamic.upvoteNum
+            dynamics.Upvote(this.upvote)
+              .then(res => {
+              })
+              .catch(error => {
+                // 处理错误
+              });
+          }
         }
       });
     }
