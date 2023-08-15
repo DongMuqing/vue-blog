@@ -1,16 +1,32 @@
-import axios from '@/utils/request' 
+import axios from '@/utils/request'
 
 
 const comments = {
-    submitComments:(commentInfo)=>axios({
-      url: '/comments/add',
-      method: 'post',
-      headers:{
-        'Content-Type': 'application/json;charset=UTF-8' ,
-        'satoken':localStorage.getItem("satoken")
-      },
-      data:JSON.stringify(commentInfo)
-    })
+  getComments: () => axios({
+    url: '/comments',
+    method: 'get',
+    headers: {
+      'satoken': localStorage.getItem("satoken")
+    },
+  }),
+  submitComments: (commentInfo) => axios({
+    url: '/comments/add',
+    method: 'post',
+    headers: {
+      'Content-Type': 'application/json;charset=UTF-8',
+      'satoken': localStorage.getItem("satoken")
+    },
+    data: JSON.stringify(commentInfo)
+  }),
+  delComments: (id) => axios({
+    url: '/comments',
+    method: 'delete',
+    headers: {
+      'Content-Type': 'application/json;charset=UTF-8',
+      'satoken': localStorage.getItem("satoken")
+    },
+      data: JSON.stringify(id)
+  }),
 }
 
 export default comments

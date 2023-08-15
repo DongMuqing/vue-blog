@@ -24,6 +24,8 @@ const dynamics =() => import( '@/views/BackgroundPage/dynamic.vue')
 const user =() => import( '@/views/BackgroundPage/User.vue')
 const VisitorInfo =() => import( '../views/BackgroundPage/VisitorInfo.vue')
 const attracts =() => import( '@/views/BackgroundPage/Attract.vue')
+const comments=()=> import('@/views/BackgroundPage/Comment.vue')
+const upload=()=> import('@/views/BackgroundPage/Upload.vue')
 
 import tokens from '../api/token/index'
 // Vue.prototype.$axios = axios
@@ -57,6 +59,8 @@ const router = new VueRouter({
         { path: 'attract', component: attracts },
         { path: 'user', component: user },
         { path: 'visitorInfo', component: VisitorInfo },
+        {path:'comment',component:comments},
+        {path:'upload',component:upload}
       ]
     },
     {
@@ -84,7 +88,7 @@ const router = new VueRouter({
 router.beforeEach(function (to, from, next) {
   //所有子页面都需要在这
   // const satoken = localStorage.getItem("satoken")
-  const pathArr = ['/main', '/main/home', '/main/dynamic', '/main/user', '/main/attract', '/main/VisitorInfo']
+  const pathArr = ['/main', '/main/home', '/main/dynamic', '/main/user', '/main/attract', '/main/VisitorInfo','/main/comment']
   if (pathArr.indexOf(to.path) != -1) {
     tokens.getToken()
       .then(response => {
