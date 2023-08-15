@@ -33,7 +33,7 @@
               <!-- <span>{{ props.row.imgSrclist }}</span> -->
               <div class="demo-image__preview">
                 <template v-for="(src, index) in props.row.imgSrclist" class="test">
-                  <el-image :src="src" :preview-src-list="dynamic.imgSrclist" :key="index">
+                  <el-image :src="src" :preview-src-list="dynamic.imgSrclist" :key="index" lazy>
                   </el-image>
                 </template>
               </div>
@@ -49,7 +49,7 @@
       <el-table-column label="操作">
         <template slot-scope="scope">
           <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-          <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+          <el-button size="mini" type="danger" @click="handleDelete(scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -59,16 +59,17 @@
 
 <script>
 import dynamics from '@/api/dynamic';
-import submitDynamic from '@/views/BackgroundPage/sub/submitDynamic.vue'
+import submitPost from '@/views/BackgroundPage/sub/submitPost.vue'
 export default {
   data() {
     return {
       fileList: [],
-     
+
       //获取动态的数据
       dynamic: [
       ],
-      subflag: false
+      subflag: false,
+      id:''
     };
   },
   methods: {
@@ -89,12 +90,12 @@ export default {
     },
     //模态框的加载
     showSub() {
-      this.$modal.show(submitDynamic, {
+      this.$modal.show(submitPost, {
         text: '发布'
       }, {
         width: 750,
         height: 500
-      },{
+      }, {
         draggable: true,
         clickToClose: false
       })
@@ -102,7 +103,21 @@ export default {
     handleChange(val) {
       console.log(val);
     },
-
+    handleDelete(post) {
+      this.id=post.id
+      console.log(JSON.stringify(this.id));
+      dynamics.delPost(this.id)
+        .then(res => {
+          this.$message({
+            message: res.data.msg,
+            type: 'success'
+          });
+          this.dynamic=res.data.data
+        })
+        .catch(error => {
+          // 处理错误
+        });
+    }
   },
   mounted() {
     this.fetchDynamcis();
@@ -111,7 +126,7 @@ export default {
 
   },
   components: {
-    submitDynamic
+    submitPost
   },
 }
 </script>
