@@ -72,7 +72,7 @@ export default {
         //     });
         //方法2
         this.fetchWeather(),
-            this.fetchVisitorInfo()
+        this.fetchVisitorInfo()
     }
 }
 </script>
@@ -89,7 +89,7 @@ export default {
 .weather {
     height: 80px;
     margin: 10px auto 15px auto;
-
+    font-size: 16px;
     ::-webkit-scrollbar {
         display: none;
     }

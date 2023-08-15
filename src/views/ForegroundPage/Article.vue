@@ -28,7 +28,7 @@ export default {
     return {
       articles: [
       ],
-      maxLength: 60 // 最大显示长度
+      maxLength: 40 // 最大显示长度
     }
 
   },

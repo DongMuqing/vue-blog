@@ -38,12 +38,12 @@
     <div class="site">
       <h2>站点信息</h2>
       <li>
-        <span>动态数</span>
-        <small>321</small>
+        <span>动态</span>
+        <small>{{statistics[1]}}</small>
       </li>
       <li>
-        <span>浏览数</span>
-        <small>321</small>
+        <span>浏览</span>
+        <small>{{statistics[0]}}</small>
       </li>
     </div>
 
@@ -66,6 +66,7 @@
 <script>
 import bus from "../EventBus"
 import menus from "@/api/menu";
+import statistics from '@/api/statistics/index'
 export default {
   data() {
     return {
@@ -79,7 +80,8 @@ export default {
       // dark:require('@/assets/img/moon.png'),//dark
       //列表数据
       menuData: [
-      ]
+      ],
+      statistics:[]
     }
   },
   methods: {
@@ -95,6 +97,16 @@ export default {
           // 处理接口返回的数据
           this.menuData = response.data.data;
 
+        })
+        .catch(error => {
+          // 处理错误
+        });
+    },
+    fetchStatistics() {
+      statistics.getStatistics()
+        .then(response => {
+          // 处理接口返回的数据
+          this.statistics = response.data.data;
         })
         .catch(error => {
           // 处理错误
@@ -152,7 +164,8 @@ export default {
   },
   mounted() {
     this.fetchMenus(),
-      this.checkDeviceSize()
+    this.checkDeviceSize(),
+    this.fetchStatistics()
   },
 }
 </script>
@@ -284,7 +297,7 @@ export default {
       small {
         color:var(--small) ;
         font-family: eafont;
-        font-size: 14px;
+        font-size: 16px;
         font-weight: 600;
         line-height: 21px;
         text-align: left;

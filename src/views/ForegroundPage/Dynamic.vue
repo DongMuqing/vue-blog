@@ -71,7 +71,7 @@ import dynamics from '@/api/dynamic';
 import { getNowTime } from '@/utils/getNowTime'
 import comment from '@/api/comment/index'
 import { formatTime } from '@/utils/formatTime';
-import backdrops from '@/api/backdrop';
+
 export default {
   data() {
     return {
@@ -96,16 +96,6 @@ export default {
     }
   },
   methods: {
-    fetchBackdrops() {
-      backdrops.getBackdrops()
-        .then(response => {
-          // 处理接口返回的数据
-          this.backdrops = response.data.data;
-        })
-        .catch(error => {
-          // 处理错误
-        });
-    },
     fetchDynamcis() {
       dynamics.getDynamics()
         .then(response => {
@@ -232,8 +222,7 @@ export default {
     }
   },
   mounted() {
-    this.fetchDynamcis();
-    this.fetchBackdrops()
+    this.fetchDynamcis()
   },
   components: {
 
@@ -359,7 +348,10 @@ export default {
     margin-top: 30px;
     border-radius: 15px;
     background-color: var(--entry--footer);
-
+    @media screen and (max-width: 600px) {
+      margin: 30px 30px 0px 40px;
+      width: 80vw;
+    }
     .sub {
       margin-top: 20px;
       border-radius: 5px;

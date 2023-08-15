@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import backdrops from '@/api/backdrop';
+
 export default {
     data() {
         return {
@@ -23,19 +23,9 @@ export default {
         }
     },
     methods:{
-        fetchBackdrops() {
-      backdrops.getBackdrops()
-        .then(response => {
-          // 处理接口返回的数据
-          this.backdrops = response.data.data;
-        })
-        .catch(error => {
-          // 处理错误
-        });
-    },
     },
     mounted(){
-        this.fetchBackdrops()
+       
     }
 }
 </script>

@@ -37,8 +37,6 @@
 <script>
 import bus from "../EventBus"
 import Dynamic from '@/views/ForegroundPage/Dynamic.vue'
-import backdrops from '@/api/backdrop';
-import menus from "@/api/menu";
 import lunbo from "@/views/ForegroundPage/lunbo.vue"
 export default {
   data() {
@@ -58,16 +56,6 @@ export default {
     }
   },
   methods: {
-    fetchBackdrops() {
-      backdrops.getBackdrops()
-        .then(response => {
-          // 处理接口返回的数据
-          this.backdrops = response.data.data;
-        })
-        .catch(error => {
-          // 处理错误
-        });
-    },
     sendMsg() {
       //将值取反发送给asid
       bus.$emit('share', !this.isCollapse)
@@ -97,7 +85,6 @@ export default {
     window.removeEventListener('resize', this.checkDeviceSize);
   },
   mounted() {
-    this.fetchBackdrops(),
     // this.fetchMenus(),
     this.checkDeviceSize()
   },
