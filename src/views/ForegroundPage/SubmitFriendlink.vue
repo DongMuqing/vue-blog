@@ -79,7 +79,9 @@ export default {
     },
     async handleFileChange(event) {
       const files = event.target.files;
+      //获得图片路劲进行预览
       this.previewImage = URL.createObjectURL(files[0]);
+      //压缩当前图片
       const compressedFiles = await Promise.all(
         Array.from(files).map((file) => this.compressImage(file, 0.85))
       );

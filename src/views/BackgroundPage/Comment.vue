@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="main">
         <el-table :data="Comments" style="width: 100%">
             <el-table-column label="动态ID" prop="postId"></el-table-column>
             <el-table-column label="日期" prop="createTime"></el-table-column>
@@ -24,7 +24,7 @@ export default {
     data() {
         return {
             Comments: [],
-            id:''
+            id: ''
         }
     },
     methods: {
@@ -42,7 +42,7 @@ export default {
                     // 处理错误
                 });
         },
-       deleteComment(comment) {
+        deleteComment(comment) {
             this.id = comment.commentId
             comments.delComments(this.id)
                 .then(res => {
@@ -63,4 +63,11 @@ export default {
 }
 </script>
 
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+.main {
+    height: 80vh;
+    overflow-y: auto;
+
+   
+}
+</style>

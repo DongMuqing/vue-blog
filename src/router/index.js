@@ -88,7 +88,7 @@ const router = new VueRouter({
 router.beforeEach(function (to, from, next) {
   //所有子页面都需要在这
   // const satoken = localStorage.getItem("satoken")
-  const pathArr = ['/main', '/main/home', '/main/dynamic', '/main/user', '/main/attract', '/main/VisitorInfo','/main/comment']
+  const pathArr = ['/main', '/main/home', '/main/dynamic', '/main/user', '/main/attract', '/main/VisitorInfo','/main/comment','/main/upload']
   if (pathArr.indexOf(to.path) != -1) {
     tokens.getToken()
       .then(response => {
