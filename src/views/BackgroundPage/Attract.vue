@@ -1,11 +1,35 @@
 <template>
   <div class="main">
+    <div class="info">
+      <div style="margin: 20px;"></div>
+      <el-form label-width="80px">
+        <el-form-item label="活动时间">
+          <el-col :span="11">
+            <el-date-picker type="date" placeholder="选择日期" v-model="Releasetime.date" ref="date" style="width: 100%;">
+            </el-date-picker>
+          </el-col>
+          <el-col class="line" :span="2">-</el-col>
+          <el-col :span="11">
+            <el-time-picker placeholder="选择时间" v-model="Releasetime.time" style="width: 100%;" ref="time">
+            </el-time-picker>
+          </el-col>
+        </el-form-item>
+        <el-form-item label="封面">
+          <el-input v-model="article.cover"></el-input>
+        </el-form-item>
+        <el-form-item label="标题">
+          <el-input v-model="article.title"></el-input>
+        </el-form-item>
+      </el-form>
+      <div><el-button @click="submitForm">提交</el-button></div>
+    </div>
     <div id="vditor"></div>
-    <div><el-button @click="submitForm">提交</el-button></div>
+
   </div>
 </template>
 
 <script>
+import { formaDate, formaTime } from '@/utils/submitTime'
 import Vditor from 'vditor'
 import 'vditor/dist/index.css'
 import articles from '@/api/article/index'
@@ -14,8 +38,16 @@ export default {
     return {
       contentEditor: '',
       //文章实体
-      article:{
-        content:''
+      article: {
+        cover: '',
+        title: '',
+        content: '',
+        createTime: ''
+      },
+      labelPosition: 'top',
+      Releasetime: {
+        date: '',
+        time: ''
       }
     }
   },
@@ -44,10 +76,10 @@ export default {
         //   console.log("离开了");
         // },
         //大纲的显示
-        outline: {
-          enable: true,
-          position: "right"
-        },
+        // outline: {
+        //   enable: true,
+        //   position: "right"
+        // },
         //字数统计
         counter: {
           enable: true
@@ -71,8 +103,9 @@ export default {
       })
     },
     submitForm() {
+      this.formatDate()
       const value = this.contentEditor.getValue()
-      this.article.content=value
+      this.article.content = value
       if (value.length === 1 || value == null || value === '') {
         this.$message({
           message: '不可以为空！',
@@ -88,6 +121,13 @@ export default {
             });
             //提交过后将value置空
             this.contentEditor.setValue('')
+            const newEmptyArticle = {
+              cover: '',
+              title: '',
+              content: '',
+              createTime: ''
+            };
+            this.article = newEmptyArticle;
           })
           .catch(error => {
 
@@ -95,7 +135,13 @@ export default {
       }
 
     },
-
+    formatDate() {
+      this.Releasetime.date = formaDate(this.Releasetime.date)
+      this.Releasetime.time = formaTime(this.Releasetime.time)
+      this.article.createTime = this.Releasetime.date + " " + this.Releasetime.time
+      this.Releasetime.date = ''
+      this.Releasetime.time = ''
+    }
   },
   mounted() {
     this.createEditor()
@@ -105,7 +151,15 @@ export default {
 
 <style lang="less" scoped>
 .main {
+  .info {
+    height: 660px;
+    width: 25vw;
+    float: left;
+    margin-left: 30px;
+  }
+
   #vditor {
+    margin-left: 30vw;
     margin-top: 20px;
   }
 }

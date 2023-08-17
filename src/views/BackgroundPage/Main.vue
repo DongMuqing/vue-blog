@@ -14,9 +14,12 @@
             </el-header>
             <el-main>
               <!-- 路由出口，将匹配到的路由页面渲染到这里 -->
-              <router-view>
+              <keep-alive>
+                <router-view v-if="$route.meta.keepAlive">
               
-              </router-view>
+                </router-view>
+              </keep-alive>
+            
             </el-main>
           </el-container>
         </el-container>

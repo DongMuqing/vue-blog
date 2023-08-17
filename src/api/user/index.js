@@ -10,8 +10,14 @@ const users = {
         // 添加Content-Type请求头
       },
       data: JSON.stringify(loginInfo) ,
-      
     }),
+    logout:() => axios({
+      url:'/user/logout',
+      method:'post',
+      headers:{
+        'satoken':localStorage.getItem("satoken")
+      }
+    })
 }
 
 export default users

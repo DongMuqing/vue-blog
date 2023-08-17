@@ -11,11 +11,15 @@
         </el-select>
       </template>
 
-      <div class="upload" @change="handleFileChange" accept="image/*">
+      <div class="upload"  accept="image/*">
         <el-upload action="#" list-type="picture-card" 
-        :auto-upload="false"
-        ref="upload"
-        >
+        :auto-upload="false" 
+        ref="upload" 
+        :drag="true" 
+        :multiple="true"
+       
+        :on-change="handleFileChange"
+          >
           <i slot="default" class="el-icon-plus"></i>
           <div slot="file" slot-scope="{file}">
             <img class="el-upload-list__item-thumbnail" :src="file.url" alt="">
@@ -23,9 +27,9 @@
               <span class="el-upload-list__item-preview" @click="handlePictureCardPreview(file)">
                 <i class="el-icon-zoom-in"></i>
               </span>
-              <span v-if="!disabled" class="el-upload-list__item-delete" @click="handleDownload(file)">
+              <!-- <span v-if="!disabled" class="el-upload-list__item-delete" @click="handleDownload(file)">
                 <i class="el-icon-download"></i>
-              </span>
+              </span> -->
               <span v-if="!disabled" class="el-upload-list__item-delete" @click="handleRemove(file)">
                 <i class="el-icon-delete"></i>
               </span>
@@ -79,7 +83,13 @@ export default {
   },
   methods: {
     handleRemove(file) {
-      console.log(file);
+      //获取el-upload 删除对应文件的索引
+      let uploadFiles = this.$refs.upload.uploadFiles;
+      let index = uploadFiles.indexOf(file);
+      //移除el-upload中的
+      uploadFiles.splice(index, 1);
+      // //移除选择的文件
+      // this.fileList.splice(index, 1);
     },
     handlePictureCardPreview(file) {
       this.dialogImageUrl = file.url;
@@ -88,7 +98,8 @@ export default {
     handleDownload(file) {
       console.log(file);
     },
-    remove(){
+    remove() {
+      //清空文件
       this.$refs.upload.clearFiles()
     },
     fetchDirectory() {
@@ -129,7 +140,7 @@ export default {
         //直接将所有文件数组传过去不行
         // formData.append('files',this.fileList)
         for (const file of this.fileList) {
-          formData.append('files', file)
+          formData.append('files', file.raw)
         }
         formData.append('path', this.selectDirectory)
         ossUtil.uploadFile(formData)
@@ -138,21 +149,20 @@ export default {
               message: res.data.msg,
               type: 'success'
             })
-            this.fileList=[]
+            this.fileList = []
             this.remove()
           })
-      }else{
+      } else {
         this.$message({
           message: "请选择一个目录",
           type: 'warning'
         });
       }
     },
-    handleFileChange(event) {
-      const files = event.target.files[0];
-      console.log(files);
-      this.fileList.push(files)
-      console.log(this.fileList);
+    handleFileChange() {
+      // 绑定到on-change  文件状态改变时的钩子，添加文件、上传成功和上传失败时都会被调用
+      let uploadFiles = this.$refs.upload.uploadFiles;
+      this.fileList=uploadFiles
     }
   },
   mounted() {
@@ -168,6 +178,7 @@ export default {
   .search {}
 
   .fileinfo {
+    margin-top: 50px;
     height: 60vh;
   }
 }

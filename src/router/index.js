@@ -6,27 +6,27 @@ import VueRouter from 'vue-router'
 // 当打包构建应用时，JavaScript 包会变得非常大，影响页面加载。如果我们能把不同路由对应的组件分割成不同的代码块，
 // 然后当路由被访问的时候才加载对应组件，这样就更加高效了。
 // 结合 Vue 的异步组件 (opens new window)和 Webpack 的代码分割功能 (opens new window)，轻松实现路由组件的懒加载。
-const dynamic =() => import('@/views/ForegroundPage/Dynamic.vue')
-const home =() => import( '@/views/ForegroundPage/Home.vue')
-const article =() => import( '@/views/ForegroundPage/Article.vue')
-const Friendlink =() => import( '@/views/ForegroundPage/Friendlink.vue')
-const leavemessage =() => import( '@/views/ForegroundPage/Leavemessage.vue')
-const login =() => import( '@/views/BackgroundPage/Login.vue')
-const weather =() => import( '@/views/ForegroundPage/weathe.vue')
-const friendlinks =() => import( '@/views/ForegroundPage/SubmitFriendlink.vue')
-const articlecontent =() => import( '@/views/ForegroundPage/ArticleContent.vue')
-const notfound =() => import( '@/views/ForegroundPage/404.vue')
-const loading =()=> import('@/views/ForegroundPage/Loading.vue')
+const dynamic = () => import('@/views/ForegroundPage/Dynamic.vue')
+const home = () => import('@/views/ForegroundPage/Home.vue')
+const article = () => import('@/views/ForegroundPage/Article.vue')
+const Friendlink = () => import('@/views/ForegroundPage/Friendlink.vue')
+const leavemessage = () => import('@/views/ForegroundPage/Leavemessage.vue')
+const login = () => import('@/views/BackgroundPage/Login.vue')
+const weather = () => import('@/views/ForegroundPage/weathe.vue')
+const friendlinks = () => import('@/views/ForegroundPage/SubmitFriendlink.vue')
+const articlecontent = () => import('@/views/ForegroundPage/ArticleContent.vue')
+const notfound = () => import('@/views/ForegroundPage/404.vue')
+const loading = () => import('@/views/ForegroundPage/Loading.vue')
 
-const homes =() => import( '@/views/BackgroundPage/Home.vue')
-const main =() => import( '@/views/BackgroundPage/Main.vue')
-const dynamics =() => import( '@/views/BackgroundPage/dynamic.vue')
-const user =() => import( '@/views/BackgroundPage/User.vue')
-const VisitorInfo =() => import( '../views/BackgroundPage/VisitorInfo.vue')
-const attracts =() => import( '@/views/BackgroundPage/Attract.vue')
-const comments=()=> import('@/views/BackgroundPage/Comment.vue')
-const upload=()=> import('@/views/BackgroundPage/Upload.vue')
-
+const homes = () => import('@/views/BackgroundPage/Home.vue')
+const main = () => import('@/views/BackgroundPage/Main.vue')
+const dynamics = () => import('@/views/BackgroundPage/dynamic.vue')
+const user = () => import('@/views/BackgroundPage/User.vue')
+const VisitorInfo = () => import('../views/BackgroundPage/VisitorInfo.vue')
+const attracts = () => import('@/views/BackgroundPage/Attract.vue')
+const comments = () => import('@/views/BackgroundPage/Comment.vue')
+const upload = () => import('@/views/BackgroundPage/Upload.vue')
+const submitPost = () => import('@/views/BackgroundPage/sub/submitPost.vue')
 import tokens from '../api/token/index'
 // Vue.prototype.$axios = axios
 //解决router重复push一样的hash地址
@@ -54,41 +54,42 @@ const router = new VueRouter({
       path: '/main', component: main,
       children: [
         { path: '', component: homes },
-        { path: 'home', component: homes },
-        { path: 'dynamic', component: dynamics },
-        { path: 'attract', component: attracts },
-        { path: 'user', component: user },
-        { path: 'visitorInfo', component: VisitorInfo },
-        {path:'comment',component:comments},
-        {path:'upload',component:upload}
+        { path: 'home', component: homes ,meta: {keepAlive: true }},
+        {
+          path: 'dynamic', component: dynamics  ,meta: {keepAlive: true }},
+        { path: 'attract', component: attracts  ,meta: {keepAlive: true }},
+        { path: 'user', component: user  ,meta: {keepAlive: true }},
+        { path: 'visitorInfo', component: VisitorInfo  ,meta: {keepAlive: true }},
+        { path: 'comment', component: comments  ,meta: {keepAlive: true }},
+        { path: 'upload', component: upload , meta: {keepAlive: true }},
+        {path:'submitpost',component:submitPost ,meta: {keepAlive: true }}
       ]
     },
     {
       path: '/home', component: home,
       children: [
         { path: '', component: dynamic },
-        { path: 'dynamic', component: dynamic },
-        { path: 'article', component: article },
+        { path: 'dynamic', component: dynamic ,meta: {keepAlive: true }},
+        { path: 'article', component: article ,meta: {keepAlive: true }},
         //文章详情页
         // vue-router.esm.js:16 [vue-router] missing param for named route "article": Expected "id" to be defined
         //动态路由需要在末尾加？
         { path: 'article/:id?', name: 'article', component: articlecontent, props: true },
-        { path: 'friendlink', component: Friendlink },
-        { path: 'leavemessage', component: leavemessage },
-        { path: 'weather', component: weather },
-        { path: '/subfriend', component: friendlinks },
-       
+        { path: 'friendlink', component: Friendlink ,meta: {keepAlive: true }},
+        { path: 'leavemessage', component: leavemessage ,meta: {keepAlive: true }},
+        { path: 'weather', component: weather ,meta: {keepAlive: true }},
+        { path: '/subfriend', component: friendlinks ,meta: {keepAlive: true }},
       ]
     },
     //做404跳转
-    {path:'*',component:notfound}
+    { path: '*', component: notfound }
   ]
 })
 // 全局前置守卫
 router.beforeEach(function (to, from, next) {
   //所有子页面都需要在这
   // const satoken = localStorage.getItem("satoken")
-  const pathArr = ['/main', '/main/home', '/main/dynamic', '/main/user', '/main/attract', '/main/VisitorInfo','/main/comment','/main/upload']
+  const pathArr = ['/main', '/main/home', '/main/dynamic', '/main/user', '/main/attract', '/main/VisitorInfo', '/main/comment', '/main/upload','/main/submitpost']
   if (pathArr.indexOf(to.path) != -1) {
     tokens.getToken()
       .then(response => {

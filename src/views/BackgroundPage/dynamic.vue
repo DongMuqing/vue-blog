@@ -1,8 +1,8 @@
 <template>
   <div class="main">
-    <div class="publish"> <el-button @click="showSub()">去发布</el-button></div>
+    <!-- <div class="publish"> <el-button @click="showSub()">去发布</el-button></div> -->
 
-
+    <div class="publish"> <el-button @click="gopublish">去发布</el-button></div>
     <el-table :data="dynamic" style="width: 100%">
 
       <el-table-column type="expand">
@@ -117,6 +117,9 @@ export default {
         .catch(error => {
           // 处理错误
         });
+    },
+    gopublish(){
+      this.$router.push('/main/submitpost')
     }
   },
   mounted() {

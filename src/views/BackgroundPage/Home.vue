@@ -4,7 +4,7 @@
       <el-col :span="8" style="padding-right: 10px">
           <el-card class="box-card">
               <div class="user">
-                  <img src="../../assets/img/3.jpg" alt="">
+                  <img src="https://oss.qingmumu.xyz/Picture/101527849_p0_master1200.jpg" alt="">
                   <div class="userinfo">
                       <p class="name">Admin</p>
                       <p class="access">超级管理员</p>
