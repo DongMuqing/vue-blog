@@ -42,6 +42,8 @@ export default {
             weather.getWeather()
                 .then(response => {
                     // 处理接口返回的数据
+                    const city = response.data.data.forecasts[0].city;
+                    this.city=city
                     const data = response.data.data.forecasts[0].casts;
                     this.weather = data;
                     const reporttime = response.data.data.forecasts[0].reporttime;

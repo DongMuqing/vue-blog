@@ -53,7 +53,7 @@ const router = new VueRouter({
     {
       path: '/main', component: main,
       children: [
-        { path: '', component: homes },
+        { path: '', component: homes ,meta: {keepAlive: true }},
         { path: 'home', component: homes ,meta: {keepAlive: true }},
         {
           path: 'dynamic', component: dynamics  ,meta: {keepAlive: true }},
@@ -68,7 +68,7 @@ const router = new VueRouter({
     {
       path: '/home', component: home,
       children: [
-        { path: '', component: dynamic },
+        { path: '', component: dynamic,meta: {keepAlive: true } },
         { path: 'dynamic', component: dynamic ,meta: {keepAlive: true }},
         { path: 'article', component: article ,meta: {keepAlive: true }},
         //文章详情页
