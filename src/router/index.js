@@ -70,7 +70,7 @@ const router = new VueRouter({
       children: [
         { path: '', component: dynamic,meta: {keepAlive: true } },
         { path: 'dynamic', component: dynamic ,meta: {keepAlive: true }},
-        { path: 'article', component: article ,meta: {keepAlive: true }},
+        { path: 'article', component: article ,},
         //文章详情页
         // vue-router.esm.js:16 [vue-router] missing param for named route "article": Expected "id" to be defined
         //动态路由需要在末尾加？

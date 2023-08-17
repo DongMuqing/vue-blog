@@ -14,11 +14,9 @@
      
       <!-- <lunbo></lunbo> -->
     </div>
-    <keep-alive>
-      <router-view v-if="$route.meta.keepAlive" class="information">
+      <router-view  class="information">
     
       </router-view>
-    </keep-alive>
     
 
     <div class="record-author-info">
