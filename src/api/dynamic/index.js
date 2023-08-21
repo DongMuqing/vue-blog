@@ -1,5 +1,4 @@
 import axios from '@/utils/request' 
-import qs from 'qs' 
 
 const dynamics = {
     // 1. 获取所有
@@ -27,6 +26,15 @@ const dynamics = {
   }),
   submitPost: (post) => axios({
     url: '/post',
+    method: 'post',
+    headers: {
+      'Content-Type': 'application/json;charset=UTF-8' ,
+      'satoken':localStorage.getItem("satoken")
+    },
+    data:JSON.stringify(post)
+  }),
+  editPost: (post) => axios({
+    url: '/post/edit',
     method: 'post',
     headers: {
       'Content-Type': 'application/json;charset=UTF-8' ,

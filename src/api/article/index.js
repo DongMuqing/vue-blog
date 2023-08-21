@@ -15,6 +15,24 @@ const articles = {
     },
     data: JSON.stringify(article)
   }),
+  delById: (id) => axios({
+    url: '/article/del',
+    method: 'post',
+    headers: {
+      'Content-Type': 'application/json;charset=UTF-8' ,
+      'satoken': localStorage.getItem("satoken")
+    },
+    data: id
+  }),
+  editArticles: (article) => axios({
+    url: '/article/edit',
+    method: 'post',
+    headers: {
+      'Content-Type': 'application/json;charset=UTF-8' ,
+      'satoken': localStorage.getItem("satoken")
+    },
+    data: JSON.stringify(article)
+  }),
 }
 
 export default articles
