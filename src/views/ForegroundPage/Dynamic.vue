@@ -306,6 +306,9 @@ export default {
           height: 108px;
           margin-right: 10px;
           border-radius: 15% 15%;
+          @media screen and (max-width: 600px) {
+            width: 25vw;
+          }
         }
       }
     }
