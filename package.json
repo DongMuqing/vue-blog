@@ -11,7 +11,6 @@
     "@wangeditor/editor-for-vue": "^1.0.2",
     "axios": "^1.4.0",
     "core-js": "^3.8.3",
-    "element-ui": "^2.15.13",
     "vditor": "^3.9.4",
     "vue": "^2.5.2",
     "vue-audio-better": "^3.0.1",

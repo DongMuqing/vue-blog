@@ -17,3 +17,12 @@ module.exports = defineConfig({
 //   }
 // };
 
+module.exports = {
+  configureWebpack:{
+      //引入cdn中的vue和element-ui
+      externals:{
+          'vue': 'Vue',
+          'element-ui': 'ELEMENT'
+      }
+  }
+}

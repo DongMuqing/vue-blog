@@ -1,7 +1,7 @@
 <template>
   <div @click="clicks">
      <!-- 加载动画 -->
-     <loading id="loading-animation"/>
+     <!-- <loading id="loading-animation"/> -->
     <!-- 路由占位 -->
     <router-view></router-view>
   </div>
