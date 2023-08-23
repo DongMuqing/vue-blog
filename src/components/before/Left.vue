@@ -254,7 +254,6 @@ export default {
       display: inline-block; /* 将按钮变为块级元素以设置宽度 */
       text-align: center;   /* 文本居中 */
       margin: 10px 15px;
-      font-family: '钢笔楷书';
       background-color:var(--bgc);
       color: var(--span);
     }
@@ -277,9 +276,8 @@ export default {
       width: 100px;
       height: 55px;
       align-items: flex-start;
-      background-image: linear-gradient(90deg, #f6faf8, #816bff00);
+      background-image: linear-gradient(90deg, var(--pColor), #816bff00);
       border-radius: 5px;
-      box-shadow: #cadfd0 0px 8px 9px 0px;
       color: #404040;
       display: flex;
       flex-direction: column;
@@ -296,7 +294,6 @@ export default {
 
       small {
         color:var(--small) ;
-        font-family: eafont;
         font-size: 16px;
         font-weight: 600;
         line-height: 21px;

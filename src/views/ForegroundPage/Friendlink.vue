@@ -60,7 +60,7 @@ export default {
 <style lang="less" scoped>
 .main {
 
-  color: #404040;
+  color: var(--pColor);
   line-height: 24px;
   margin: 50px 0px 15px;
   padding: 0px 40px;
@@ -89,7 +89,7 @@ export default {
     background-color: var(--bgc--left);
     border-radius: 5px;
     box-shadow: var(--bgc) 0px 1.30732px 2.1244px 0px;
-    color: #404040;
+    color: var(--pColor);
     display: flex;
     line-height: 24px;
     padding: 5px 8px;
@@ -115,15 +115,12 @@ export default {
 
       a {
         text-decoration: none;
-        color: #404040;
+        color: var(--pColor);
         font-size: 16px;
         height: 20px;
         text-align: center;
       }
 
-      a:hover {
-        color: #069d53;
-      }
 
       p {
         font-size: 12px;

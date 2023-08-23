@@ -102,9 +102,10 @@ export default {
 <style lang="less" scoped>
 .subimg {
   margin: 50px 0px 10px 30px;
-
+  color: var(--pColor);
   p {
     font-size: 20px;
+    color: var(--pColor);
   }
 }
 

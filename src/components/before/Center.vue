@@ -211,7 +211,7 @@ export default {
         height: 50px;
         text-align: center;
         line-height: 50px;
-        color: black;
+        color: var(--pColor);
       }
     }
   

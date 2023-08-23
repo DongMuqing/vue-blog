@@ -49,7 +49,7 @@ export default {
 
     .preview {
         width: 500px;
-
+        color: var(--pColor);
         @media screen and (max-width: 600px) {
             width: 100vw;
             margin: 0px 2px;

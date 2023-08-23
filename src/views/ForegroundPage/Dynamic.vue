@@ -293,7 +293,7 @@ export default {
 
       .t_content {
         word-break: break-all;
-        color: #0d0d0d;
+        color: var(--pColor);
         margin-bottom: 5px;
         white-space: pre-wrap;
       }
@@ -320,7 +320,7 @@ export default {
     margin-top: 30px;
     background-color: var(--entry--footer);
     border-radius: 30px;
-
+    color: var(--pColor);
     @media screen and (max-width: 1200px) {
       width: 40vw;
     }
@@ -351,6 +351,7 @@ export default {
     margin-top: 30px;
     border-radius: 15px;
     background-color: var(--entry--footer);
+    color: var(--pColor);
     @media screen and (max-width: 600px) {
       margin: 30px 30px 0px 40px;
       width: 80vw;
@@ -358,7 +359,6 @@ export default {
     .sub {
       margin-top: 20px;
       border-radius: 5px;
-
 
       .userpics {
         margin-bottom: 20px;

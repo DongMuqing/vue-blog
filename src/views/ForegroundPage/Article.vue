@@ -100,18 +100,18 @@ export default {
         margin-left: 20px;
         margin-right: 20px;
         h2 {
-          color:#333333;
+          color: var(--pColor);
           font-size:18px;
           line-height:23.4px;
           margin-bottom: 5px;
         }
         span {
-          color:#89a396;
+          color: var(--pColor);
           font-size:13px;
           line-height:19.5px;
         }
         p {
-          color: #606268;
+          color: var(--pColor);
           line-height:24px;
         }
       }
