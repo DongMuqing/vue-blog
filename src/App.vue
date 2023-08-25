@@ -1,5 +1,6 @@
 <template>
-  <div @click="clicks">
+  <!-- <div @click="clicks"> -->
+    <div >
      <!-- 加载动画 -->
      <!-- <loading id="loading-animation"/> -->
     <!-- 路由占位 -->
@@ -9,15 +10,16 @@
 
 <script>
 import loading from '@/views/ForegroundPage/Loading.vue'
-import {clickEffect} from '@/utils/click'
+//引入点击特效会使用户卡断
+// import {clickEffect} from '@/utils/click'
 export default {
   components:{
     loading
   },
   methods: {
-    clicks(){
-      clickEffect()
-    }
+    // clicks(){
+    //   clickEffect()
+    // }
   },
 }
 </script>
