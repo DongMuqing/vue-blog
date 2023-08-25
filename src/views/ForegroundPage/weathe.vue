@@ -34,10 +34,12 @@ export default {
             city: "",
             weather: [],
             // 预报发布时间
-            reporttime: ""
+            reporttime: "",
+            livesWeather:[]
         }
     },
     methods: {
+          //预报天气
         fetchWeather() {
             weather.getWeather()
                 .then(response => {
@@ -52,6 +54,17 @@ export default {
                 .catch(error => {
                     // 处理错误
                 });
+        },
+        //实况天气
+        fetchActualWeather(){
+            weather.getActualWeather()
+                .then(res=>{
+                    const data = response.data.data.lives[0]
+                    this.livesWeather = data;
+                })
+                .catch(error=>{
+
+                })
         },
         fetchVisitorInfo() {
             address.getVisitorInfo()
@@ -73,7 +86,8 @@ export default {
         //         // 处理错误
         //     });
         //方法2
-        this.fetchWeather(),
+        // this.fetchWeather(),
+        this.fetchActualWeather()
         this.fetchVisitorInfo()
     }
 }
