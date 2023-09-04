@@ -28,7 +28,24 @@ const ossUtil = {
         },
         data: file
     }),
-
+    //删除指定路径的oss文件
+    delete: (path) => axios({
+        url: '/alioss/delete?path=' + encodeURIComponent(path),
+        method: 'post',
+        headers: {
+            'Content-Type': 'application/json;charset=UTF-8' ,
+            'satoken': localStorage.getItem("satoken")
+        },
+    }),
+    //分页查询
+    paging: (path,page,maxkey) => axios({
+        url: '/alioss/paging?path='+ encodeURIComponent(path)+'&page='+encodeURIComponent(page)+'&maxkey='+encodeURIComponent(maxkey),
+        method: 'post',
+        headers: {
+            'Content-Type': 'application/json;charset=UTF-8' ,
+            'satoken': localStorage.getItem("satoken")
+        },
+    }),
 }
 
 export default ossUtil

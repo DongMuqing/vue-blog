@@ -42,6 +42,14 @@ const dynamics = {
     },
     data:JSON.stringify(post)
   }),
+  postPage:(current,size)=>axios({
+    url:'/post/paging?current='+encodeURIComponent(current)+'&size='+encodeURIComponent(size),
+    method:'post',
+    headers:{
+      'Content-Type': 'application/json;charset=UTF-8' ,
+      'satoken':localStorage.getItem("satoken")
+    }
+  })
 }
 
 export default dynamics
