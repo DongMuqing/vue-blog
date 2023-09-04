@@ -175,7 +175,7 @@ export default {
 .main {
   height: 80vh;
 
-  .search {}
+
 
   .fileinfo {
     margin-top: 50px;
