@@ -3,57 +3,63 @@
     <!-- <div class="publish"> <el-button @click="showSub()">去发布</el-button></div> -->
 
     <div class="publish"> <el-button @click="gopublish">去发布</el-button></div>
-    <el-table :data="dynamic" style="width: 100%">
+    <div class="info">
+      <el-table :data="dynamic" style="width: 100%">
 
-      <el-table-column type="expand">
-        <template slot-scope="props">
-          <el-form label-position="left" inline class="demo-table-expand">
-            <el-form-item label="id">
-              <span>{{ props.row.id }}</span>
-            </el-form-item>
-            <el-form-item label="日期">
-              <span>{{ props.row.createTime }}</span>
-            </el-form-item>
-            <el-form-item label="标题">
-              <span>{{ props.row.title }}</span>
-            </el-form-item>
-            <el-form-item label="内容">
-              <span>{{ props.row.content }}</span>
-            </el-form-item>
-            <el-form-item label="发布地点">
-              <span>{{ props.row.location }}</span>
-            </el-form-item>
-            <el-form-item label="点赞数">
-              <span>{{ props.row.upvoteNum }}</span>
-            </el-form-item>
-            <el-form-item label="音乐">
-              <span>{{ props.row.musicUrl }}</span>
-            </el-form-item>
-            <el-form-item label="图片">
-              <!-- <span>{{ props.row.imgSrclist }}</span> -->
-              <div class="demo-image__preview">
-                <template v-for="(src, index) in props.row.imgSrclist" class="test">
-                  <el-image :src="src" :preview-src-list="dynamic.imgSrclist" :key="index" lazy>
-                  </el-image>
-                </template>
-              </div>
-            </el-form-item>
-          </el-form>
-        </template>
-      </el-table-column>
+        <el-table-column type="expand">
+          <template slot-scope="props">
+            <el-form label-position="left" inline class="demo-table-expand">
+              <el-form-item label="id">
+                <span>{{ props.row.id }}</span>
+              </el-form-item>
+              <el-form-item label="日期">
+                <span>{{ props.row.createTime }}</span>
+              </el-form-item>
+              <el-form-item label="标题">
+                <span>{{ props.row.title }}</span>
+              </el-form-item>
+              <el-form-item label="内容">
+                <span>{{ props.row.content }}</span>
+              </el-form-item>
+              <el-form-item label="发布地点">
+                <span>{{ props.row.location }}</span>
+              </el-form-item>
+              <el-form-item label="点赞数">
+                <span>{{ props.row.upvoteNum }}</span>
+              </el-form-item>
+              <el-form-item label="音乐">
+                <span>{{ props.row.musicUrl }}</span>
+              </el-form-item>
+              <el-form-item label="图片">
+                <!-- <span>{{ props.row.imgSrclist }}</span> -->
+                <div class="demo-image__preview">
+                  <template v-for="(src, index) in props.row.imgSrclist" class="test">
+                    <el-image :src="src" :preview-src-list="dynamic.imgSrclist" :key="index" lazy>
+                    </el-image>
+                  </template>
+                </div>
+              </el-form-item>
+            </el-form>
+          </template>
+        </el-table-column>
 
-      <el-table-column label="动态ID" prop="id"></el-table-column>
-      <el-table-column label="日期" prop="createTime"></el-table-column>
-      <el-table-column label="标题" prop="title"></el-table-column>
+        <el-table-column label="动态ID" prop="id"></el-table-column>
+        <el-table-column label="日期" prop="createTime"></el-table-column>
+        <el-table-column label="标题" prop="title"></el-table-column>
 
-      <el-table-column label="操作">
-        <template slot-scope="scope">
-          <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-          <el-button size="mini" type="danger" @click="handleDelete(scope.row)">删除</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
-
+        <el-table-column label="操作">
+          <template slot-scope="scope">
+            <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+            <el-button size="mini" type="danger" @click="handleDelete(scope.row)">删除</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+    </div>
+    <div class="block">
+      <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage4"
+        :page-sizes="[5, 10, 20, 30, 40]" :page-size=size layout="total, sizes, prev, pager, next, jumper" :total=total>
+      </el-pagination>
+    </div>
   </div>
 </template>
 
@@ -69,15 +75,22 @@ export default {
       dynamic: [
       ],
       subflag: false,
-      id:''
+      id: '',
+      total: '',
+      pages: '',
+      //默认查询第一页每页10条
+      size: 10,
+      current: 1,
     };
   },
   methods: {
     fetchDynamcis() {
-      dynamics.getDynamics()
+      dynamics.postPage(this.current, this.size)
         .then(response => {
           // 处理接口返回的数据
-          const data = response.data.data;
+          const data = response.data.data.data;
+          this.total = response.data.data.total
+          this.pages = response.data.data.pages
           // 遍历动态数组，将每个动态对象的 `imgSrclist` 转换为数组
           data.forEach(dynamic => {
             dynamic.imgSrclist = dynamic.imgSrclist.split(",").map(item => item.trim().replace(/'/g, ''));
@@ -87,6 +100,14 @@ export default {
         .catch(error => {
           // 处理错误
         });
+    },
+    handleSizeChange(val) {
+      this.size = val
+      this.fetchDynamcis()
+    },
+    handleCurrentChange(val) {
+      this.current = val
+      this.fetchDynamcis()
     },
     //模态框的加载
     showSub() {
@@ -104,7 +125,7 @@ export default {
       console.log(val);
     },
     handleDelete(post) {
-      this.id=post.id
+      this.id = post.id
       console.log(JSON.stringify(this.id));
       dynamics.delPost(this.id)
         .then(res => {
@@ -112,13 +133,13 @@ export default {
             message: res.data.msg,
             type: 'success'
           });
-          this.dynamic=res.data.data
+          this.dynamic = res.data.data
         })
         .catch(error => {
           // 处理错误
         });
     },
-    gopublish(){
+    gopublish() {
       this.$router.push('/main/submitpost')
     }
   },
