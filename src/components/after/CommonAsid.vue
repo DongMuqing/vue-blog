@@ -9,7 +9,7 @@
 
     <el-menu :default-active="'1-4-1'.toString()" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose"
       :collapse="isCollapses" background-color="#545c64" text-color="#fff" active-text-color="#ffd04b">
-      <h3>{{ isCollapses ? '后台' : '后台管理系统' }}</h3>
+      <h3>{{ isCollapses ? '后台' : '博客后台' }}</h3>
       <!-- //循环没有子菜单的 -->
       <el-menu-item @click="clickMenu(item)" v-for="item in  noChildren" :key="item.name" :index="item.name">
         <!-- 模板语法拼接  渲染图标-->
