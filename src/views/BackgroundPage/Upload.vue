@@ -2,7 +2,7 @@
   <div class="main">
 
     <div class="search">
-      <el-button @click="getFilePaths">查询当前目录</el-button>
+      <el-button @click="filePage">查询当前目录</el-button>
       <el-button @click="upload">上传到当前目录</el-button>
       <template>
         <el-select v-model="selectDirectory" placeholder="请选择文件目录">
@@ -11,15 +11,9 @@
         </el-select>
       </template>
 
-      <div class="upload"  accept="image/*">
-        <el-upload action="#" list-type="picture-card" 
-        :auto-upload="false" 
-        ref="upload" 
-        :drag="true" 
-        :multiple="true"
-       
-        :on-change="handleFileChange"
-          >
+      <div class="upload" accept="image/*">
+        <el-upload action="#" list-type="picture-card" :auto-upload="false" ref="upload" :drag="true" :multiple="true"
+          :on-change="handleFileChange">
           <i slot="default" class="el-icon-plus"></i>
           <div slot="file" slot-scope="{file}">
             <img class="el-upload-list__item-thumbnail" :src="file.url" alt="">
@@ -57,10 +51,19 @@
               <el-image :src="scope.row.path" lazy style="height: 100px;"></el-image>
             </template>
           </el-table-column>
+          <el-table-column label="操作">
+            <template slot-scope="scope">
+              <el-button size="mini" type="danger" @click="handleDelete(scope.row.relativePath)">删除</el-button>
+            </template>
+          </el-table-column>
         </el-table>
       </template>
     </div>
-
+    <div class="block">
+      <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage4"
+        :page-sizes="[5, 10, 20, 30, 40]" :page-size=size layout="total, sizes, prev, pager, next, jumper" :total=total>
+      </el-pagination>
+    </div>
   </div>
 </template>
 
@@ -79,6 +82,12 @@ export default {
       selectDirectory: '',
       //上传文件
       fileList: [],
+
+      total: '',
+      pages: '',
+      //默认查询第一页每页10条
+      size: 10,
+      current: 1,
     };
   },
   methods: {
@@ -102,6 +111,7 @@ export default {
       //清空文件
       this.$refs.upload.clearFiles()
     },
+    //获取oss目录
     fetchDirectory() {
       ossUtil.getDirectory()
         .then(response => {
@@ -113,6 +123,7 @@ export default {
           // 处理错误
         });
     },
+    //获取所有指定目录文件
     getFilePaths() {
       if (this.selectDirectory != '') {
         ossUtil.getFilePath(this.selectDirectory)
@@ -134,24 +145,74 @@ export default {
         });
       }
     },
-    upload() {
+    //获取指定目录分页数据
+    filePage() {
       if (this.selectDirectory != '') {
-        const formData = new FormData();
-        //直接将所有文件数组传过去不行
-        // formData.append('files',this.fileList)
-        for (const file of this.fileList) {
-          formData.append('files', file.raw)
-        }
-        formData.append('path', this.selectDirectory)
-        ossUtil.uploadFile(formData)
-          .then(res => {
+        ossUtil.paging(this.selectDirectory, this.current, this.size)
+          .then(response => {
             this.$message({
+              message: response.data.msg,
+              type: 'success'
+            });
+            const data = response.data.data.data[this.current]
+            this.total = response.data.data.total
+            this.pages = response.data.data.pages
+            this.filepath = data;
+          })
+          .catch(error => {
+            // 处理错误
+          });
+      } else {
+        this.$message({
+          message: "请选择一个目录",
+          type: 'warning'
+        });
+      }
+    },
+    handleDelete(relativePath){
+      ossUtil.delete(relativePath)
+        .then(res=>{
+          this.$message({
               message: res.data.msg,
               type: 'success'
+            });
+            //删除后重新请求数据
+            this.filePage()
+        })
+    },
+    handleSizeChange(val) {
+      this.size = val
+      this.filePage()
+    },
+    handleCurrentChange(val) {
+      this.current = val
+      this.filePage()
+    },
+    upload() {
+      if (this.selectDirectory != '') {
+        if (this.fileList.length>0) {
+          const formData = new FormData();
+          //直接将所有文件数组传过去不行
+          // formData.append('files',this.fileList)
+          for (const file of this.fileList) {
+            formData.append('files', file.raw)
+          }
+          formData.append('path', this.selectDirectory)
+          ossUtil.uploadFile(formData)
+            .then(res => {
+              this.$message({
+                message: res.data.msg,
+                type: 'success'
+              })
+              this.fileList = []
+              this.remove()
             })
-            this.fileList = []
-            this.remove()
-          })
+        } else {
+          this.$message({
+            message: "请选择上传文件",
+            type: 'warning'
+          });
+        }
       } else {
         this.$message({
           message: "请选择一个目录",
@@ -162,7 +223,7 @@ export default {
     handleFileChange() {
       // 绑定到on-change  文件状态改变时的钩子，添加文件、上传成功和上传失败时都会被调用
       let uploadFiles = this.$refs.upload.uploadFiles;
-      this.fileList=uploadFiles
+      this.fileList = uploadFiles
     }
   },
   mounted() {
@@ -175,11 +236,10 @@ export default {
 .main {
   height: 80vh;
 
-
-
   .fileinfo {
     margin-top: 50px;
     height: 60vh;
+    overflow-y: auto;
   }
 }
 </style>
