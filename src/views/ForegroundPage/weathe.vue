@@ -9,14 +9,19 @@
         </div>
         <div class="two">
             <div class="card">
-                <h2>weathe in {{ city }}</h2>
-                <div class="weather" v-for="(weather, index) in  weather" :key="index">
-                    <p>日期:{{ weather.date }}</p>
-                    <p> 星期:{{ weather.week }}</p>
-                    <p>白天:{{ weather.dayweather }} 温度:{{ weather.daytemp }}°C </p>
-                    <p>晚上:{{ weather.nightweather }} 温度:{{ weather.nighttemp }}°C </p>
+                <h2>weathe in {{livesWeather.province }}</h2>
+                <div class="weather" v-for="(weather, index) in  livesWeather" :key="index">
+                    <!-- <p>日期:{{ weather.date }}</p> -->
+                    <!-- <p> 星期:{{ weather.week }}</p> -->
+                    <!-- <p>白天:{{ weather.dayweather }} 温度:{{ weather.daytemp }}°C </p>
+                    <p>晚上:{{ weather.nightweather }} 温度:{{ weather.nighttemp }}°C </p> -->
+                    <p>天气:{{ weather.weather}}</p>
+                    <p>温度:{{ weather.temperature_float}}°C</p>
+                    <p>空气湿度:{{ weather.humidity }}</p>
+                    <p>风力:{{ weather.windpower }}</p>
+                    <p>风向:{{ weather.winddirection }}</p>
                 </div>
-                <h3>预报发布时间:<br>{{ reporttime }}</h3>
+                <h3>预报发布时间:<br>{{livesWeather.reporttime }}</h3>
             </div>
         </div>
     </div>
