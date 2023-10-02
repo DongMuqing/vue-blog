@@ -10,12 +10,12 @@
         <div class="two" v-if="realTime">
             <div class="card">
                 <h2>weathe in {{ livesWeather.province }}</h2>
-                <div class="weather" v-for="(weather, index) in  livesWeather" :key="index">
-                    <p>天气:{{ weather.weather }}</p>
-                    <p>温度:{{ weather.temperature_float }}°C</p>
-                    <p>空气湿度:{{ weather.humidity }}</p>
-                    <p>风力:{{ weather.windpower }}</p>
-                    <p>风向:{{ weather.winddirection }}</p>
+                <div class="weather">
+                    <p>天气:{{ livesWeather.weather }}</p>
+                    <p>温度:{{ livesWeather.temperature_float }}°C</p>
+                    <p>空气湿度:{{  livesWeather.humidity }}</p>
+                    <p>风力:{{ livesWeather.windpower }}</p>
+                    <p>风向:{{ livesWeather.winddirection }}</p>
                 </div>
                 <h3>预报发布时间:<br>{{ livesWeather.reporttime }}</h3>
             </div>
@@ -83,7 +83,9 @@ export default {
         fetchActualWeather() {
             weather.getActualWeather()
                 .then(res => {
-                    const data = response.data.data.lives[0]
+                    const data = res.data.data.lives[0]
+                    console.log("data:"+data);
+                    console.log("response.data.data.lives"+response.data.data.lives);
                     this.livesWeather = data;
                 })
                 .catch(error => {
@@ -133,7 +135,7 @@ export default {
 
 .weather {
     height: 80px;
-    margin: 10px auto 15px auto;
+    margin: 10px auto 40px auto;
     font-size: 16px;
 
     ::-webkit-scrollbar {
