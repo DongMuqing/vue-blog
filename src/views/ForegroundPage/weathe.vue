@@ -5,24 +5,39 @@
             <div class="one">
                 <h1>🌦️Weather☔️</h1>
             </div>
-
         </div>
-        <div class="two">
+        <!-- //实时天气 默认显示天气 -->
+        <div class="two" v-if="realTime">
             <div class="card">
-                <h2>weathe in {{livesWeather.province }}</h2>
+                <h2>weathe in {{ livesWeather.province }}</h2>
                 <div class="weather" v-for="(weather, index) in  livesWeather" :key="index">
-                    <!-- <p>日期:{{ weather.date }}</p> -->
-                    <!-- <p> 星期:{{ weather.week }}</p> -->
-                    <!-- <p>白天:{{ weather.dayweather }} 温度:{{ weather.daytemp }}°C </p>
-                    <p>晚上:{{ weather.nightweather }} 温度:{{ weather.nighttemp }}°C </p> -->
-                    <p>天气:{{ weather.weather}}</p>
-                    <p>温度:{{ weather.temperature_float}}°C</p>
+                    <p>天气:{{ weather.weather }}</p>
+                    <p>温度:{{ weather.temperature_float }}°C</p>
                     <p>空气湿度:{{ weather.humidity }}</p>
                     <p>风力:{{ weather.windpower }}</p>
                     <p>风向:{{ weather.winddirection }}</p>
                 </div>
-                <h3>预报发布时间:<br>{{livesWeather.reporttime }}</h3>
+                <h3>预报发布时间:<br>{{ livesWeather.reporttime }}</h3>
             </div>
+        </div>
+        <!-- //预报天气 -->
+        <div class="two" v-if="forecast">
+            <div class="card">
+                <h2>weathe in {{ city }}</h2>
+                <div class="weather" v-for="(weather, index) in  weather" :key="index">
+                    <p>日期:{{ weather.date }}</p>
+                    <p> 星期:{{ weather.week }}</p>
+                    <p>白天:{{ weather.dayweather }} 温度:{{ weather.daytemp }}°C </p>
+                    <p>晚上:{{ weather.nightweather }} 温度:{{ weather.nighttemp }}°C </p>
+                </div>
+                <h3>预报发布时间:<br>{{ reporttime }}</h3>
+            </div>
+        </div>
+        <div>
+            <el-row>
+                <el-button round @click="changweather">查看预报天气</el-button>
+                <el-button round  @click="changweather">查看实况天气</el-button>
+            </el-row>
         </div>
     </div>
 </template>
@@ -40,17 +55,21 @@ export default {
             weather: [],
             // 预报发布时间
             reporttime: "",
-            livesWeather:[]
+            livesWeather: [],
+            //预报天气
+            forecast: false,
+            //实时天气
+            realTime: true
         }
     },
     methods: {
-          //预报天气
+        //预报天气
         fetchWeather() {
             weather.getWeather()
                 .then(response => {
                     // 处理接口返回的数据
                     const city = response.data.data.forecasts[0].city;
-                    this.city=city
+                    this.city = city
                     const data = response.data.data.forecasts[0].casts;
                     this.weather = data;
                     const reporttime = response.data.data.forecasts[0].reporttime;
@@ -61,13 +80,13 @@ export default {
                 });
         },
         //实况天气
-        fetchActualWeather(){
+        fetchActualWeather() {
             weather.getActualWeather()
-                .then(res=>{
+                .then(res => {
                     const data = response.data.data.lives[0]
                     this.livesWeather = data;
                 })
-                .catch(error=>{
+                .catch(error => {
 
                 })
         },
@@ -79,6 +98,11 @@ export default {
                 .catch(error => {
                     // 处理错误
                 });
+        },
+        //切换查看天气
+        changweather(){
+            this.realTime=!this.realTime
+            this.forecast=!this.forecast
         }
     },
     mounted() {
@@ -91,7 +115,7 @@ export default {
         //         // 处理错误
         //     });
         //方法2
-        // this.fetchWeather(),
+        this.fetchWeather()
         this.fetchActualWeather()
         this.fetchVisitorInfo()
     }
@@ -111,6 +135,7 @@ export default {
     height: 80px;
     margin: 10px auto 15px auto;
     font-size: 16px;
+
     ::-webkit-scrollbar {
         display: none;
     }
@@ -201,18 +226,7 @@ export default {
         }
     }
 
-    button {
-        margin: 0.5em;
-        border-radius: 50%;
-        border: none;
-        height: 46px;
-        width: 46px;
-        outline: none;
-        background: black;
-        color: white;
-        cursor: pointer;
-        transition: 0.2s ease-in-out;
-    }
+
 
     input.search-bar {
         border: none;

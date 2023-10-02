@@ -113,7 +113,7 @@ export default {
             // 添加 showflag 和 textarea 到每个动态对象
             //对应每个评论框的显示与隐藏 以及对应每个动态的评论提交
             //默认隐藏
-            dynamic.showflag = false;
+            dynamic.showflag = true;
             dynamic.giveLikeFlag = false
             //默认为空
             dynamic.textarea = '';
