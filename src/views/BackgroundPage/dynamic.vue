@@ -126,7 +126,6 @@ export default {
     },
     handleDelete(post) {
       this.id = post.id
-      console.log(JSON.stringify(this.id));
       dynamics.delPost(this.id)
         .then(res => {
           this.$message({

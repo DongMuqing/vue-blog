@@ -16,13 +16,12 @@ const dynamics = {
       data: JSON.stringify(num) ,
     }),
    delPost: (id) => axios({
-    url: '/post/delete',
+    url: '/post/delete?id='+id,
     method: 'delete',
     headers: {
       'Content-Type': 'application/json;charset=UTF-8' ,
       'satoken':localStorage.getItem("satoken")
     },
-    data:JSON.stringify(id)
   }),
   submitPost: (post) => axios({
     url: '/post',
