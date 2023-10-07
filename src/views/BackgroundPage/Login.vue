@@ -5,12 +5,14 @@
                 <!-- 注册 -->
                 <div class="register-box hidden">
                     <h1>register</h1>
+                    <input type="email" placeholder="邮箱" v-model.trim="user.email">
                     <input type="text" placeholder="用户名" v-model.trim="user.username">
-                    <!-- <input type="email" placeholder="邮箱"> -->
                     <input :type='pwdFlag ? "password" : "text"' placeholder="密码" v-model.trim="user.password">
-                    <img :src='pwdFlag ? textIcon : pwdIcon' @click="changge" class="eye">
-                    <!-- <input type="password" placeholder="确认密码"> -->
-                    <button @click="register()">注册</button>
+                    <img :src='pwdFlag ? textIcon : pwdIcon' @click="changge" class="registereye">
+                    <input :type='pwdFlag ? "password" : "text"' placeholder="确认密码" v-model.trim="user.confirmPassword">
+                    <input type="code" placeholder="验证码" v-model.trim="user.code" v-if="codeflag">
+                    <button  @click="sendCode">发送验证码</button>
+                    <button @click="register" >注册</button>
                 </div>
                 <!-- 登录 -->
                 <form class="login-box">
@@ -18,20 +20,20 @@
                     <!-- //自定义属性传值 -->
                     <input type="text" placeholder="用户名" v-model.trim="user.username">
                     <input :type='pwdFlag ? "password" : "text"' placeholder="密码" v-model.trim="user.password">
-                    <img :src='pwdFlag ? textIcon : pwdIcon' @click="changge" class="eye">
+                    <img :src='pwdFlag ? textIcon : pwdIcon' @click="changge" class="logineye">
                     <button @click="login" type='button'> 登录</button>
                     <button @click="reset" type='button'>重置</button>
                 </form>
             </div>
             <div class="con-box left">
-                <h2>欢迎来到<span>后台管理系统</span></h2>
+                <h2>欢迎来到<span>后台注册界面</span></h2>
                 <!-- <p>快来领取你的专属<span>宠物</span>吧</p> -->
                 <img src="@/assets/cat/1.png" alt="">
                 <p>已有账号</p>
                 <button id="login">去登录</button>
             </div>
             <div class="con-box right">
-                <h2>欢迎来到<span>后台管理系统</span></h2>
+                <h2>欢迎来到<span>后台登录界面</span></h2>
                 <!-- <p>快来看看你的可爱<span>宠物</span>吧</p> -->
                 <img src="@/assets/cat/2.png" alt="">
                 <p>没有账号？</p>
@@ -52,15 +54,19 @@ export default {
             textIcon: require('@/assets/img/1.png'),//展示图标
             pwdIcon: require('@/assets/img/2.png'),//隐藏图标
             user: {
+                email: '',
                 username: '',
-                password: ''
+                password: '',
+                confirmPassword: '',
+                code: ''
             },
+            codeflag: false
         }
     },
     methods: {
         reset() {
             this.user.username = '',
-            this.user.password = ''
+                this.user.password = ''
         },
         login() {
             const loginInfo = this.user
@@ -82,19 +88,78 @@ export default {
                     // 处理错误
                 });
         },
-        async register() {
-            const { data: res } = await this.$axios.post("http://localhost:81/user/register", JSON.stringify(this.user), {
-                headers: {
-                    'Content-Type': 'application/json;charset=UTF-8'
-                }
-            })
-            if (res.code === 20011) {
-                //注册成功
-                this.$router.go(0)
-                alert(res.msg)
-            } else {
-                alert(res.msg)
+        //注册
+        register() {
+            users.register(this.user.email,this.user.username,this.user.password,this.user.code)
+                    .then(res => {
+                        this.$message({
+                            message: res.data.msg,
+                            type: 'success'
+                        });
+                        //跳转页面
+                        this.$router.push('/login')
+                    })
+        },
+        //验证码的发送
+        sendCode() {
+            if (this.verify()) {
+                users.sendCode(this.user.email,this.user.username)
+                    .then(res => {
+                        this.$message({
+                            message: res.data.msg,
+                            type: 'success'
+                        });
+                        // 发送验证码之后显示注册按钮
+                        this.codeflag = !this.codeflag
+                    })
             }
+        },
+        //验证
+        verify() {
+            const emailPattern =/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(\.[a-zA-Z0-9_-])+/;
+            if (!this.user.email.match(emailPattern)) {
+                this.$message({
+                    message: '邮箱格式不正确!',
+                    type: 'warning'
+                });
+                return false;
+            }
+            if (this.user.username.trim() === '') {
+                this.$message({
+                    message: '用户名不能为空!',
+                    type: 'warning'
+                });
+                return false;
+            }
+            if (this.user.password.trim() === '') {
+                this.$message({
+                    message: '密码不能为空!',
+                    type: 'warning'
+                });
+                return false;
+            }
+            if (this.user.password.trim().length<8) {
+                this.$message({
+                    message: '密码少于8位,请重新输入！',
+                    type: 'warning'
+                });
+                return false;
+            }
+            if (this.user.confirmPassword.trim() === '') {
+                this.$message({
+                    message: '确认密码不能为空!',
+                    type: 'warning'
+                });
+                return false;
+            }
+            if (this.user.password !== this.user.confirmPassword) {
+                this.$message({
+                    message: '密码与确认密码不一致!',
+                    type: 'warning'
+                });
+                return false;
+            }
+            return true;
         },
         changge() {
             this.pwdFlag = !this.pwdFlag
@@ -240,13 +305,18 @@ input {
     letter-spacing: 2px;
 }
 
-.eye {
+.logineye {
     position: absolute;
     top: 225px;
     left: 250px;
     z-index: 3;
 }
-
+.registereye{
+    position: absolute;
+    top: 230px;
+    left: 250px;
+    z-index: 3;
+}
 input::placeholder {
     color: #fff;
 }
@@ -354,7 +424,7 @@ input:focus::placeholder {
 
 .register-box {
     img {
-        top: 52%
+        top: 54%
     }
 }
 </style>
