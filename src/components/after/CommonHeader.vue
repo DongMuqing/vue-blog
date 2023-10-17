@@ -10,7 +10,7 @@
         <div class="r-content">
             <el-dropdown>
                 <span class="el-dropdown-link">
-                    <img class="user" src="https://oss.qingmumu.xyz/Picture/101527849_p0_master1200.jpg" alt="">
+                    <img class="user" :src="avatar" alt="">
                 </span>
                 <el-dropdown-menu slot="dropdown" >
                    <div @click="logout">
@@ -28,6 +28,7 @@ export default {
     data() {
         return {
             isCollapse: true,
+            avatar:''
         }
     },
     methods: {
@@ -53,6 +54,9 @@ export default {
                     // 处理错误
                 });
         }
+    },
+    mounted(){
+        this.avatar = localStorage.getItem("avatar")
     }
 }
 </script>

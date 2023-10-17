@@ -11,8 +11,8 @@
                     <img :src='pwdFlag ? textIcon : pwdIcon' @click="changge" class="registereye">
                     <input :type='pwdFlag ? "password" : "text"' placeholder="确认密码" v-model.trim="user.confirmPassword">
                     <input type="code" placeholder="验证码" v-model.trim="user.code" v-if="codeflag">
-                    <button  @click="sendCode">发送验证码</button>
-                    <button @click="register" >注册</button>
+                    <button @click="sendCode">发送验证码</button>
+                    <button @click="register">注册</button>
                 </div>
                 <!-- 登录 -->
                 <form class="login-box">
@@ -55,8 +55,8 @@ export default {
             pwdIcon: require('@/assets/img/2.png'),//隐藏图标
             user: {
                 email: '',
-                username: '',
-                password: '',
+                username: 'admin',
+                password: 'admin',
                 confirmPassword: '',
                 code: ''
             },
@@ -74,6 +74,7 @@ export default {
                 .then(res => {
                     if (res.data.code == 20041) {
                         localStorage.setItem(res.data.data.tokenName, res.data.data.tokenValue)
+                        localStorage.setItem("loginId", res.data.data.loginId)
                         this.$message({
                             message: res.data.msg,
                             type: 'success'
@@ -90,20 +91,20 @@ export default {
         },
         //注册
         register() {
-            users.register(this.user.email,this.user.username,this.user.password,this.user.code)
-                    .then(res => {
-                        this.$message({
-                            message: res.data.msg,
-                            type: 'success'
-                        });
-                        //跳转页面
-                        this.$router.push('/login')
-                    })
+            users.register(this.user.email, this.user.username, this.user.password, this.user.code)
+                .then(res => {
+                    this.$message({
+                        message: res.data.msg,
+                        type: 'success'
+                    });
+                    //跳转页面
+                    this.$router.push('/login')
+                })
         },
         //验证码的发送
         sendCode() {
             if (this.verify()) {
-                users.sendCode(this.user.email,this.user.username)
+                users.sendCode(this.user.email, this.user.username)
                     .then(res => {
                         this.$message({
                             message: res.data.msg,
@@ -116,7 +117,7 @@ export default {
         },
         //验证
         verify() {
-            const emailPattern =/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(\.[a-zA-Z0-9_-])+/;
+            const emailPattern = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(\.[a-zA-Z0-9_-])+/;
             if (!this.user.email.match(emailPattern)) {
                 this.$message({
                     message: '邮箱格式不正确!',
@@ -138,7 +139,7 @@ export default {
                 });
                 return false;
             }
-            if (this.user.password.trim().length<8) {
+            if (this.user.password.trim().length < 8) {
                 this.$message({
                     message: '密码少于8位,请重新输入！',
                     type: 'warning'
@@ -311,12 +312,14 @@ input {
     left: 250px;
     z-index: 3;
 }
-.registereye{
+
+.registereye {
     position: absolute;
     top: 230px;
     left: 250px;
     z-index: 3;
 }
+
 input::placeholder {
     color: #fff;
 }
