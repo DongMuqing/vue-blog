@@ -8,7 +8,6 @@
                     <input type="email" placeholder="邮箱" v-model.trim="user.email">
                     <input type="text" placeholder="用户名" v-model.trim="user.username">
                     <input :type='pwdFlag ? "password" : "text"' placeholder="密码" v-model.trim="user.password">
-                    <img :src='pwdFlag ? textIcon : pwdIcon' @click="changge" class="registereye">
                     <input :type='pwdFlag ? "password" : "text"' placeholder="确认密码" v-model.trim="user.confirmPassword">
                     <input type="code" placeholder="验证码" v-model.trim="user.code" v-if="codeflag">
                     <button @click="sendCode">发送验证码</button>
@@ -18,8 +17,8 @@
                 <form class="login-box">
                     <h1>login</h1>
                     <!-- //自定义属性传值 -->
-                    <input type="text" placeholder="用户名" v-model.trim="user.username">
-                    <input :type='pwdFlag ? "password" : "text"' placeholder="密码" v-model.trim="user.password">
+                    <input type="text" placeholder="用户名" v-model.trim="loginUser.username">
+                    <input :type='pwdFlag ? "password" : "text"' placeholder="密码" v-model.trim="loginUser.password">
                     <img :src='pwdFlag ? textIcon : pwdIcon' @click="changge" class="logineye">
                     <button @click="login" type='button'> 登录</button>
                     <button @click="reset" type='button'>重置</button>
@@ -55,10 +54,14 @@ export default {
             pwdIcon: require('@/assets/img/2.png'),//隐藏图标
             user: {
                 email: '',
-                username: 'admin',
-                password: 'admin',
+                username: '',
+                password: '',
                 confirmPassword: '',
                 code: ''
+            },
+            loginUser: {
+                username: 'admin',
+                password: 'admin'
             },
             codeflag: false
         }
@@ -293,6 +296,7 @@ h1 {
 }
 
 input {
+    position: relative;
     background-color: transparent;
     width: 70%;
     color: #fff;
@@ -315,7 +319,7 @@ input {
 
 .registereye {
     position: absolute;
-    top: 230px;
+    top: 20px;
     left: 250px;
     z-index: 3;
 }
