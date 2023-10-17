@@ -4,11 +4,11 @@ const articles = {
   // 1. 获取所有
   getArticles: () => axios({
     url: '/article',
-    method: 'get'
+    method: 'GET'
   }),
   addArticles: (article) => axios({
     url: '/article/add',
-    method: 'post',
+    method: 'POST',
     headers: {
       'Content-Type': 'application/json;charset=UTF-8' ,
       'satoken': localStorage.getItem("satoken")
@@ -17,7 +17,7 @@ const articles = {
   }),
   delById: (id) => axios({
     url: '/article/del',
-    method: 'post',
+    method: 'POST',
     headers: {
       'Content-Type': 'application/json;charset=UTF-8' ,
       'satoken': localStorage.getItem("satoken")
@@ -26,7 +26,7 @@ const articles = {
   }),
   editArticles: (article) => axios({
     url: '/article/edit',
-    method: 'post',
+    method: 'POST',
     headers: {
       'Content-Type': 'application/json;charset=UTF-8' ,
       'satoken': localStorage.getItem("satoken")

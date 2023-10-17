@@ -5,7 +5,7 @@ const statistics = {
     // 1. 获取所有
     getStatistics: () => axios({
       url: '/statistics',
-      method: 'post'
+      method: 'POST'
     }),
 }
 

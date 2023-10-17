@@ -5,11 +5,11 @@ const friendlinks = {
     // 1. 获取所有
     getFriendlinks: () => axios({
       url: '/friendlink',
-      method: 'get'
+      method: 'GET'
     }),
     submitFriendlinks:(friendlinkInfo)=>axios({
       url: '/friendlink',
-      method: 'post',
+      method: 'POST',
       headers:{
         'Content-Type' : 'multipart/form-data'
       },

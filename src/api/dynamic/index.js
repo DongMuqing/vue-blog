@@ -4,12 +4,12 @@ const dynamics = {
     // 1. 获取所有
     getDynamics: () => axios({
       url: '/post/DynamicAndComment',
-      method: 'post',
+      method: 'POST',
     }),
     //点赞
     Upvote: (num) => axios({
       url: '/post/upvote',
-      method: 'post',
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json;charset=UTF-8' ,
       },
@@ -17,7 +17,7 @@ const dynamics = {
     }),
    delPost: (id) => axios({
     url: '/post/delete?id='+id,
-    method: 'delete',
+    method: 'DELETE',
     headers: {
       'Content-Type': 'application/json;charset=UTF-8' ,
       'satoken':localStorage.getItem("satoken")
@@ -25,7 +25,7 @@ const dynamics = {
   }),
   submitPost: (post) => axios({
     url: '/post',
-    method: 'post',
+    method: 'POST',
     headers: {
       'Content-Type': 'application/json;charset=UTF-8' ,
       'satoken':localStorage.getItem("satoken")
@@ -34,7 +34,7 @@ const dynamics = {
   }),
   editPost: (post) => axios({
     url: '/post/edit',
-    method: 'post',
+    method: 'POST',
     headers: {
       'Content-Type': 'application/json;charset=UTF-8' ,
       'satoken':localStorage.getItem("satoken")
@@ -43,7 +43,7 @@ const dynamics = {
   }),
   postPage:(current,size)=>axios({
     url:'/post/paging?current='+encodeURIComponent(current)+'&size='+encodeURIComponent(size),
-    method:'post',
+    method:'POST',
     headers:{
       'Content-Type': 'application/json;charset=UTF-8' ,
       'satoken':localStorage.getItem("satoken")

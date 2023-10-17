@@ -5,14 +5,14 @@ const ossUtil = {
     // 1. 获取目录
     getDirectory: () => axios({
         url: '/alioss',
-        method: 'get',
+        method: 'GET',
         headers: {
             'satoken': localStorage.getItem("satoken")
         }
     }),
     getFilePath: (path) => axios({
         url: '/alioss/filepath?path=' + encodeURIComponent(path),
-        method: 'post',
+        method: 'POST',
         headers: {
             'Content-Type': 'application/json;charset=UTF-8' ,
             'satoken': localStorage.getItem("satoken")
@@ -21,7 +21,7 @@ const ossUtil = {
     }),
     uploadFile: (file) => axios({
         url: '/alioss/upload',
-        method: 'post',
+        method: 'POST',
         headers: {
             'Content-Type': 'multipart/form-data',
             'satoken':localStorage.getItem("satoken")
@@ -31,7 +31,7 @@ const ossUtil = {
     //删除指定路径的oss文件
     delete: (path) => axios({
         url: '/alioss/delete?path=' + encodeURIComponent(path),
-        method: 'post',
+        method: 'POST',
         headers: {
             'Content-Type': 'application/json;charset=UTF-8' ,
             'satoken': localStorage.getItem("satoken")
@@ -40,7 +40,7 @@ const ossUtil = {
     //分页查询
     paging: (path,page,maxkey) => axios({
         url: '/alioss/paging?path='+ encodeURIComponent(path)+'&page='+encodeURIComponent(page)+'&maxkey='+encodeURIComponent(maxkey),
-        method: 'post',
+        method: 'POST',
         headers: {
             'Content-Type': 'application/json;charset=UTF-8' ,
             'satoken': localStorage.getItem("satoken")

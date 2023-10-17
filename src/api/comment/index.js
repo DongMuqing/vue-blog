@@ -4,14 +4,14 @@ import axios from '@/utils/request'
 const comments = {
   getComments: () => axios({
     url: '/comments',
-    method: 'get',
+    method: 'GET',
     headers: {
       'satoken': localStorage.getItem("satoken")
     },
   }),
   submitComments: (commentInfo) => axios({
     url: '/comments/add',
-    method: 'post',
+    method: 'POST',
     headers: {
       'Content-Type': 'application/json;charset=UTF-8',
       'satoken': localStorage.getItem("satoken")
@@ -20,7 +20,7 @@ const comments = {
   }),
   delComments: (id) => axios({
     url: '/comments',
-    method: 'delete',
+    method: 'DELETE',
     headers: {
       'Content-Type': 'application/json;charset=UTF-8',
       'satoken': localStorage.getItem("satoken")

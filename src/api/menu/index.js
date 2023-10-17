@@ -5,11 +5,11 @@ const menus = {
     // 1. 获取所有
     getMenus: () => axios({
       url: '/menu',
-      method: 'get'
+      method: 'GET'
     }),
     getMenu: () => axios({
       url: '/menu/after',
-      method: 'get',
+      method: 'GET',
       headers:{
         'satoken':localStorage.getItem("satoken")
       }
