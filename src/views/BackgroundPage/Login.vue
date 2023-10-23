@@ -9,7 +9,7 @@
                     <input type="text" placeholder="用户名" v-model.trim="user.username">
                     <input :type='pwdFlag ? "password" : "text"' placeholder="密码" v-model.trim="user.password">
                     <input :type='pwdFlag ? "password" : "text"' placeholder="确认密码" v-model.trim="user.confirmPassword">
-                    <input type="code" placeholder="验证码" v-model.trim="user.code" v-if="codeflag">
+                    <input type="code" placeholder="验证码" v-model.trim="user.code" >
                     <button @click="sendCode">发送验证码</button>
                     <button @click="register">注册</button>
                 </div>
@@ -22,6 +22,7 @@
                     <img :src='pwdFlag ? textIcon : pwdIcon' @click="changge" class="logineye">
                     <button @click="login" type='button'> 登录</button>
                     <button @click="reset" type='button'>重置</button>
+                    <span>游客账户:admin/admin</span>
                 </form>
             </div>
             <div class="con-box left">
@@ -60,10 +61,9 @@ export default {
                 code: ''
             },
             loginUser: {
-                username: 'admin',
-                password: 'admin'
-            },
-            codeflag: false
+                username: '',
+                password: ''
+            }
         }
     },
     methods: {
@@ -94,6 +94,7 @@ export default {
         },
         //注册
         register() {
+            if(this.verify()){
             users.register(this.user.email, this.user.username, this.user.password, this.user.code)
                 .then(res => {
                     this.$message({
@@ -102,7 +103,7 @@ export default {
                     });
                     //跳转页面
                     this.$router.push('/login')
-                })
+                })}
         },
         //验证码的发送
         sendCode() {
@@ -113,8 +114,6 @@ export default {
                             message: res.data.msg,
                             type: 'success'
                         });
-                        // 发送验证码之后显示注册按钮
-                        this.codeflag = !this.codeflag
                     })
             }
         },
@@ -278,6 +277,10 @@ body {
     flex-direction: column;
     align-items: center;
     width: 100%;
+    span{
+        font-size: 16px;
+        color: #fff;
+    }
 }
 
 .hidden {
@@ -312,7 +315,7 @@ input {
 
 .logineye {
     position: absolute;
-    top: 225px;
+    top: 205px;
     left: 250px;
     z-index: 3;
 }
@@ -431,7 +434,7 @@ input:focus::placeholder {
 
 .register-box {
     img {
-        top: 54%
+        top: 50%
     }
 }
 </style>
