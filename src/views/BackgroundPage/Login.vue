@@ -72,7 +72,7 @@ export default {
                 this.user.password = ''
         },
         login() {
-            const loginInfo = this.user
+            const loginInfo = this.loginUser
             users.login(loginInfo)
                 .then(res => {
                     if (res.data.code == 20041) {
