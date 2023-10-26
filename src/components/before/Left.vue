@@ -65,8 +65,8 @@
 
 <script>
 import bus from "../EventBus"
-import menus from "@/api/menu";
-import statistics from '@/api/statistics/index'
+import menus from "@/api/open/menu";
+import statistics from '@/api/open/statistics'
 export default {
   data() {
     return {
@@ -334,3 +334,4 @@ export default {
 }
 </style>>
 
+@/api/statistics/statistics@/api/menu/menu

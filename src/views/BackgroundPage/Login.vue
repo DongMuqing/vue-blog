@@ -9,7 +9,7 @@
                     <input type="text" placeholder="用户名" v-model.trim="user.username">
                     <input :type='pwdFlag ? "password" : "text"' placeholder="密码" v-model.trim="user.password">
                     <input :type='pwdFlag ? "password" : "text"' placeholder="确认密码" v-model.trim="user.confirmPassword">
-                    <input type="code" placeholder="验证码" v-model.trim="user.code" >
+                    <input type="code" placeholder="验证码" v-model.trim="user.code">
                     <button @click="sendCode">发送验证码</button>
                     <button @click="register">注册</button>
                 </div>
@@ -22,7 +22,6 @@
                     <img :src='pwdFlag ? textIcon : pwdIcon' @click="changge" class="logineye">
                     <button @click="login" type='button'> 登录</button>
                     <button @click="reset" type='button'>重置</button>
-                    <span>游客账户:admin/admin</span>
                 </form>
             </div>
             <div class="con-box left">
@@ -45,8 +44,7 @@
 </template>
 
 <script>
-import bus from "../../components/EventBus"
-import users from "@/api/user/index"
+import users from "@/api/open/user"
 export default {
     data() {
         return {
@@ -76,8 +74,12 @@ export default {
             users.login(loginInfo)
                 .then(res => {
                     if (res.data.code == 20041) {
-                        localStorage.setItem(res.data.data.tokenName, res.data.data.tokenValue)
-                        localStorage.setItem("loginId", res.data.data.loginId)
+                        const { tokenInfo } = res.data.data;
+                        // 将用户信息转换为 JSON 字符串
+                        const userDataJSON = JSON.stringify(res.data.data);
+                        // 存储用户信息到 localStorage
+                        localStorage.setItem('userData', userDataJSON);
+                        localStorage.setItem(tokenInfo.tokenName, tokenInfo.tokenValue)
                         this.$message({
                             message: res.data.msg,
                             type: 'success'
@@ -94,16 +96,17 @@ export default {
         },
         //注册
         register() {
-            if(this.verify()){
-            users.register(this.user.email, this.user.username, this.user.password, this.user.code)
-                .then(res => {
-                    this.$message({
-                        message: res.data.msg,
-                        type: 'success'
-                    });
-                    //跳转页面
-                    this.$router.push('/login')
-                })}
+            if (this.verify()) {
+                users.register(this.user.email, this.user.username, this.user.password, this.user.code)
+                    .then(res => {
+                        this.$message({
+                            message: res.data.msg,
+                            type: 'success'
+                        });
+                        //跳转页面
+                        this.$router.push('/login')
+                    })
+            }
         },
         //验证码的发送
         sendCode() {
@@ -277,7 +280,8 @@ body {
     flex-direction: column;
     align-items: center;
     width: 100%;
-    span{
+
+    span {
         font-size: 16px;
         color: #fff;
     }
@@ -315,7 +319,7 @@ input {
 
 .logineye {
     position: absolute;
-    top: 205px;
+    top: 225px;
     left: 250px;
     z-index: 3;
 }
@@ -437,4 +441,4 @@ input:focus::placeholder {
         top: 50%
     }
 }
-</style>
+</style>@/api/user/user

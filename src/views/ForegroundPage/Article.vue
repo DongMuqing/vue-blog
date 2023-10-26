@@ -7,7 +7,7 @@
         </div>
         <div class="right">
           <h2>{{ article.title }}</h2>
-          <span>@qing-{{ article.createTime }}</span>
+          <span>{{ article.username }}-{{ article.createTime }}</span>
           <p>{{truncatedArticle(index)}}</p>
         </div>
       </div>
@@ -17,7 +17,7 @@
 
 <script>
 import 'vditor/dist/index.css'
-import articles from '@/api/article';
+import articles from '@/api/open/article';
 import weather from '@/views/ForegroundPage/weathe.vue';
 export default {
 
@@ -118,4 +118,4 @@ export default {
     }
   }
 }
-</style>
+</style>@/api/article/article

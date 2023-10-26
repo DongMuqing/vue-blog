@@ -12,10 +12,10 @@
                 <span class="el-dropdown-link">
                     <img class="user" :src="avatar" alt="">
                 </span>
-                <el-dropdown-menu slot="dropdown" >
-                   <div @click="logout">
-                    <p>退出</p>
-                   </div>
+                <el-dropdown-menu slot="dropdown">
+                    <div @click="logout">
+                        <p>退出</p>
+                    </div>
                 </el-dropdown-menu>
             </el-dropdown>
         </div>
@@ -23,12 +23,12 @@
 </template>
 <script>
 import bus from "../EventBus"
-import users from '@/api/user/index'
+import users from '@/api/admin/user'
 export default {
     data() {
         return {
             isCollapse: true,
-            avatar:''
+            avatar: ''
         }
     },
     methods: {
@@ -44,19 +44,20 @@ export default {
             users.logout()
                 .then(res => {
                     this.$router.push('/login')
-                    // this.$message({
-                    //     message: res.data.msg,
-                    //     type: 'success'
-                    // });
-
+                    // 清除用户信息
+                    localStorage.removeItem('userData');
+                    localStorage.removeItem('satoken')
                 })
                 .catch(error => {
                     // 处理错误
                 });
         }
     },
-    mounted(){
-        this.avatar = localStorage.getItem("avatar")
+    mounted() {
+        const userDataJSON = localStorage.getItem('userData');
+        // 将 JSON 字符串转换为 JavaScript 对象
+        const userData = JSON.parse(userDataJSON);
+        this.avatar = userData.avatar
     }
 }
 </script>
@@ -104,4 +105,4 @@ export default {
         }
     }
 }
-</style>
+</style>@/api/user/user

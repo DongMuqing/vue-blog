@@ -38,7 +38,7 @@
 
 <script>
 import bus from "../EventBus"
-import Dynamic from '@/views/ForegroundPage/Dynamic.vue'
+import Dynamic from '@/views/ForegroundPage/Post.vue'
 import lunbo from "@/views/ForegroundPage/lunbo.vue"
 export default {
   data() {

@@ -1,4 +1,4 @@
-import axios from '@/utils/request'
+import axios from '@/utils/requestOpen'
 
 const users = {
     // 登录 
@@ -10,14 +10,6 @@ const users = {
         // 添加Content-Type请求头
       },
       data: JSON.stringify(loginInfo) ,
-    }),
-    //登出
-    logout:() => axios({
-      url:'/user/logout',
-      method:'POST',
-      headers:{
-        'satoken':localStorage.getItem("satoken")
-      }
     }),
     sendCode:(email,username)=>axios({
       url:'/user/code?email='+encodeURIComponent(email)+'&username='+encodeURIComponent(username),

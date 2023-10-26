@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import friendlink from '@/api/friendlink'
+import friendlink from '@/api/open/friendlink'
 export default {
   data() {
     return {
@@ -129,4 +129,4 @@ export default {
     }
 
   }
-}</style>
+}</style>@/api/friendlink/friendlink

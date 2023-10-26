@@ -6,7 +6,7 @@
         <div class="headpic"><img :src="dynamic.avatar">
         </div>
         <div class="name-time">
-          <p> 冬木青</p>
+          <p> {{ dynamic.username }}</p>
           <p> {{ dynamic.createTime }}</p>
         </div>
       </div>
@@ -20,8 +20,8 @@
         </div>
 
         <div class="demo-image__preview">
-          <template v-for="(src, index) in dynamic.imgSrclist" class="test">
-            <el-image :src="src" :preview-src-list="dynamic.imgSrclist" :key="index" lazy>
+          <template v-for="(src, index) in dynamic.imgSrcList" class="test">
+            <el-image :src="src" :preview-src-list="dynamic.imgSrcList" :key="index" lazy>
             </el-image>
           </template>
         </div>
@@ -67,9 +67,9 @@
 </template>
 
 <script>
-import dynamics from '@/api/dynamic';
+import dynamics from '@/api/open/post';
 import { getNowTime } from '@/utils/getNowTime'
-import comment from '@/api/comment/index'
+import comment from '@/api/open/comment'
 import { formatTime } from '@/utils/formatTime';
 
 export default {
@@ -104,7 +104,7 @@ export default {
           const dynamicKeys = Object.keys(data);
           dynamicKeys.forEach(key => {
             const dynamic = data[key];
-            dynamic.imgSrclist = dynamic.imgSrclist.split(",").map(item => item.trim().replace(/'/g, ''));
+            dynamic.imgSrcList = dynamic.imgSrcList.split(",");
             //格式化时间 区别昨天今天 今年和往年
             dynamic.createTime = formatTime(dynamic.createTime)
             for (const comment of dynamic.comments) {
@@ -460,4 +460,4 @@ export default {
     transform: scale(1);
   }
 }
-</style>
+</style>@/api/dynamic/post@/api/comment/comment

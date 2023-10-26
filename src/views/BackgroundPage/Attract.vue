@@ -32,7 +32,7 @@
 import { formaDate, formaTime } from '@/utils/submitTime'
 import Vditor from 'vditor'
 import 'vditor/dist/index.css'
-import articles from '@/api/article/index'
+import articles from '@/api/admin/article'
 export default {
   data() {
     return {
@@ -163,4 +163,4 @@ export default {
     margin-top: 20px;
   }
 }
-</style>
+</style>@/api/article/article

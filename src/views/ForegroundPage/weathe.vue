@@ -43,8 +43,8 @@
 </template>
 
 <script>
-import weather from '@/api/weather';
-import address from '@/api/address';
+import weather from '@/api/open/weather';
+import address from '@/api/open/visitorInfo';
 export default {
     mounted: {
 
@@ -355,4 +355,4 @@ export default {
         opacity: 0.9;
     }
 }
-</style>
+</style>@/api/weather/weather@/api/address/visitorInfo

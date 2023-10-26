@@ -2,23 +2,10 @@ import axios from 'axios'
 import { Message } from 'element-ui'; // 导入Element UI的消息通知
 
 
-let apiUrl = ''; 
-function getApi() {
-  const userDataJSON = localStorage.getItem('userData');
-  const userData = JSON.parse(userDataJSON);
-  const role = userData.role; // 获取最新的 role 值
- 
-  // 根据用户身份选择不同的接口
-  if (role === '管理员') {
-    apiUrl = 'http://localhost:8080/api/v1/admin';
-  } else if (role === '用户') {
-    apiUrl = 'http://localhost:8080/api/v1/user';
-  }
-  return apiUrl; // 返回最新的 role 值
-}
+const apiUrl = 'http://localhost:8080/api/v1'
 
 const service = axios.create({
-    baseURL: getApi(),
+    baseURL: apiUrl,
     timeout: 30 * 1000
 })
 // 添加响应拦截器

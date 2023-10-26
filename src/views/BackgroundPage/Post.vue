@@ -27,9 +27,6 @@
               <el-form-item label="点赞数">
                 <span>{{ props.row.upvoteNum }}</span>
               </el-form-item>
-              <el-form-item label="音乐">
-                <span>{{ props.row.musicUrl }}</span>
-              </el-form-item>
               <el-form-item label="图片">
                 <!-- <span>{{ props.row.imgSrclist }}</span> -->
                 <div class="demo-image__preview">
@@ -64,7 +61,7 @@
 </template>
 
 <script>
-import dynamics from '@/api/dynamic';
+import dynamics from '@/api/admin/post';
 import submitPost from '@/views/BackgroundPage/sub/submitPost.vue'
 export default {
   data() {
@@ -93,7 +90,7 @@ export default {
           this.pages = response.data.data.pages
           // 遍历动态数组，将每个动态对象的 `imgSrclist` 转换为数组
           data.forEach(dynamic => {
-            dynamic.imgSrclist = dynamic.imgSrclist.split(",").map(item => item.trim().replace(/'/g, ''));
+            dynamic.imgSrclist = dynamic.imgSrcList.split(",").map(item => item.trim().replace(/'/g, ''));
           });
           this.dynamic = data;
         })
@@ -122,7 +119,6 @@ export default {
       })
     },
     handleChange(val) {
-      console.log(val);
     },
     handleDelete(post) {
       this.id = post.id
@@ -132,7 +128,7 @@ export default {
             message: res.data.msg,
             type: 'success'
           });
-          this.dynamic = res.data.data
+           this.fetchDynamcis()
         })
         .catch(error => {
           // 处理错误
@@ -203,4 +199,4 @@ export default {
     }
   }
 }
-</style>
+</style>@/api/dynamic/post

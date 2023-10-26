@@ -68,7 +68,7 @@
 </template>
 
 <script>
-import ossUtil from '@/api/oss/index'
+import ossUtil from '@/api/admin/oss'
 export default {
   data() {
     return {
@@ -242,4 +242,4 @@ export default {
     overflow-y: auto;
   }
 }
-</style>
+</style>@/api/oss/oss

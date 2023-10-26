@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import submitFriendlink from '@/api/friendlink/index'
+import submitFriendlink from '@/api/open/friendlink'
 import { compressImg } from '@/utils/compress'
 export default {
   data() {
@@ -153,4 +153,4 @@ export default {
     }
   }
 }
-</style>
+</style>@/api/friendlink/friendlink

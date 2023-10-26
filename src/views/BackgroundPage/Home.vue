@@ -11,7 +11,7 @@
                         </div>
                     </div>
                     <div class="login-info">
-                        <p>上次登录时间：<span>{{ userinfo.logintime }}</span></p>
+                        <p>上次登录时间：<span>{{ userinfo.loginTime }}</span></p>
                     </div>
                 </el-card>
             </el-col>
@@ -19,30 +19,19 @@
     </div>
 </template>
 <script>
-import users from "@/api/user/index"
 export default {
     props: ['user'],
     data() {
         return {
-            userinfo: {
-                // avatar:'',
-                // role:'',
-                // username:'',
-                // logintime:''
-            }
+            userinfo: {}
         }
     },
     methods: {
         getUserInfo() {
-            var id = localStorage.getItem("loginId")
-            users.getInfoById(id)
-                .then(res => {
-                    this.userinfo = res.data.data
-                    localStorage.setItem("avatar", this.userinfo.avatar)
-                })
-                .catch(error => {
-                    // 处理错误
-                });
+            const userDataJSON = localStorage.getItem('userData');
+            // 将 JSON 字符串转换为 JavaScript 对象
+            const userData = JSON.parse(userDataJSON);
+            this.userinfo=userData
         }
     },
     mounted() {
@@ -138,4 +127,5 @@ export default {
     .el-card {
         width: 48%;
     }
-}</style>
+}
+</style>@/api/user/user

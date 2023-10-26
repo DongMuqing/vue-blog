@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import address from '@/api/address';
+import address from '@/api/admin/visitorInfo';
 export default {
   data() {
     return {

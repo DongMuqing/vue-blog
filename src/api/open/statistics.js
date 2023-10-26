@@ -1,8 +1,8 @@
-import axios from '@/utils/request' 
+import axios from '@/utils/requestOpen'
 
 
 const statistics = {
-    // 1. 获取所有
+    // 1. 站点信息
     getStatistics: () => axios({
       url: '/statistics',
       method: 'POST'

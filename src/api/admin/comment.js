@@ -2,8 +2,8 @@ import axios from '@/utils/request'
 
 
 const comments = {
-  getComments: () => axios({
-    url: '/comments',
+  getComments: (current,size) => axios({
+    url: '/comments?current=' + encodeURIComponent(current) + '&size=' + encodeURIComponent(size),
     method: 'GET',
     headers: {
       'satoken': localStorage.getItem("satoken")
@@ -19,13 +19,11 @@ const comments = {
     data: JSON.stringify(commentInfo)
   }),
   delComments: (id) => axios({
-    url: '/comments',
+    url: '/comments?id='+encodeURIComponent(id),
     method: 'DELETE',
     headers: {
-      'Content-Type': 'application/json;charset=UTF-8',
       'satoken': localStorage.getItem("satoken")
-    },
-      data: JSON.stringify(id)
+    }
   }),
 }
 

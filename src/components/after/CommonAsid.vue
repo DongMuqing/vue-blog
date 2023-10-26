@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import menus from "@/api/menu"; 
+import menus from "@/api/admin/menu"; 
 import bus from "../EventBus"
 export default {
   data() {
@@ -112,4 +112,4 @@ export default {
     line-height: 48px;
   }
 }
-</style>
+</style>@/api/menu/menu
