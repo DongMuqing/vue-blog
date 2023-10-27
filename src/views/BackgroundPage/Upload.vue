@@ -242,4 +242,4 @@ export default {
     overflow-y: auto;
   }
 }
-</style>@/api/oss/oss
+</style>

@@ -1,35 +1,50 @@
 <template>
   <div class="main">
     <div class="info">
-      <div style="margin: 20px;"></div>
-      <el-form label-width="80px">
-        <el-form-item label="活动时间">
-          <el-col :span="11">
-            <el-date-picker type="date" placeholder="选择日期" v-model="Releasetime.date" ref="date" style="width: 100%;">
-            </el-date-picker>
-          </el-col>
-          <el-col class="line" :span="2">-</el-col>
-          <el-col :span="11">
-            <el-time-picker placeholder="选择时间" v-model="Releasetime.time" style="width: 100%;" ref="time">
-            </el-time-picker>
-          </el-col>
-        </el-form-item>
-        <el-form-item label="封面">
-          <el-input v-model="article.cover"></el-input>
-        </el-form-item>
-        <el-form-item label="标题">
-          <el-input v-model="article.title"></el-input>
-        </el-form-item>
-      </el-form>
-      <div><el-button @click="submitForm">提交</el-button></div>
-    </div>
-    <div id="vditor"></div>
+      <el-table :data="articles" style="width: 100%">
+        <el-table-column type="expand">
+          <template slot-scope="props">
+            <el-form label-position="left" inline class="demo-table-expand">
+              <el-form-item label="封面">
+                <div class="demo-image__preview">
+                  <template  class="test">
+                    <el-image :src="props.row.cover" :preview-src-list="articles.cover" :key="index" lazy>
+                    </el-image>
+                  </template>
+                </div>
+              </el-form-item>
+            </el-form>
+          </template>
+        </el-table-column>
 
+        <el-table-column label="文章ID" prop="id"></el-table-column>
+        <el-table-column label="封面">
+          <template slot-scope="scope">
+            <el-avatar :src="scope.row.cover"></el-avatar>
+          </template>
+        </el-table-column>
+        <el-table-column label="创建时间" prop="createTime"></el-table-column>
+        <el-table-column label="标题" prop="title"></el-table-column>
+
+        <el-table-column label="操作">
+          <template slot-scope="scope">
+            <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+            <el-button size="mini" type="danger" @click="handleDelete(scope.row.id)">删除</el-button>
+            <el-button size="mini" type="primary" @click="handleInfo(scope.row.content)">详情</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+    </div>
+
+    <div class="block">
+      <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage4"
+        :page-sizes="[5, 10, 20, 30, 40]" :page-size=size layout="total, sizes, prev, pager, next, jumper" :total=total>
+      </el-pagination>
+    </div>
   </div>
 </template>
 
 <script>
-import { formaDate, formaTime } from '@/utils/submitTime'
 import Vditor from 'vditor'
 import 'vditor/dist/index.css'
 import articles from '@/api/admin/article'
@@ -42,16 +57,31 @@ export default {
         cover: '',
         title: '',
         content: '',
-        createTime: ''
       },
       labelPosition: 'top',
       Releasetime: {
         date: '',
         time: ''
-      }
+      },
+      // 文章数据
+      articles: [],
+
+      total: '',
+      pages: '',
+      //默认查询第一页每页10条
+      size: 10,
+      current: 1,
     }
   },
   methods: {
+    handleSizeChange(val) {
+      this.size = val
+      this.getArticle()
+    },
+    handleCurrentChange(val) {
+      this.current = val
+      this.getArticle()
+    },
     createEditor() {
       this.contentEditor = new Vditor('vditor', {
         //宽高类似 可不写为自适应
@@ -135,6 +165,33 @@ export default {
       }
 
     },
+    //获取文章信息
+    getArticle() {
+      articles.getArticleByUser(this.current,this.size)
+        .then(res => {
+          console.log(res.data);
+          const { msg } = res.data
+          const { total, pages, data } = res.data.data;
+          this.articles = data;
+          this.total = total
+          this.pages = pages
+          this.$message({
+            message: msg,
+            type: 'success'
+          });
+        })
+    },
+    //删除文章
+    handleDelete(id){
+        articles.delById(id)
+          .then(res=>{
+            this.$message({
+            message: res.data.msg,
+            type: 'success'
+          });
+          this.getArticle()
+          })
+    },
     formatDate() {
       this.Releasetime.date = formaDate(this.Releasetime.date)
       this.Releasetime.time = formaTime(this.Releasetime.time)
@@ -144,18 +201,21 @@ export default {
     }
   },
   mounted() {
-    this.createEditor()
+    this.createEditor(),
+      this.getArticle()
   },
 }
 </script>
 
 <style lang="less" scoped>
 .main {
+  height: 80vh;
+ 
+
   .info {
-    height: 660px;
-    width: 25vw;
-    float: left;
-    margin-left: 30px;
+    .el-table {
+      overflow-y: hidden;
+    }
   }
 
   #vditor {
@@ -163,4 +223,15 @@ export default {
     margin-top: 20px;
   }
 }
-</style>@/api/article/article
+.demo-image__preview {
+  width: 100%;
+
+  .el-image {
+    width: 108px;
+    height: 108px;
+    margin-right: 10px;
+    margin-top: 20px;
+    border-radius: 15% 15%;
+  }
+}
+</style>

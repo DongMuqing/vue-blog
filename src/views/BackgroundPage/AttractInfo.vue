@@ -18,4 +18,4 @@ export default {
 }
 </script>
 
-<style lang="less" scoped></style>@/api/article/article
+<style lang="less" scoped></style>

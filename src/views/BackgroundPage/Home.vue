@@ -128,4 +128,4 @@ export default {
         width: 48%;
     }
 }
-</style>@/api/user/user
+</style>
