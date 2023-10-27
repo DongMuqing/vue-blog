@@ -1,6 +1,6 @@
 <template>
   <div>
-    Leave a message
+    更多功能正在开发！
   </div>
 </template>
 

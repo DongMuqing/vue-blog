@@ -13,7 +13,7 @@
         <img src="https://oss.qingmumu.xyz/Blog/Backdrop/e47d3e664df3b2a0e975e15d6b845e38104346114.jpg" alt="">
      
       <!-- <lunbo></lunbo> -->
-      <el-button @click="goLogin">去后台</el-button>
+    
     </div>
       <router-view  class="information">
     
@@ -77,9 +77,7 @@ export default {
         this.isCollapse=true
       }
     },
-    goLogin(){
-      this.$router.push('/login')
-    }
+  
   },
   created(){
      // 监听窗口大小变化，当窗口大小发生变化时调用 checkDeviceSize 方法

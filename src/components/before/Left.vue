@@ -35,20 +35,26 @@
       <el-button @click="changetheme('Freshgreen')">清新绿</el-button>
     </div>
 
+    <div class="goto">
+      <h2>去往</h2>
+      <el-button @click="goLogin">去登陆/注册</el-button>
+      <el-button @click="goBackstage">去后台</el-button>
+    </div>
+
     <div class="site">
       <h2>站点信息</h2>
       <li>
         <span>动态</span>
-        <small>{{statistics[1]}}</small>
+        <small>{{ statistics[1] }}</small>
       </li>
       <li>
         <span>浏览</span>
-        <small>{{statistics[0]}}</small>
+        <small>{{ statistics[0] }}</small>
       </li>
     </div>
 
     <div class="connection">
-      <h2>联系我</h2>
+      <h2>联系站长</h2>
       <a href="https://oss.qingmumu.xyz/Blog/QQandWeChat/qrcode_1690562973980.jpg"><img src="../../assets/img/qq.png"
           alt=""></a>
       <a href="https://oss.qingmumu.xyz/Blog/QQandWeChat/mmqrcode1690562985319.png"><img src="../../assets/img/wechat.png"
@@ -81,10 +87,16 @@ export default {
       //列表数据
       menuData: [
       ],
-      statistics:[]
+      statistics: []
     }
   },
   methods: {
+    goLogin() {
+      this.$router.push('/login')
+    },
+    goBackstage() {
+      this.$router.push('/main')
+    },
     handleOpen(key, keyPath) {
       // console.log(key, keyPath);
     },
@@ -164,8 +176,8 @@ export default {
   },
   mounted() {
     this.fetchMenus(),
-    this.checkDeviceSize(),
-    this.fetchStatistics()
+      this.checkDeviceSize(),
+      this.fetchStatistics()
   },
 }
 </script>
@@ -176,10 +188,11 @@ export default {
   width: 295px;
   height: 100vh;
   background-color: var(--bgc--left);
+
   @media screen and (max-width: 600px) {
     width: 300vw;
   }
-  
+
   .logo {
 
     height: 78px;
@@ -201,6 +214,7 @@ export default {
     line-height: 24px;
     margin: 20px 0px;
     padding: 0px 40px 20px;
+
     .el-menu {
 
       border: none;
@@ -251,10 +265,34 @@ export default {
     }
 
     .el-button {
-      display: inline-block; /* 将按钮变为块级元素以设置宽度 */
-      text-align: center;   /* 文本居中 */
+      display: inline-block;
+      /* 将按钮变为块级元素以设置宽度 */
+      text-align: center;
+      /* 文本居中 */
       margin: 10px 15px;
-      background-color:var(--bgc);
+      background-color: var(--bgc);
+      color: var(--span);
+    }
+  }
+
+  .goto {
+    margin-left: 30px;
+
+    h2 {
+      color: #9098a7;
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 21px;
+      margin: 0px 0px 15px;
+    }
+
+    .el-button {
+      display: inline-block;
+      /* 将按钮变为块级元素以设置宽度 */
+      text-align: center;
+      /* 文本居中 */
+      margin: 10px 15px;
+      background-color: var(--bgc);
       color: var(--span);
     }
   }
@@ -287,13 +325,13 @@ export default {
       text-align: left;
 
       span {
-        color:var(--site) ;
+        color: var(--site);
         line-height: 21px;
         text-align: left;
       }
 
       small {
-        color:var(--small) ;
+        color: var(--small);
         font-size: 16px;
         font-weight: 600;
         line-height: 21px;
@@ -322,7 +360,8 @@ export default {
   }
 
   .about {
-    margin: 50px 0px 0px 30px ;
+    margin: 50px 0px 0px 30px;
+
     h2 {
       color: #9098a7;
       font-size: 14px;
@@ -331,7 +370,4 @@ export default {
       margin: 0px 0px 15px;
     }
   }
-}
-</style>>
-
-@/api/statistics/statistics@/api/menu/menu
+}</style>>
