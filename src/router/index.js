@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import { Message } from 'element-ui'; // 导入Element UI的消息通知
 // import axios from "axios"
 
 
@@ -26,7 +27,6 @@ const VisitorInfo = () => import('../views/BackgroundPage/VisitorInfo.vue')
 const attracts = () => import('@/views/BackgroundPage/Attract.vue')
 const comments = () => import('@/views/BackgroundPage/Comment.vue')
 const upload = () => import('@/views/BackgroundPage/Upload.vue')
-const submitPost = () => import('@/views/BackgroundPage/sub/submitPost.vue')
 import tokens from '../api/open/token'
 // Vue.prototype.$axios = axios
 //解决router重复push一样的hash地址
@@ -60,8 +60,7 @@ const router = new VueRouter({
         { path: 'user', component: user  ,meta: {keepAlive: true }},
         { path: 'visitorInfo', component: VisitorInfo  ,meta: {keepAlive: true }},
         { path: 'comment', component: comments  ,meta: {keepAlive: true }},
-        { path: 'upload', component: upload , meta: {keepAlive: true }},
-        {path:'submitpost',component:submitPost ,meta: {keepAlive: true }}
+        { path: 'upload', component: upload , meta: {keepAlive: true }}
       ]
     },
     {
@@ -99,6 +98,10 @@ router.beforeEach(function (to, from, next) {
           // token无效清除token  跳转登录页面
           localStorage.removeItem('satoken')
           next('/login')
+          Message({
+            message:"请先登录！",
+            type: 'warning'
+          });
         }
       })
   } else {

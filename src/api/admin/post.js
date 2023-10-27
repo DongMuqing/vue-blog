@@ -23,8 +23,9 @@ const dynamics = {
       'satoken':localStorage.getItem("satoken")
     },
   }),
+  //post的发布
   submitPost: (post) => axios({
-    url: '/post',
+    url: '/post/publish',
     method: 'POST',
     headers: {
       'Content-Type': 'application/json;charset=UTF-8' ,

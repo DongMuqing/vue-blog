@@ -16,13 +16,11 @@ const articles = {
     data: JSON.stringify(article)
   }),
   delById: (id) => axios({
-    url: '/article/del',
-    method: 'POST',
+    url: '/article/delete?id='+encodeURIComponent(id),
+    method: 'DELETE',
     headers: {
-      'Content-Type': 'application/json;charset=UTF-8' ,
       'satoken': localStorage.getItem("satoken")
     },
-    data: id
   }),
   editArticles: (article) => axios({
     url: '/article/edit',
@@ -32,6 +30,14 @@ const articles = {
       'satoken': localStorage.getItem("satoken")
     },
     data: JSON.stringify(article)
+  }),
+  //获取用户所有文章
+  getArticleByUser: (current,size) => axios({
+    url: '/article/get?current='+encodeURIComponent(current)+'&size='+encodeURIComponent(size),
+    method: 'GET',
+    headers: {
+      'satoken': localStorage.getItem("satoken")
+    },
   }),
 }
 
