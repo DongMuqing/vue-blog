@@ -9,15 +9,15 @@
         <!-- //实时天气 默认显示天气 -->
         <div class="two" v-if="realTime">
             <div class="card">
-                <h2>weathe in {{ livesWeather.province }}</h2>
+                <h2>weathe in {{ livesWeather[0].province }}</h2>
                 <div class="weather">
-                    <p>天气:{{ livesWeather.weather }}</p>
-                    <p>温度:{{ livesWeather.temperature_float }}°C</p>
-                    <p>空气湿度:{{  livesWeather.humidity }}</p>
-                    <p>风力:{{ livesWeather.windpower }}</p>
-                    <p>风向:{{ livesWeather.winddirection }}</p>
+                    <p>天气:{{ livesWeather[0].weather }}</p>
+                    <p>温度:{{ livesWeather[0].temperature_float }}°C</p>
+                    <p>空气湿度:{{ livesWeather[0].humidity }}</p>
+                    <p>风力:{{ livesWeather[0].windpower }}</p>
+                    <p>风向:{{ livesWeather[0].winddirection }}</p>
                 </div>
-                <h3>预报发布时间:<br>{{ livesWeather.reporttime }}</h3>
+                <h3>预报发布时间:<br>{{ livesWeather[0].reporttime }}</h3>
             </div>
         </div>
         <!-- //预报天气 -->
@@ -36,7 +36,7 @@
         <div>
             <el-row>
                 <el-button round @click="changweather">查看预报天气</el-button>
-                <el-button round  @click="changweather">查看实况天气</el-button>
+                <el-button round @click="changweather">查看实况天气</el-button>
             </el-row>
         </div>
     </div>
@@ -59,7 +59,7 @@ export default {
             //预报天气
             forecast: false,
             //实时天气
-            realTime: true
+            realTime: true,
         }
     },
     methods: {
@@ -83,9 +83,8 @@ export default {
         fetchActualWeather() {
             weather.getActualWeather()
                 .then(res => {
-                    const data = res.data.data.lives[0]
-                    console.log("data:"+data);
-                    console.log("response.data.data.lives"+response.data.data.lives);
+                    const { lives } = res.data.data
+                    const data = lives[0]
                     this.livesWeather = data;
                 })
                 .catch(error => {
@@ -102,9 +101,9 @@ export default {
                 });
         },
         //切换查看天气
-        changweather(){
-            this.realTime=!this.realTime
-            this.forecast=!this.forecast
+        changweather() {
+            this.realTime = !this.realTime
+            this.forecast = !this.forecast
         }
     },
     mounted() {
