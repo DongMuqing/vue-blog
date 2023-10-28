@@ -27,6 +27,7 @@ const VisitorInfo = () => import('../views/BackgroundPage/VisitorInfo.vue')
 const attracts = () => import('@/views/BackgroundPage/Attract.vue')
 const comments = () => import('@/views/BackgroundPage/Comment.vue')
 const upload = () => import('@/views/BackgroundPage/Upload.vue')
+const publish = () => import('@/views/BackgroundPage/Publish.vue')
 import tokens from '../api/open/token'
 // Vue.prototype.$axios = axios
 //解决router重复push一样的hash地址
@@ -36,9 +37,7 @@ VueRouter.prototype.push = function push(location) {
 }
 Vue.use(VueRouter)
 
-const routes = [
 
-]
 
 const router = new VueRouter({
   //打包方式
@@ -53,30 +52,31 @@ const router = new VueRouter({
     {
       path: '/main', component: main,
       children: [
-        { path: '', component: homes ,meta: {keepAlive: true }},
-        { path: 'home', component: homes ,meta: {keepAlive: true }},
-        { path: 'post', component: post  ,meta: {keepAlive: true }},
-        { path: 'attract', component: attracts  ,meta: {keepAlive: true }},
-        { path: 'user', component: user  ,meta: {keepAlive: true }},
-        { path: 'visitorInfo', component: VisitorInfo  ,meta: {keepAlive: true }},
-        { path: 'comment', component: comments  ,meta: {keepAlive: true }},
-        { path: 'upload', component: upload , meta: {keepAlive: true }}
+        { path: '', component: homes, meta: { keepAlive: true } },
+        { path: 'home', component: homes, meta: { keepAlive: true } },
+        { path: 'post', component: post, meta: { keepAlive: true } },
+        { path: 'attract', component: attracts, meta: { keepAlive: true } },
+        { path: 'user', component: user, meta: { keepAlive: true } },
+        { path: 'visitorInfo', component: VisitorInfo, meta: { keepAlive: true } },
+        { path: 'comment', component: comments, meta: { keepAlive: true } },
+        { path: 'upload', component: upload, meta: { keepAlive: true } },
+        { path: 'publish', component: publish, meta: { keepAlive: true } }
       ]
     },
     {
       path: '/home', component: home,
       children: [
-        { path: '', component: Post,meta: {keepAlive: true } },
-        { path: 'post', component: Post ,meta: {keepAlive: true }},
-        { path: 'article', component: article ,},
+        { path: '', component: Post, meta: { keepAlive: true } },
+        { path: 'post', component: Post, meta: { keepAlive: true } },
+        { path: 'article', component: article, },
         //文章详情页
         // vue-router.esm.js:16 [vue-router] missing param for named route "article": Expected "id" to be defined
         //动态路由需要在末尾加？
         { path: 'article/:id?', name: 'article', component: articlecontent, props: true },
-        { path: 'friendlink', component: Friendlink ,meta: {keepAlive: true }},
-        { path: 'leavemessage', component: leavemessage ,meta: {keepAlive: true }},
-        { path: 'weather', component: weather ,meta: {keepAlive: true }},
-        { path: '/subfriend', component: friendlinks ,meta: {keepAlive: true }},
+        { path: 'friendlink', component: Friendlink, meta: { keepAlive: true } },
+        { path: 'leavemessage', component: leavemessage, meta: { keepAlive: true } },
+        { path: 'weather', component: weather, meta: { keepAlive: true } },
+        { path: '/subfriend', component: friendlinks, meta: { keepAlive: true } },
       ]
     },
     //做404跳转
@@ -87,7 +87,7 @@ const router = new VueRouter({
 router.beforeEach(function (to, from, next) {
   //所有子页面都需要在这
   // const satoken = localStorage.getItem("satoken")
-  const pathArr = ['/main', '/main/home', '/main/dynamic', '/main/user', '/main/attract', '/main/VisitorInfo', '/main/comment', '/main/upload','/main/submitpost']
+  const pathArr = ['/main', '/main/home', '/main/dynamic', '/main/user', '/main/attract', 'main/publish', '/main/VisitorInfo', '/main/comment', '/main/upload']
   if (pathArr.indexOf(to.path) != -1) {
     tokens.getToken()
       .then(response => {
@@ -99,7 +99,7 @@ router.beforeEach(function (to, from, next) {
           localStorage.removeItem('satoken')
           next('/login')
           Message({
-            message:"请先登录！",
+            message: "请先登录！",
             type: 'warning'
           });
         }

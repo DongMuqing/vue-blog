@@ -21,7 +21,7 @@
                         </template>
                     </el-table-column>
                     <el-table-column label="地址" prop="address"></el-table-column>
-                    <el-table-column label="操作">
+                    <el-table-column label="操作" v-if="roleFlag">
                         <template slot-scope="scope">
                             <!-- <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button> -->
                             <el-button size="mini" type="danger" @click="deleteComment(scope.row.commentId)">删除</el-button>
@@ -50,7 +50,8 @@ export default {
             //默认查询第一页每页10条
             size: 10,
             current: 1,
-            id: ''
+            id: '',
+            roleFlag: ''
         }
     },
     methods: {
@@ -91,10 +92,21 @@ export default {
         handleCurrentChange(val) {
             this.current = val
             this.fetchComments()
+        },
+        getRole() {
+            const userDataJSON = localStorage.getItem('userData');
+            const userData = JSON.parse(userDataJSON);
+            const role = userData.role; // 获取最新的 role 值
+            if(role==='管理员'){
+                this.roleFlag=true
+            }else{
+                this.roleFlag=false
+            }
         }
     },
     mounted() {
         this.fetchComments()
+        this.getRole()
     },
 }
 </script>

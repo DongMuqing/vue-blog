@@ -1,5 +1,7 @@
 <template>
   <div class="main">
+    <el-button type="" @click="flush" >刷 新</el-button>
+    <el-button type="" @click="goPublish">去发布</el-button>
     <div class="info">
       <el-table :data="articles" style="width: 100%">
         <el-table-column type="expand">
@@ -25,7 +27,6 @@
         </el-table-column>
         <el-table-column label="创建时间" prop="createTime"></el-table-column>
         <el-table-column label="标题" prop="title"></el-table-column>
-
         <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
@@ -74,6 +75,12 @@ export default {
     }
   },
   methods: {
+    flush(){
+      this.getArticle()
+    },
+    goPublish(){
+      this.$router.push('/main/publish')
+    },
     handleSizeChange(val) {
       this.size = val
       this.getArticle()

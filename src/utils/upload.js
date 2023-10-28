@@ -33,7 +33,7 @@ function checkAndUploadFiles(fileList, uploadMethod) {
                 });
         } else {
             Message({
-                message: "请选择上传文件！",
+                message: "上传文件不可为空！",
                 type: 'warning'
             });
         }
