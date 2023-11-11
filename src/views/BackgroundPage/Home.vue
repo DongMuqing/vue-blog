@@ -4,14 +4,14 @@
             <el-col :span="8" style="padding-right: 10px">
                 <el-card class="box-card">
                     <div class="user">
-                        <img :src="userinfo.avatar" alt="">
+                        <img :src="userInfo.avatar" alt="">
                         <div class="userinfo">
-                            <p class="name">{{ userinfo.username }}</p>
-                            <p class="access">{{ userinfo.role }}</p>
+                            <p class="name">{{ userInfo.username }}</p>
+                            <p class="access">{{ userInfo.role }}</p>
                         </div>
                     </div>
                     <div class="login-info">
-                        <p>上次登录时间：<span>{{ userinfo.loginTime }}</span></p>
+                        <p>上次登录时间：<span>{{ userInfo.loginTime }}</span></p>
                     </div>
                 </el-card>
             </el-col>
@@ -19,6 +19,7 @@
     </div>
 </template>
 <script>
+import { mapState } from 'vuex'
 export default {
     props: ['user'],
     data() {
@@ -27,16 +28,12 @@ export default {
         }
     },
     methods: {
-        getUserInfo() {
-            const userDataJSON = localStorage.getItem('userData');
-            // 将 JSON 字符串转换为 JavaScript 对象
-            const userData = JSON.parse(userDataJSON);
-            this.userinfo=userData
-        }
+ 
+     
     },
-    mounted() {
-        this.getUserInfo()
-    }
+    computed: {
+    ...mapState(['userInfo'])
+  }
 }
 </script>
 <style lang="less" scoped>

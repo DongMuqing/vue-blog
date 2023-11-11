@@ -10,7 +10,7 @@
         <div class="r-content">
             <el-dropdown>
                 <span class="el-dropdown-link">
-                    <img class="user" :src="avatar" alt="">
+                    <img class="user" :src="userInfo.avatar" alt="">
                 </span>
                 <el-dropdown-menu slot="dropdown">
                     <div @click="logout">
@@ -24,12 +24,16 @@
 <script>
 import bus from "../EventBus"
 import users from '@/api/admin/user'
+import { mapState } from 'vuex'
 export default {
     data() {
         return {
             isCollapse: true,
             avatar: ''
         }
+    },
+    computed: {
+        ...mapState(['userInfo'])
     },
     methods: {
         handleMenu() {

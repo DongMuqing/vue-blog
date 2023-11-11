@@ -3,6 +3,7 @@ import App from './App.vue'
 import router from './router'
 // import ElementUI from 'element-ui'
 // import 'element-ui/lib/theme-chalk/index.css'
+import store from './store'
 
 import VModal from 'vue-js-modal'
 Vue.use(VModal, { dynamic: true, injectModalsContainer: true, dynamicDefaults: { clickToClose: true } })
@@ -12,7 +13,9 @@ Vue.config.productionTip = false
 
 new Vue({
   router,
-  render: h => h(App)
+  render: h => h(App),
+  // 挂在vuex
+  store
 }).$mount('#app')
 
 // 在页面加载开始时启动计时器

@@ -45,6 +45,7 @@
 
 <script>
 import users from "@/api/open/user"
+import store from "@/store"
 export default {
     data() {
         return {
@@ -75,10 +76,12 @@ export default {
                 .then(res => {
                     if (res.data.code == 20041) {
                         const { tokenInfo } = res.data.data;
-                        // 将用户信息转换为 JSON 字符串
-                        const userDataJSON = JSON.stringify(res.data.data);
-                        // 存储用户信息到 localStorage
-                        localStorage.setItem('userData', userDataJSON);
+                        // // 将用户信息转换为 JSON 字符串
+                        // const userDataJSON = JSON.stringify(res.data.data);
+                        // // 存储用户信息到 localStorage
+                        // localStorage.setItem('userData', userDataJSON);
+                        // 使用vuex
+                        store.commit('handleUserInfo', res.data.data)
                         localStorage.setItem(tokenInfo.tokenName, tokenInfo.tokenValue)
                         this.$message({
                             message: res.data.msg,
